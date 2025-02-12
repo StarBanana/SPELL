@@ -221,6 +221,17 @@ class FittingALC:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
+            for j in range(i + 1, self.k):
+                for i2 in range(i + 1, j):
+                    for j2 in range(j + 1, self.k):
+                        # print(f"{self.k} {i},{j} {i2},{j2}")
+                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
+
+
+
             for j1 in range(self.k):
                 for j2 in range(self.k):
                     # Just one predecessor

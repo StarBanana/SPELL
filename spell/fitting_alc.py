@@ -121,7 +121,7 @@ class FittingALC:
         self.op_r = op.difference(ALC_OP_B)
         self.tree_node_symbols = dict()
         self.vars = self._vars()
-        self.n_op = len(op)
+        self.n_op = len(op)        
         self.cov_p = len(P) if cov_p == -1 else cov_p
         self.cov_n = len(N) if cov_n == -1 else cov_n
         self.solver = Glucose4()
@@ -188,49 +188,86 @@ class FittingALC:
                 for v2 in x_vars:
                     if v1 != v2:
                         self.solver.add_clause((-v1,-v2))
+
         for i in range(self.k):
+            v_vars = [self.vars[V, 1, i] + j for j in range(i + 1, self.k)] + [self.vars[V, 2, i] + j for j in range(i + 1, self.k)]
+
+            # At most one of the y-vars
+            for v1 in v_vars:
+                for v2 in v_vars:
+                    if v1 != v2:
+                        self.solver.add_clause((-v1,-v2))
+
             for r in self.sigma[1]:
                 for op in self.op_r:
                     self.solver.add_clause([-(self.vars[X,op,r]+i)] + [self.vars[V,1,i]+j for j in range(i+1,self.k)])
+                    for j in range(self.k):
+                        self.solver.add_clause([-(self.vars[X,op,r]+i), -(self.vars[V,2,i]+j)])
+
             if NEG in self.op_b:
                 self.solver.add_clause([-(self.vars[X,NEG]+i)] + [self.vars[V,1,i]+j for j in range(i+1,self.k)])
+                for j in range(self.k):
+                    self.solver.add_clause([-(self.vars[X,NEG]+i), -(self.vars[V,2,i]+j)])
             for op in self.op_b - {NEG}:
                 self.solver.add_clause([-(self.vars[X,op]+i)] + [self.vars[V,2,i]+j for j in range(i+1,self.k-1)])
+                for j in range(self.k):
+                    self.solver.add_clause([-(self.vars[X,op]+i), -(self.vars[V,1,i]+j)])
+
             for j in range(self.k):
                 for cn in self.sigma[0]:
-                    self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Y,i]+j)))
+                    self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,1, i]+j)))
+                    self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,2, i]+j)))
                 for b in {TOP,BOT}:
-                    self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[Y,i]+j)))
+                    self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
+                    self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
+
             for j1 in range(self.k):
                 for j2 in range(self.k):
+                    # Just one predecessor
                     if j1 != j2:
-                        self.solver.add_clause((-(self.vars[Y,j1]+i),-(self.vars[Y,j2]+i)))                        
+                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,1,j2]+i)))
+                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i)))
+                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i - 1)))
+
+                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,1,j2]+i)))
+                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i - 1)))
+                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i)))
+
 
     def _evaluation_constraints(self):
         for a in range(self.A.max_ind):
             for i in range(self.k):                
-                for op in self.op_b.difference({AND}):
-                    self.solver.add_clause([-(self.vars[X,op]+i),-(self.vars[Z,a]+i)] + [ self.vars[U,op,i,a]+j for j in range(self.k) ])
-                    for j in range(self.k):
-                        self.solver.add_clause((-(self.vars[X,op]+i), self.vars[Z,a]+i, -(self.vars[U,op,i,a]+j)))
+                if NEG in self.op_b:
+                    for j in range(i + 1, self.k):
+                        self.solver.add_clause((-(self.vars[X,NEG]+i), -(self.vars[Z,a]+i), -(self.vars[V,1,i]+j), - (self.vars[Z, a] + j)))
+                        self.solver.add_clause((-(self.vars[X,NEG]+i), (self.vars[Z,a]+i), -(self.vars[V,1,i]+j), (self.vars[Z, a] + j)))
+
                 if AND in self.op_b:
-                    self.solver.add_clause([-(self.vars[X,AND]+i),self.vars[Z,a]+i] + [ -(self.vars[U,AND,i,a]+j) for j in range(self.k) ])
-                    for j in range(self.k):
-                        self.solver.add_clause((-(self.vars[X,AND]+i), -(self.vars[Z,a]+i), self.vars[U,AND,i,a]+j))
+                    for j in range(i + 1, self.k - 1):
+                        self.solver.add_clause((-(self.vars[X,AND]+i), -(self.vars[Z,a]+i), -(self.vars[V,2,i]+j), self.vars[Z, a] + j))
+                        self.solver.add_clause((-(self.vars[X,AND]+i), -(self.vars[Z,a]+i), -(self.vars[V,2,i]+j), self.vars[Z, a] + j + 1))
+                        self.solver.add_clause((-(self.vars[X,AND]+i), (self.vars[Z,a]+i), -(self.vars[V,2,i]+j), -(self.vars[Z, a] + j + 1), -(self.vars[Z, a] + j)))
+
+                if OR in self.op_b:
+                    for j in range(i + 1, self.k - 1):
+                        self.solver.add_clause((-(self.vars[X,OR]+i), (self.vars[Z,a]+i), -(self.vars[V,2,i]+j), -(self.vars[Z, a] + j)))
+                        self.solver.add_clause((-(self.vars[X,OR]+i), (self.vars[Z,a]+i), -(self.vars[V,2,i]+j), -(self.vars[Z, a] + j + 1)))
+                        self.solver.add_clause((-(self.vars[X,OR]+i), -(self.vars[Z,a]+i), -(self.vars[V,2,i]+j), (self.vars[Z, a] + j + 1), (self.vars[Z, a] + j)))
                 
                 if ALL in self.op_r:
                     for r in self.sigma[1]:
-                        self.solver.add_clause([-(self.vars[X,ALL,r]+i), self.vars[Z,a]+i] + [ -(self.vars[U,ALL,i,b]+j) for j in range(self.k) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a])) ])                            
-                        for j in range(self.k):
+                        for j in range(i + 1, self.k):
+                            self.solver.add_clause([-(self.vars[X,ALL,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ -(self.vars[Z, b]+j) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a])) ])                            
                             for b in map(lambda t : t[0],filter(lambda t : t[1] == r , self.A.rn_ext[a])):
-                                self.solver.add_clause((-(self.vars[X,ALL,r]+i), -(self.vars[Z,a]+i), self.vars[U,ALL,i,b]+j))
+                                self.solver.add_clause((-(self.vars[X,ALL,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), self.vars[Z, b] + j))
 
                 if EX in self.op_r:
                     for r in self.sigma[1]:
-                        self.solver.add_clause([-(self.vars[X,EX,r]+i), -(self.vars[Z,a]+i)] + [ self.vars[U,EX,i,b]+j for j in range(self.k) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a]))])                        
-                        for j in range(self.k):
+                        for j in range(i + 1, self.k):
+                            self.solver.add_clause([-(self.vars[X,EX,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ (self.vars[Z, b]+j) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a])) ])                            
                             for b in map(lambda t : t[0],filter(lambda t : t[1] == r , self.A.rn_ext[a])):
-                                self.solver.add_clause((-(self.vars[X,EX,r]+i), self.vars[Z,a]+i, -(self.vars[U,EX,i,b]+j)))
+                                self.solver.add_clause((-(self.vars[X,EX,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), -(self.vars[Z, b] + j)))
+
                 self.solver.add_clause((-(self.vars[X,TOP]+i),(self.vars[Z,a]+i)))
                 self.solver.add_clause((-(self.vars[X,BOT]+i),-(self.vars[Z,a]+i)))
         for cn in self.sigma[0]:
@@ -240,62 +277,6 @@ class FittingALC:
                         self.solver.add_clause((-(self.vars[X,cn]+i), self.vars[Z,a]+i))
                     else:
                         self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Z,a]+i)))
-                                    
-    def _additional_constraints(self):
-        if NEG in self.op:
-            for i in range(self.k):
-                for j in range(self.k):
-                    for a in range(self.A.max_ind):
-                        self.solver.add_clause((-(self.vars[U,NEG,i,a]+j), self.vars[Y,i]+j))
-                        self.solver.add_clause((-(self.vars[U,NEG,i,a]+j), -(self.vars[Z,a]+j)))
-                        self.solver.add_clause((self.vars[U,NEG,i,a]+j,-(self.vars[Y,i]+j), self.vars[Z,a]+j))
-        if AND in self.op:
-            for i in range(self.k):
-                for j in range(self.k):
-                    for a in range(self.A.max_ind):
-                        self.solver.add_clause((self.vars[U,AND,i,a]+j, self.vars[Y,i]+j))
-                        self.solver.add_clause((self.vars[U,AND,i,a]+j, -(self.vars[Z,a]+j)))
-                        self.solver.add_clause((-(self.vars[U,AND,i,a]+j),-(self.vars[Y,i]+j), self.vars[Z,a]+j))
-        if OR in self.op:
-            for i in range(self.k):
-                for j in range(self.k):
-                    for a in range(self.A.max_ind):
-                        self.solver.add_clause((-(self.vars[U,OR,i,a]+j), self.vars[Y,i]+j))
-                        self.solver.add_clause((-(self.vars[U,OR,i,a]+j), self.vars[Z,a]+j))
-                        self.solver.add_clause((self.vars[U,OR,i,a]+j,-(self.vars[Y,i]+j), -(self.vars[Z,a]+j)))
-        if EX in self.op:
-            for i in range(self.k):
-                for j in range(self.k):
-                    for a in range(self.A.max_ind):
-                        self.solver.add_clause((-(self.vars[U,EX,i,a]+j), self.vars[Y,i]+j))
-                        self.solver.add_clause((-(self.vars[U,EX,i,a]+j), self.vars[Z,a]+j))
-                        self.solver.add_clause((self.vars[U,EX,i,a]+j,-(self.vars[Y,i]+j), -(self.vars[Z,a]+j)))
-        if ALL in self.op:
-            for i in range(self.k):
-                for j in range(self.k):
-                    for a in range(self.A.max_ind):
-                        self.solver.add_clause((self.vars[U,ALL,i,a]+j, self.vars[Y,i]+j))
-                        self.solver.add_clause((self.vars[U,ALL,i,a]+j, -(self.vars[Z,a]+j)))
-                        self.solver.add_clause((-(self.vars[U,ALL,i,a]+j),-(self.vars[Y,i]+j), self.vars[Z,a]+j))
-
-        for i in range(self.k):
-            for j in range(self.k):
-                li = list(range(self.k))
-                li.remove(j)
-                #self.solver.add_clause([self.vars[V,1,i]+j, -(self.vars[Y,i]+j)]+[self.vars[Y,i]+l for l in li])
-                self.solver.add_clause((-(self.vars[V,1,i]+j), self.vars[Y,i]+j))                
-                for l in li:
-                    self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[Y,i]+l)))
-        for i in range(self.k):
-            for j in range(self.k-1):
-                li = list(range(self.k))
-                li.remove(j)
-                li.remove(j+1)
-                #self.solver.add_clause([self.vars[V,2,i]+j, -(self.vars[Y,i]+j+1),-(self.vars[Y,i]+j+1)]+[self.vars[Y,i]+l for l in li])
-                self.solver.add_clause((-(self.vars[V,2,i]+j), self.vars[Y,i]+j))
-                self.solver.add_clause((-(self.vars[V,2,i]+j), self.vars[Y,i]+j+1))
-                for l in li:
-                    self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[Y,i]+l)))
 
     def _fitting_constraints(self):
         for a in self.P:
@@ -307,7 +288,6 @@ class FittingALC:
         #self._root()
         self._syn_tree_encoding()
         self._evaluation_constraints()
-        self._additional_constraints()
         self._fitting_constraints()               
         if self.solver.solve():
            print("Satisfiable:")

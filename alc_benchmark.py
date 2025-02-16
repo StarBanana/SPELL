@@ -6,7 +6,7 @@ from spell.benchmark_tools import construct_owl_from_structure
 from spell.fitting_alc import ALL, AND, EX, OR, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
-import ontolearn_benchmark
+from ontolearn_benchmark import run_celoe, run_evo
 
 
 RANDOM_SEED = 42
@@ -185,14 +185,14 @@ def solve(path, ex_path, k):
     P,N = read_examples_from_json(ex_path)
     P = list(map(lambda n: map_ind_name(A, n), P))
     N = list(map(lambda n: map_ind_name(A, n), N))
-    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})    
-    return f.solve_incr(k)
+    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
+    return f.solve_incr(k, return_string= True)
     
 def test(path,P,N):
     A = structure_from_owl(path)
     P = list(map(lambda n: map_ind_name(A, n), P))
     N = list(map(lambda n: map_ind_name(A, n), N))
-    f = FittingALC(A,6,P,N, op = {EX,ALL,OR,AND})    
+    f = FittingALC(A,6,P,N, op = {EX,ALL,OR,AND})
     f.solve()
 
 def run_on_ontolearn_examples(kb_path, json_path, problem_key, k):
@@ -242,50 +242,58 @@ def qdepth(q_string):
     return 0
 
 def benchmark(kb_path,queries_path, dest_dir):
-    cols = ["kb", "kb_file_reduced", "n_pos", "n_neg" , "run", "alc sat time", "alc sat k", "alc sat concept", "ontolearn celoe time", "ontolearn celoe accuracy", "ontolearn celoe concept"]    
+    cols = ["kb", "kb_file_reduced", "n_pos", "n_neg" , "run", "alc sat time", "alc sat k", "alc sat concept", "ontolearn celoe time", "ontolearn celoe accuracy", "ontolearn celoe concept", "evolearn time", "evolearn accuracy", "evolearn concept"]    
     p_avg = pd.DataFrame(columns=cols)
     data = []
     data_avg = []
     os.mkdir(dest_dir)
     for q_pos,q_neg in [
-       ("Q1","Q4"),
-        ("Q3","Q5"),
-        ("Q6", "Q7")
+       ("Q1","Q4")
+        #("Q3","Q5"),
+        #("Q6", "Q7")
         #("Q12","Q13")
     ]:
         with open(queries_path) as f:
             d = json.load(f)
         k = max(d[q_pos]["depth"],d[q_neg]["depth"])
-        k = 30
-        for n_pos in [10,100,1000]:
-            for n_neg in [10,100,1000]:
-                avg_time_spell_alc_sum = 0
-                avg_time_celoe_sum = 0            
-                avg_accuracy_sum = 0
-                red_kb_path_filename = f"reduced_kb-pos_({q_pos},{n_pos})-neg_({q_neg},{n_neg})-k_{k}"
-                red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
-                js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
-                if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, f"{red_kb_path_filename}.json" ):
-                    break
-                reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k)
-                alc_k = 0
-                for i in range(1,11):
-                    start = time.time()
-                    (l,c_alcsat) = solve(red_kb_path, js_path, k)
-                    alc_k += l
-                    end = time.time()
-                    alc_time = end -start
-                    avg_time_spell_alc_sum += alc_time
-                    P,N = read_examples_from_json(js_path)
-                    start = time.time()
-                    a,c_celoe = ontolearn_benchmark.run(red_kb_path,P,N)
-                    end = time.time()
-                    avg_accuracy_sum += a
-                    celoe_time = end-start
-                    avg_time_celoe_sum += celoe_time
-                    data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, celoe_time, a, c_celoe])
-                data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, avg_accuracy_sum/10, ""])
-                data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, avg_accuracy_sum/10, ""])
+        for n_pos in [100]:
+            n_neg = n_pos
+            #for n_neg in [100]:
+            avg_time_spell_alc_sum = 0
+            avg_time_celoe_sum = 0        
+            avg_time_evo_sum = 0    
+            celoe_avg_accuracy_sum = 0
+            evo_avg_accuracy_sum = 0
+            red_kb_path_filename = f"reduced_kb-pos_({q_pos},{n_pos})-neg_({q_neg},{n_neg})-k_{k}"
+            red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
+            js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
+            if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, f"{red_kb_path_filename}.json" ):
+                break
+            reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k)
+            alc_k = 0
+            for i in range(1,11):
+                start = time.time()
+                (l,c_alcsat) = solve(red_kb_path, js_path, k)
+                alc_k += l
+                end = time.time()
+                alc_time = end-start
+                avg_time_spell_alc_sum += alc_time
+                P,N = read_examples_from_json(js_path)
+                start = time.time()
+                a,c_celoe = run_celoe(red_kb_path,P,N)
+                end = time.time()
+                celoe_avg_accuracy_sum += a
+                celoe_time = end-start
+                avg_time_celoe_sum += celoe_time
+                start = time.time()
+                a_evo, c_evo = run_evo(red_kb_path,P,N)
+                end=time.time()
+                evo_time = "-" #end-start
+                #avg_time_evo_sum += evo_time
+                #evo_avg_accuracy_sum += a_evo
+                data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])
+            data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
+            data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
                 
     p = pd.DataFrame(data,columns=cols)
     pa = pd.DataFrame(data_avg,columns=cols)

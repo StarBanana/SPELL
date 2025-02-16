@@ -1,4 +1,4 @@
-import time
+import time, os
 from enum import Enum
 from typing import NamedTuple, Union
 from asciitree import LeftAligned
@@ -86,6 +86,23 @@ class STreeNode():
         tr.draw = BoxStyle(node_label = lambda x : x[1])
         return tr(self._to_OD())
     
+    def to_string(self):                
+        ns = os.path.basename(self.node[1])
+        if len(self.children) == 0:
+            return ns
+        elif len(self.children) == 1:
+            if self.node[1].startswith("all"):
+                nss = f"∀.{ns}"
+            elif self.node[1].startswith("ex"):
+                nss = f"∃.{ns}"
+            else:
+                nss = ns
+            return f"{nss} {self.children[0].to_string()}"
+        elif len(self.children) == 2:
+            return f"({self.children[0].to_string()} {self.node[1]} {self.children[1].to_string()})" 
+        else:
+            return ""
+    
     @classmethod
     def FromDict(cls,dict,root):
         return cls(root, list(map(lambda x : cls.FromDict(dict, x), dict[root])))
@@ -109,7 +126,6 @@ class FittingALC:
         self.cov_n = len(N) if cov_n == -1 else cov_n
         self.solver = Glucose4()
         
-
     def _vars(self):
         d = dict()
         i = 1
@@ -301,7 +317,7 @@ class FittingALC:
             print("Not satisfiable")
             return False
     
-    def solve_incr(self,max_k,start_k=1):
+    def solve_incr(self,max_k,start_k=1, return_string = False):
         sat = False
         self.k = start_k
         while not sat and self.k <= max_k:            
@@ -313,9 +329,12 @@ class FittingALC:
             self._fitting_constraints()               
             if self.solver.solve():
                 print(f"Satisfiable for k={self.k}")
-                print(self._modelToTree())
+                t = self._modelToTree()
                 sat = True
-                return self.k, self._modelToTree()
+                if return_string:
+                    return self.k, t.to_string()
+                else:
+                    return self.k, t.to_asciitree()
             else:
                 print(f"Not satisfiable for k={self.k}")             
                 self.k += 1 
@@ -358,4 +377,4 @@ class FittingALC:
                         edges[i].append(j)                
         edges_labeled = { (k,x_symbols[k]) : list(map(lambda x : (x,x_symbols[x]), v)) for k,v in edges.items() }        
         t = STreeNode.FromDict(edges_labeled,(0,x_symbols[0]))        
-        return t.to_asciitree()
+        return t

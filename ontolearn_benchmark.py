@@ -7,8 +7,10 @@ from ontolearn.metrics import Accuracy, Precision
 from owlapy.owl_individual import OWLNamedIndividual, IRI
 from owlapy.class_expression import OWLClass
 from ontolearn.refinement_operators import ModifiedCELOERefinement
+from owlapy.render import DLSyntaxObjectRenderer
+from ontolearn.concept_learner import EvoLearner
 
-from alc_benchmark import read_examples_from_json, instance_to_dllearner
+#from alc_benchmark import instance_to_dllearner
 
 def ontolearn_examples_to_dllearner(kb_path, ont_examples, dest, file_name_prefix):
     with open(ont_examples) as f:
@@ -28,7 +30,7 @@ def ontolearn_examples_to_flat_json(ont_examples, dest):
             with open(os.path.join(dest,f"ol_ex_fam_rich_{p}.json"), "w+") as f:
                 json.dump(dn, f)
 
-def run(kb_path, P, N):
+def run_celoe(kb_path, P, N):
     start = time.time()
     kb = KnowledgeBase(path = kb_path)    
     typed_pos = set(map(OWLNamedIndividual, map(IRI.create, P)))
@@ -51,17 +53,39 @@ def run(kb_path, P, N):
                   iter_bound=100)
     model.fit(lp)
     hypotheses = list(model.best_hypotheses(n=3))    
-    predictions = model.predict(individuals=list(typed_pos | typed_neg),
-                                hypotheses=hypotheses)    
-    [print(x) for x in hypotheses]
+    #predictions = model.predict(individuals=list(typed_pos | typed_neg),
+    #                           hypotheses=hypotheses)    
+    prediction = model.best_hypotheses(1, return_node=True)    
+    rdr =DLSyntaxObjectRenderer()
     end= time.time()
     print(f"Time for running CELOE: {end-start}")
     print(f"Total time: {end-start+kb_parse_time} seconds") 
-    return 0,hypotheses[0]
+    return prediction.quality, rdr.render(prediction.concept)
+
+def run_evo(kb_path, P, N):
+    kb = KnowledgeBase(path = kb_path)
+    typed_pos = set(map(OWLNamedIndividual, map(IRI.create, P)))
+    typed_neg = set(map(OWLNamedIndividual, map(IRI.create, N)))
+    lp = PosNegLPStandard(pos=typed_pos, neg=typed_neg)
+    model = EvoLearner(knowledge_base=kb, max_runtime=600)
+    model.fit(lp, verbose=False)
+    
+    # Get Top n hypotheses
+    hypotheses = list(model.best_hypotheses(n=3))
+    # Use hypotheses as binary function to label individuals.
+    predictions = model.predict(individuals=list(typed_pos | typed_neg),
+                                hypotheses=hypotheses)
+    print(hypotheses)
+
+def read_examples_from_json(path):
+    with open(path) as f:
+        o = json.load(f)
+    return o["P"],o["N"]
+
 
 def main():
     P,N = read_examples_from_json(sys.argv[2])
-    run(sys.argv[1],P,N)
+    run_evo(sys.argv[1],P,N)
     #ontolearn_examples_to_dllearner(sys.argv[1], sys.argv[2])
     #ontolearn_examples_to_flat_json(sys.argv[1], sys.argv[2])
 

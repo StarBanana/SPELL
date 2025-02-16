@@ -305,8 +305,7 @@ class FittingALC:
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()
-            self._additional_constraints()
-            self._fitting_constraints()               
+            self._fitting_constraints()                  
             if self.solver.solve():
                 print(f"Satisfiable for k={self.k}")
                 t = self._modelToTree()
@@ -343,18 +342,23 @@ class FittingALC:
                         print((d_var_names[k[0]],k[1:],v+i),s)
         
     def _modelToTree(self):
-        m = self.solver.get_model()
-        xv = sorted(list(filter(lambda x : x> 0, m[:self.vars[Y,0]-1])),key = lambda i : (i-1)%self.k)                
-        edges = {i : [] for i in range(self.k)}
-        x_symbols = [None] * self.k
-        for x in m[:self.vars[Y,0]-1]:
-            if x>0:
-                i = (x-1)%(self.k)                
-                x_symbols[i] = self.tree_node_symbols[x - i]
-                for y in m[self.vars[Y,0]-1 + (i*self.k): self.vars[Y,0]-1 + (i*self.k) + self.k]:                
-                    if y > 0:
-                        j = ((y-1)%(self.k))
-                        edges[i].append(j)                
-        edges_labeled = { (k,x_symbols[k]) : list(map(lambda x : (x,x_symbols[x]), v)) for k,v in edges.items() }        
-        t = STreeNode.FromDict(edges_labeled,(0,x_symbols[0]))        
-        return t
+            m = self.solver.get_model()
+            edges = {i : [] for i in range(self.k)}
+            x_symbols = [None] * self.k
+
+            for x in m[:self.vars[Z,0]-1]:
+                if x>0:
+                    i = (x-1)%(self.k)                
+                    x_symbols[i] = self.tree_node_symbols[x - i]
+
+            for i in range(self.k):
+                for j in range(i + 1, self.k):
+                    if (self.vars[V, 1, i] + j) in m:
+                        edges[i].append(j)
+                    elif (self.vars[V, 2, i] + j) in m:
+                        edges[i].append(j)
+                        edges[i].append(j + 1)
+
+            edges_labeled = { (k,x_symbols[k]) : list(map(lambda x : (x,x_symbols[x]), v)) for k,v in edges.items() }        
+            t = STreeNode.FromDict(edges_labeled,(0,x_symbols[0]))        
+            return t

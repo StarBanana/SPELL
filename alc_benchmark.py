@@ -286,9 +286,9 @@ def benchmark(kb_path,queries_path, dest_dir):
                 celoe_time = end-start
                 avg_time_celoe_sum += celoe_time
                 start = time.time()
-                a_evo, c_evo = run_evo(red_kb_path,P,N)
+                a_evo, c_evo = "",""#run_evo(red_kb_path,P,N)
                 end=time.time()
-                evo_time = "-" #end-start
+                evo_time = "" #end-start
                 #avg_time_evo_sum += evo_time
                 #evo_avg_accuracy_sum += a_evo
                 data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])

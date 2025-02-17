@@ -7,7 +7,7 @@ from spell.fitting_alc import ALL, AND, EX, OR, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
 from ontolearn_benchmark import run_celoe, run_evo
-
+import spell.fitting_alc1 as fitting_alc1
 
 RANDOM_SEED = 42
 
@@ -187,6 +187,14 @@ def solve(path, ex_path, k):
     N = list(map(lambda n: map_ind_name(A, n), N))
     f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
     return f.solve_incr(k, return_string= True)
+
+def solve_old(path, ex_path, k):
+    A = structure_from_owl(path)
+    P,N = read_examples_from_json(ex_path)
+    P = list(map(lambda n: map_ind_name(A, n), P))
+    N = list(map(lambda n: map_ind_name(A, n), N))
+    f = fitting_alc1.FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
+    return f.solve_incr(k, return_string= True)
     
 def test(path,P,N):
     A = structure_from_owl(path)
@@ -242,24 +250,25 @@ def qdepth(q_string):
     return 0
 
 def benchmark(kb_path,queries_path, dest_dir):
-    cols = ["kb", "kb_file_reduced", "n_pos", "n_neg" , "run", "alc sat time", "alc sat k", "alc sat concept", "ontolearn celoe time", "ontolearn celoe accuracy", "ontolearn celoe concept", "evolearn time", "evolearn accuracy", "evolearn concept"]    
+    cols = ["kb", "kb_file_reduced", "n_pos", "n_neg" , "run", "alc sat time", "alc sat k", "alc sat concept","alc sat old time", "alc sat old k", "alc sat old concept", "ontolearn celoe time", "ontolearn celoe accuracy", "ontolearn celoe concept", "evolearn time", "evolearn accuracy", "evolearn concept"]    
     p_avg = pd.DataFrame(columns=cols)
     data = []
     data_avg = []
     os.mkdir(dest_dir)
     for q_pos,q_neg in [
-       ("Q1","Q4")
-        #("Q3","Q5"),
-        #("Q6", "Q7")
-        #("Q12","Q13")
+       ("Q1","Q4"),
+        ("Q3","Q5"),
+        ("Q6", "Q5")
+       # ("Q12","Q13")
     ]:
         with open(queries_path) as f:
             d = json.load(f)
         k = max(d[q_pos]["depth"],d[q_neg]["depth"])
-        for n_pos in [100]:
+        for n_pos in range(100,401,100):
             n_neg = n_pos
             #for n_neg in [100]:
             avg_time_spell_alc_sum = 0
+            avg_time_spell_alc_sum_old = 0
             avg_time_celoe_sum = 0        
             avg_time_evo_sum = 0    
             celoe_avg_accuracy_sum = 0
@@ -271,13 +280,22 @@ def benchmark(kb_path,queries_path, dest_dir):
                 break
             reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k)
             alc_k = 0
+            alc_k_old = 0
             for i in range(1,11):
                 start = time.time()
-                (l,c_alcsat) = solve(red_kb_path, js_path, k)
+                (l,c_alcsat) = solve(red_kb_path, js_path, 2**k)
                 alc_k += l
                 end = time.time()
                 alc_time = end-start
                 avg_time_spell_alc_sum += alc_time
+                
+                start = time.time()
+                (l_old,c_alcsat_old) = solve_old(red_kb_path, js_path, 2**k)
+                alc_k_old += l
+                end = time.time()
+                alc_time_old = end-start
+                avg_time_spell_alc_sum_old += alc_time_old
+
                 P,N = read_examples_from_json(js_path)
                 start = time.time()
                 a,c_celoe = run_celoe(red_kb_path,P,N)
@@ -291,9 +309,9 @@ def benchmark(kb_path,queries_path, dest_dir):
                 evo_time = "" #end-start
                 #avg_time_evo_sum += evo_time
                 #evo_avg_accuracy_sum += a_evo
-                data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])
-            data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
-            data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
+                data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, alc_time_old, l_old, c_alcsat_old, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])
+            data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
+            data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
                 
     p = pd.DataFrame(data,columns=cols)
     pa = pd.DataFrame(data_avg,columns=cols)

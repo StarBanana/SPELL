@@ -293,7 +293,11 @@ class FittingALC:
         for a in self.P:
             self.solver.add_clause([self.vars[Z,a]])            
         for a in self.N:
-            self.solver.add_clause([-(self.vars[Z,a])])            
+            self.solver.add_clause([-(self.vars[Z,a])])       
+
+    def _fitting_constraints_approximate(self,n):
+        self.solver.append_formula(CardEnc.atleast([self.vars[Z,a] for a in self.P], n))
+        self.solver.append_formula(CardEnc.atleast([self.vars[Z,a] for a in self.N], n))
 
     def solve(self):
         #self._root()
@@ -303,7 +307,7 @@ class FittingALC:
         if self.solver.solve():
            print("Satisfiable:")
            print(self._modelToTree())
-           return True           
+           return True
         else:
             print("Not satisfiable")
             return False
@@ -329,6 +333,31 @@ class FittingALC:
                 print(f"Not satisfiable for k={self.k}")             
                 self.k += 1 
         return -1,""
+    
+    def solve_incr_approx(self,max_k,start_k=1, return_string = False):
+        sat = False
+        self.k = start_k
+        n = 1
+        best_sol = None
+        while n < max(len(self.P),len(self.N)) and self.k <= max_k:
+            self.solver = Glucose4()
+            self.vars = self._vars()
+            self._syn_tree_encoding()
+            self._evaluation_constraints()
+            self._fitting_constraints_approximate(n)                  
+            if self.solver.solve():                
+                best_sol = self._modelToTree()
+                n +=1                
+            else:                
+                self.k += 1 
+        if best_sol:
+            acc = min(self.P,n) + min(self.N,n) / (len(self.P) + len(self.N))
+            if return_string:
+                return acc, self.k, best_sol.to_string()
+            else:
+                return acc ,self.k, best_sol.to_asciitree()
+        else:
+            return 0,-1,""
 
     def printVariables(self):
         if self.solver.get_model():

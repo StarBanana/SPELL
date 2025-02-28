@@ -9,6 +9,7 @@ from collections import OrderedDict as OD
 from pysat.card import CardEnc, EncType
 from pysat.solvers import Glucose4, pysolvers
 
+
 from .structures import (
     Signature,
     Structure,
@@ -125,6 +126,7 @@ class FittingALC:
         self.cov_p = len(P) if cov_p == -1 else cov_p
         self.cov_n = len(N) if cov_n == -1 else cov_n
         self.solver = Glucose4()
+        self.max_var = 0
         
     def _vars(self):
         d = dict()
@@ -174,6 +176,8 @@ class FittingALC:
         for j in range(self.k):
             d[V,2,j] = i*self.k+1
             i+=1
+
+        self.max_var = i * self.k + 1000
         return d
 
     def _root(self):
@@ -295,15 +299,21 @@ class FittingALC:
         for a in self.N:
             self.solver.add_clause([-(self.vars[Z,a])])       
 
-    def _fitting_constraints_approximate(self,n):
-        self.solver.append_formula(CardEnc.atleast([self.vars[Z,a] for a in self.P], n))
-        self.solver.append_formula(CardEnc.atleast([self.vars[Z,a] for a in self.N], n))
+    def _fitting_constraints_approximate(self, k):
+        lits = [self.vars[Z, a] for a in self.P] + [-self.vars[Z, b] for b in self.N]
+        
+        # TODO maybe switch to incremental totalizer encoding or another incremental encoding
+        enc = CardEnc.atleast(
+            lits, bound=k, top_id=self.max_var, encoding=EncType.totalizer
+        )
+        for clause in enc.clauses:
+            self.solver.add_clause(clause)
 
     def solve(self):
         #self._root()
         self._syn_tree_encoding()
         self._evaluation_constraints()
-        self._fitting_constraints()               
+        self._fitting_constraints(17)               
         if self.solver.solve():
            print("Satisfiable:")
            print(self._modelToTree())
@@ -330,7 +340,7 @@ class FittingALC:
                 else:
                     return self.k, t.to_asciitree()
             else:
-                print(f"Not satisfiable for k={self.k}")             
+                print(f"Not satisfiable for k={self.k}")
                 self.k += 1 
         return -1,""
     

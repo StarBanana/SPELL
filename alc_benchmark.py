@@ -222,8 +222,10 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
         f.write('reasoner.type = "closed world reasoner"\n')
         f.write('reasoner.sources = { ks }\n')
         f.write('lp.type = "posNegStandard"\n')
-        f.write(f'lp.positiveExamples = {{{",".join(map(lambda x : f'"{x}"',p))}}}\n')
-        f.write(f'lp.negativeExamples = {{{",".join(map(lambda x : f'"{x}"',n))}}}\n')
+        k = ",".join(map(lambda x : f'"{x}"',p))
+        f.write(f'lp.positiveExamples = {k}\n')
+        k = ",".join(map(lambda x : f'"{x}"',n))
+        f.write(f'lp.negativeExamples = {k}\n')
         f.write('alg.type = "celoe"\n')
         f.write('alg.maxExecutionTimeInSeconds = 1\n')
         f.write('alg.writeSearchTree = true\n')
@@ -304,11 +306,11 @@ def benchmark(kb_path,queries_path, dest_dir):
                 celoe_time = end-start
                 avg_time_celoe_sum += celoe_time
                 start = time.time()
-                a_evo, c_evo = "",""#run_evo(red_kb_path,P,N)
+                a_evo, c_evo = run_evo(red_kb_path,P,N)
                 end=time.time()
-                evo_time = "" #end-start
-                #avg_time_evo_sum += evo_time
-                #evo_avg_accuracy_sum += a_evo
+                evo_time = end-start
+                avg_time_evo_sum += evo_time
+                evo_avg_accuracy_sum += a_evo
                 data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, alc_time_old, l_old, c_alcsat_old, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])
             data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])
             data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  ""])

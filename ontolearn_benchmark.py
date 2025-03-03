@@ -63,19 +63,31 @@ def run_celoe(kb_path, P, N):
     return prediction.quality, rdr.render(prediction.concept)
 
 def run_evo(kb_path, P, N):
+    start = time.time()
     kb = KnowledgeBase(path = kb_path)
     typed_pos = set(map(OWLNamedIndividual, map(IRI.create, P)))
     typed_neg = set(map(OWLNamedIndividual, map(IRI.create, N)))
     lp = PosNegLPStandard(pos=typed_pos, neg=typed_neg)
+    end = time.time()
+    kb_parse_time = end - start
+    print(f"KB parsed after {kb_parse_time} seconds, starting EvoLearner next.")
+    start = time.time()
+
     model = EvoLearner(knowledge_base=kb, max_runtime=600)
-    model.fit(lp, verbose=False)
+    model.fit(lp, verbose=True)
     
     # Get Top n hypotheses
     hypotheses = list(model.best_hypotheses(n=3))
     # Use hypotheses as binary function to label individuals.
     predictions = model.predict(individuals=list(typed_pos | typed_neg),
                                 hypotheses=hypotheses)
-    print(hypotheses)
+    
+    prediction = model.best_hypotheses(1, return_node=True)    
+    rdr =DLSyntaxObjectRenderer()
+    end= time.time()
+    print(f"Time for running EvoLearner : {end-start}")
+    print(f"Total time: {end-start+kb_parse_time} seconds") 
+    return prediction.quality, rdr.render(prediction.concept)
 
 def read_examples_from_json(path):
     with open(path) as f:

@@ -80,7 +80,7 @@ def main():
 
     if md == "alc":
         f = FittingALC(A, args.max_size, P, N, op = {AND, OR, EX, NEG, ALL})
-        res = f.solve_incr(args.max_size)
+        f.solve_incr_approx(args.max_size, timeout=args.timeout)
     else:
         _, res = solve_incr(A, P, N, md, timeout=args.timeout, max_size=args.max_size)
 

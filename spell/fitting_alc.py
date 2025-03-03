@@ -313,7 +313,7 @@ class FittingALC:
         #self._root()
         self._syn_tree_encoding()
         self._evaluation_constraints()
-        self._fitting_constraints(17)               
+        self._fitting_constraints()               
         if self.solver.solve():
            print("Satisfiable:")
            print(self._modelToTree())
@@ -344,28 +344,36 @@ class FittingALC:
                 self.k += 1 
         return -1,""
     
-    def solve_incr_approx(self,max_k,start_k=1, return_string = False):
+    def solve_incr_approx(self, max_k, start_k=1, return_string = False, timeout = -1):
+        time_start = time.process_time()
         sat = False
         self.k = start_k
-        n = 1
+        n = max(len(self.P), len(self.N))
         best_sol = None
-        while n < max(len(self.P),len(self.N)) and self.k <= max_k:
+        accuracy = 0
+        dt = time.process_time() - time_start
+        while n <= len(self.P) + len(self.N) and self.k <= max_k and (dt < timeout or timeout == -1):
             self.solver = Glucose4()
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()
             self._fitting_constraints_approximate(n)                  
-            if self.solver.solve():                
+            if self.solver.solve():
                 best_sol = self._modelToTree()
+                accuracy = n / (len(self.P) + len(self.N))
+                print(f"Satisfiable for k={self.k}, n={n}, acc={accuracy}")
+                print(best_sol.to_asciitree())
+
                 n +=1                
             else:                
+                print(f"Not satisfiable for k={self.k}, n={n}")
                 self.k += 1 
+            dt = time.process_time() - time_start
         if best_sol:
-            acc = min(self.P,n) + min(self.N,n) / (len(self.P) + len(self.N))
             if return_string:
-                return acc, self.k, best_sol.to_string()
+                return accuracy, self.k, best_sol.to_string()
             else:
-                return acc ,self.k, best_sol.to_asciitree()
+                return accuracy, self.k, best_sol.to_asciitree()
         else:
             return 0,-1,""
 

@@ -3,7 +3,7 @@
 import sys
 import os
 
-from spell import benchmark_tools
+from spell import model_checking, structures
 
 def read_config(path):
     settings = {}
@@ -43,23 +43,30 @@ with open(pos_ex, encoding="UTF-8") as file:
 with open(neg_ex, encoding="UTF-8") as file:
     N = [line.rstrip() for line in file.readlines()]
 
-sparql = ""
+query = ""
 with open(input_file, encoding="UTF-8") as file:
     for line in file:
-        sparql += line + "\n"
+        query += line
 
-A = benchmark_tools.structure_from_owl(owl_file_path)
-benchmark_tools.construct_owl_from_structure("tmp.owl", A)
+A = structures.structure_from_owl(owl_file_path)
 
-result = benchmark_tools.query_owl("tmp.owl", sparql)
+c = model_checking.parse_concept(query)
 
-pos = set(P)
-neg = set(N)
+tp = 0
+fn = 0
+for p in P:
+    if c.mc(A, A.indmap[p]):
+        tp += 1
+    else:
+        fn += 1
 
-tp = len(pos.intersection(result))
-fp = len(neg.intersection(result))
-tn = len(neg.difference(result))
-fn = len(pos.difference(result))
+tn = 0
+fp = 0
+for n in N:
+    if c.mc(A, A.indmap[n]):
+        fp += 1
+    else:
+        tn += 1
 
 with open(output_file_name, 'w') as f:
     f.write('tp: %i' % tp + os.linesep +

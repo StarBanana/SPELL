@@ -46,13 +46,9 @@ with open(neg_ex, encoding="UTF-8") as file:
     N = [A.indmap[line.rstrip()] for line in file.readlines()]
 
 
-for i in range(1, 10):
-    A2, P2, N2 = fitting.restrict_nb(i, A, P, N)
-    f = fitting_alc.FittingALC(A2, i, P2, N2, op = {fitting_alc.AND, fitting_alc.OR, fitting_alc.EX, fitting_alc.NEG})
-    f.solve()
+f = fitting_alc.FittingALC(A, 12, P, N)
 
-
-_, best_q = fitting.solve_incr(A, P, N, fitting.mode.exact)
+_, k, q = f.solve_incr_approx(12)
 
 with open(output_file, "w") as file:
-    file.write(structures.solution2sparql(best_q))
+    file.write(q.to_string())

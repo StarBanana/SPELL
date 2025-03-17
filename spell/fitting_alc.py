@@ -6,7 +6,7 @@ from collections import OrderedDict as OD
 
 
 from pysat.card import CardEnc, EncType
-from pysat.solvers import Glucose4, Glucose42 
+from pysat.solvers import Glucose4
 
 
 from .structures import (
@@ -91,14 +91,14 @@ class STreeNode():
         return tr(self._to_OD())
     
     def to_string(self):                
-        ns = os.path.basename(self.node[1])
+        ns = str(self.node[1])
         if len(self.children) == 0:
             return ns
         elif len(self.children) == 1:
             if self.node[1].startswith("all"):
-                nss = f"∀.{ns}"
+                nss = f"∀.{ns[4:]}"
             elif self.node[1].startswith("ex"):
-                nss = f"∃.{ns}"
+                nss = f"∃.{ns[3:]}"
             else:
                 nss = ns
             return f"{nss} {self.children[0].to_string()}"
@@ -110,6 +110,10 @@ class STreeNode():
     @classmethod
     def FromDict(cls,dict,root):
         return cls(root, list(map(lambda x : cls.FromDict(dict, x), dict[root])))
+
+
+
+
 
 class FittingALC:
     def __init__(self, A: Structure, k : int, P: list[int],
@@ -458,7 +462,7 @@ class FittingALC:
         best_n = 0
 
         while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
-            self.solver = Glucose42()
+            self.solver = Glucose4()
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()

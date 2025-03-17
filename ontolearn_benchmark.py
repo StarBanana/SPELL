@@ -73,14 +73,8 @@ def run_evo(kb_path, P, N):
     print(f"KB parsed after {kb_parse_time} seconds, starting EvoLearner next.")
     start = time.time()
 
-    model = EvoLearner(knowledge_base=kb, max_runtime=600)
+    model = EvoLearner(knowledge_base=kb, max_runtime=300, num_generations = 2000, use_card_restrictions = False, use_data_properties = False )
     model.fit(lp, verbose=True)
-    
-    # Get Top n hypotheses
-    hypotheses = list(model.best_hypotheses(n=3))
-    # Use hypotheses as binary function to label individuals.
-    predictions = model.predict(individuals=list(typed_pos | typed_neg),
-                                hypotheses=hypotheses)
     
     prediction = model.best_hypotheses(1, return_node=True)    
     rdr =DLSyntaxObjectRenderer()
@@ -96,8 +90,21 @@ def read_examples_from_json(path):
 
 
 def main():
-    P,N = read_examples_from_json(sys.argv[2])
-    run_evo(sys.argv[1],P,N)
+    # P,N = read_examples_from_json(sys.argv[2])
+    P: list[str] = []
+    N: list[str] = []
+    with open(sys.argv[2], encoding="UTF-8") as file:
+        for line in file.readlines():
+            ind = line.rstrip()
+            P.append(ind)
+
+    with open(sys.argv[3], encoding="UTF-8") as file:
+        for line in file.readlines():
+            ind = line.rstrip()
+            N.append(ind)
+
+    q, res = run_evo(sys.argv[1],P,N)
+    print("{} {}".format(q, res))
     #ontolearn_examples_to_dllearner(sys.argv[1], sys.argv[2])
     #ontolearn_examples_to_flat_json(sys.argv[1], sys.argv[2])
 

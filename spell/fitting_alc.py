@@ -121,6 +121,7 @@ class FittingALC:
         self.op_b = ALC_OP_B.intersection(op)
         self.op_r = op.difference(ALC_OP_B)
         self.tree_node_symbols = dict()
+        self.types = self.cn_types()
         self.vars = self._vars()
         self.n_op = len(op)        
         self.cov_p = len(P) if cov_p == -1 else cov_p
@@ -176,6 +177,9 @@ class FittingALC:
         for j in range(self.k):
             d[V,2,j] = i*self.k+1
             i+=1
+        for tp in self.types:
+            d[X, tp] = i * self.k + 1
+            i += 1
 
         self.max_var = i * self.k + 1000
         return d
@@ -285,6 +289,8 @@ class FittingALC:
 
                 self.solver.add_clause((-(self.vars[X,TOP]+i),(self.vars[Z,a]+i)))
                 self.solver.add_clause((-(self.vars[X,BOT]+i),-(self.vars[Z,a]+i)))
+
+
         for cn in self.sigma[0]:
             for i in range(self.k):
                 for a in range(self.A.max_ind):                    
@@ -292,6 +298,25 @@ class FittingALC:
                         self.solver.add_clause((-(self.vars[X,cn]+i), self.vars[Z,a]+i))
                     else:
                         self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Z,a]+i)))
+
+        for i in range(self.k):
+            for tp in self.types:
+                for cn in self.sigma[0]:
+                    if cn in tp:
+                        self.solver.add_clause((-(self.vars[X, cn] + i), self.vars[X, tp] + i))
+                    if cn not in tp: 
+                        self.solver.add_clause((-(self.vars[X, cn] + i), -(self.vars[X, tp] + i)))
+
+
+        for a in range(self.A.max_ind):
+            tp = frozenset({ cn for cn in self.sigma[0] if a in self.A.cn_ext[cn]})
+            assert tp in self.types
+            for i in range(self.k):
+                self.solver.add_clause( ( - (self.vars[X, tp] + i),   self.vars[Z, a] + i))
+                # Problem: the following should only happen for CONCEPT NAME NODES. We thus need an additional variable that is true iff a node is a concept name node
+                # self.solver.add_clause( ( (self.vars[X, tp] + i) ,   - (self.vars[Z, a] + i)))
+                
+
 
     def _fitting_constraints(self):
         for a in self.P:
@@ -343,15 +368,33 @@ class FittingALC:
                 print(f"Not satisfiable for k={self.k}")
                 self.k += 1 
         return -1,""
-    
+
+    def cn_types(self) -> set[frozenset[str]]:
+        res: set[frozenset[str]] = set()
+        for i in range(self.A.max_ind):
+            tp: list[str] = []
+            for cn in self.sigma[0]:
+                if i in self.A.cn_ext[cn]:
+                    tp.append(cn)
+            res.add(frozenset(tp))
+        return res
+                
+
+
+
     def solve_incr_approx(self, max_k, start_k=1, return_string = False, timeout = -1):
         time_start = time.process_time()
         sat = False
-        self.k = start_k
-        n = max(len(self.P), len(self.N))
+        # self.k = start_k
+        self.k = 8
+        n = max(len(self.P), len(self.N), 10)
         best_sol = None
         accuracy = 0
         dt = time.process_time() - time_start
+        print("Inds: {}".format(self.A.max_ind))
+        print("Conceptnames {}, Rolenames {}".format(len(self.sigma[0]), len(self.sigma[1])))
+        print("CN Types {}".format(len(self.types)))
+
         while n <= len(self.P) + len(self.N) and self.k <= max_k and (dt < timeout or timeout == -1):
             self.solver = Glucose4()
             self.vars = self._vars()

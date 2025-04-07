@@ -1,25 +1,17 @@
 import time, os
-from enum import Enum
-from typing import NamedTuple, Union
 from asciitree import LeftAligned
-from asciitree.drawing import BoxStyle, Style
+from asciitree.drawing import BoxStyle
 from collections import OrderedDict as OD
 
 
 from pysat.card import CardEnc, EncType
-from pysat.solvers import Glucose4, pysolvers
+from pysat.solvers import Glucose4 
 
 
 from .structures import (
     Signature,
     Structure,
-    conceptname_ext,
-    conceptnames,
-    generate_all_trees,
-    ind,
     restrict_to_neighborhood,
-    rolenames,
-    solution2sparql,
 )
 
 from .fitting import (
@@ -50,8 +42,8 @@ d_var_names = {
     0:"X",
     1:"Y",
     2:"Z",
-    3:"U",
-    4:"V",    
+    4:"V",
+    5:"L"
 }
 TOP = 0
 BOT = 1
@@ -65,8 +57,12 @@ ALC_OP_B = {NEG,AND,OR}
 X = 0
 Y = 1
 Z = 2
-U = 3
 V = 4
+L = 5
+
+
+TYPE_ENCODING: bool = False
+
 
 class STreeNode():
     def __init__(self, node, children):
@@ -114,8 +110,8 @@ class FittingALC:
         B,m = restrict_to_neighborhood(k-1,A,P + N)
         self.P = [m[a] for a in P]
         self.N = [m[b] for b in N]
-        self.A = B
-        self.sigma = determine_relevant_symbols(A, P, 1, k - 1, N)
+        self.A : Structure = B
+        self.sigma : Signature = determine_relevant_symbols(A, P, 1, k - 1, N)
         self.k = k
         self.op = op
         self.op_b = ALC_OP_B.intersection(op)
@@ -161,24 +157,20 @@ class FittingALC:
         for a in range(self.A.max_ind):
             d[Z,a] = i * self.k+1
             i += 1
-        for op in self.op_b:
-            for j in range(self.k):
-                for a in range(self.A.max_ind):
-                    d[U,op,j,a] = i * self.k+1
-                    i+=1
-        for op in self.op_r:
-            for j in range(self.k):
-                for a in range(self.A.max_ind):
-                    d[U,op,j,a] = i*self.k+1
-                    i+=1
         for j in range(self.k):
             d[V,1,j] = i*self.k+1
             i+=1
         for j in range(self.k):
             d[V,2,j] = i*self.k+1
             i+=1
-        for tp in self.types:
-            d[X, tp] = i * self.k + 1
+
+        if TYPE_ENCODING:
+            for tp in self.types:
+                d[X, tp] = i * self.k + 1
+                i += 1
+
+            # For leaves
+            d[L] = i* self.k + 1
             i += 1
 
         self.max_var = i * self.k + 1000
@@ -221,18 +213,27 @@ class FittingALC:
                 for j in range(self.k):
                     self.solver.add_clause([-(self.vars[X,op]+i), -(self.vars[V,1,i]+j)])
 
+            for cn in self.sigma[0]:
+
+                if TYPE_ENCODING:
+                    # Is a leaf
+                    self.solver.add_clause((-(self.vars[X,cn]+i),(self.vars[L] + i)))
+
             for j in range(self.k):
                 for cn in self.sigma[0]:
                     self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,1, i]+j)))
                     self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,2, i]+j)))
+
+
                 for b in {TOP,BOT}:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
+
+            # Symmetry breaking: crossing free
             for j in range(i + 1, self.k):
                 for i2 in range(i + 1, j):
                     for j2 in range(j + 1, self.k):
-                        # print(f"{self.k} {i},{j} {i2},{j2}")
                         self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
                         self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
                         self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
@@ -291,30 +292,32 @@ class FittingALC:
                 self.solver.add_clause((-(self.vars[X,BOT]+i),-(self.vars[Z,a]+i)))
 
 
-        for cn in self.sigma[0]:
+        if not TYPE_ENCODING:
+            for cn in self.sigma[0]:
+                for i in range(self.k):
+                    for a in range(self.A.max_ind):                    
+                        if a in self.A.cn_ext[cn]:                                            
+                            self.solver.add_clause((-(self.vars[X,cn]+i), self.vars[Z,a]+i))
+                        else:
+                            self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Z,a]+i)))
+
+        if TYPE_ENCODING:
             for i in range(self.k):
-                for a in range(self.A.max_ind):                    
-                    if a in self.A.cn_ext[cn]:                                            
-                        self.solver.add_clause((-(self.vars[X,cn]+i), self.vars[Z,a]+i))
-                    else:
-                        self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Z,a]+i)))
-
-        for i in range(self.k):
-            for tp in self.types:
-                for cn in self.sigma[0]:
-                    if cn in tp:
-                        self.solver.add_clause((-(self.vars[X, cn] + i), self.vars[X, tp] + i))
-                    if cn not in tp: 
-                        self.solver.add_clause((-(self.vars[X, cn] + i), -(self.vars[X, tp] + i)))
+                for tp in self.types:
+                    for cn in self.sigma[0]:
+                        if cn in tp:
+                            self.solver.add_clause((-(self.vars[X, cn] + i), self.vars[X, tp] + i))
+                        if cn not in tp: 
+                            self.solver.add_clause((-(self.vars[X, cn] + i), -(self.vars[X, tp] + i)))
 
 
-        for a in range(self.A.max_ind):
-            tp = frozenset({ cn for cn in self.sigma[0] if a in self.A.cn_ext[cn]})
-            assert tp in self.types
-            for i in range(self.k):
-                self.solver.add_clause( ( - (self.vars[X, tp] + i),   self.vars[Z, a] + i))
-                # Problem: the following should only happen for CONCEPT NAME NODES. We thus need an additional variable that is true iff a node is a concept name node
-                # self.solver.add_clause( ( (self.vars[X, tp] + i) ,   - (self.vars[Z, a] + i)))
+            for a in range(self.A.max_ind):
+                tp = frozenset({ cn for cn in self.sigma[0] if a in self.A.cn_ext[cn]})
+                assert tp in self.types
+                for i in range(self.k):
+                    self.solver.add_clause( ( - (self.vars[X, tp] + i),   self.vars[Z, a] + i))
+                    # Problem: the following should only happen for CONCEPT NAME NODES. We thus need an additional variable that is true iff a node is a concept name node
+                    self.solver.add_clause( ( (self.vars[X, tp] + i) ,   - (self.vars[Z, a] + i), - (self.vars[L] + i)))
                 
 
 
@@ -433,8 +436,6 @@ class FittingALC:
                             print((d_var_names[k[0]],d_op[k[1]],v+i), f"Tree Node: {(v+i-1)%self.k }",s)
                         except KeyError:
                             print((d_var_names[k[0]],k[1],v+i), f"Tree Node: {(v+i-1)%self.k }",s)
-                    elif k[0] == U:
-                        print((d_var_names[k[0]],d_op[k[1]],f"domain element: {k[2]}",f"edge: ({k[3]},{i})",v+i),s)                
                     elif k[0] == V:
                         print((d_var_names[k[0]],k[1:],f"edge: ({k[2]},{i})",v+i),s)
                     else:

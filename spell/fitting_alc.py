@@ -388,15 +388,12 @@ class FittingALC:
     def solve_incr_approx(self, max_k, start_k=1, return_string = False, timeout = -1):
         time_start = time.process_time()
         sat = False
-        # self.k = start_k
-        self.k = 8
-        n = max(len(self.P), len(self.N), 10)
+        self.k = start_k
+        # self.k = 8
+        n = max(len(self.P), len(self.N))
         best_sol = None
         accuracy = 0
         dt = time.process_time() - time_start
-        print("Inds: {}".format(self.A.max_ind))
-        print("Conceptnames {}, Rolenames {}".format(len(self.sigma[0]), len(self.sigma[1])))
-        print("CN Types {}".format(len(self.types)))
 
         while n <= len(self.P) + len(self.N) and self.k <= max_k and (dt < timeout or timeout == -1):
             self.solver = Glucose4()

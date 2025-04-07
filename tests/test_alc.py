@@ -118,6 +118,24 @@ def testEx():
     f2 = FittingALC(*i2, op = {EX})
     assert not f2.solve()
 
+def testAnd():
+    A = Structure(
+        5,
+        {"A":{1, 2, 3}, "B":{1, 3, 4}, "C":{1, 2, 4}},
+        { 0 : set(), 1: set(), 2: set(), 3:set(), 4: set()},
+        {},
+        {}
+    )
+
+    i = (A, 4, [1], [2, 3, 4])
+    f = FittingALC(*i, op = {AND})
+    assert not f.solve()
+    
+    i2 = (A, 5, [1], [2, 3, 4])
+    f2 = FittingALC(*i2, op = {AND})
+    assert f2.solve()
+
+
 def testAll():
     A = Structure(
         5,

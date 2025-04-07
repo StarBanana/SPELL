@@ -230,15 +230,6 @@ class FittingALC:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
 
-            # Symmetry breaking: crossing free
-            for j in range(i + 1, self.k):
-                for i2 in range(i + 1, j):
-                    for j2 in range(j + 1, self.k):
-                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
-
 
 
             for j1 in range(self.k):
@@ -253,6 +244,27 @@ class FittingALC:
                         self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i - 1)))
                         self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i)))
 
+
+    def _symmetry_breaking(self):
+        # Symmetry breaking: crossing free syntax tree
+        for i in range(self.k):
+            for j in range(i + 1, self.k):
+                for i2 in range(i + 1, j):
+                    for j2 in range(j + 1, self.k):
+                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
+                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
+
+        # Symmetry breaking: associativity of sqcap and sqcup
+        for i in range(self.k):
+            for j in range(i + 1, self.k):
+                if AND in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j)))
+                if OR in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j)))
+
+    
 
     def _evaluation_constraints(self):
         for a in range(self.A.max_ind):
@@ -341,7 +353,8 @@ class FittingALC:
         #self._root()
         self._syn_tree_encoding()
         self._evaluation_constraints()
-        self._fitting_constraints()               
+        self._fitting_constraints()
+        self._symmetry_breaking()
         if self.solver.solve():
            print("Satisfiable:")
            print(self._modelToTree())
@@ -359,6 +372,7 @@ class FittingALC:
             self._syn_tree_encoding()
             self._evaluation_constraints()
             self._fitting_constraints()                  
+            self._symmetry_breaking()
             if self.solver.solve():
                 print(f"Satisfiable for k={self.k}")
                 t = self._modelToTree()
@@ -400,6 +414,7 @@ class FittingALC:
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()
+            self._symmetry_breaking()
             self._fitting_constraints_approximate(n)                  
             if self.solver.solve():
                 best_sol = self._modelToTree()

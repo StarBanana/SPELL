@@ -152,6 +152,3 @@ def testAll():
     i2 = (A, 2, [1], [0])
     f2 = FittingALC(*i2, op = {ALL})
     assert f2.solve()
-
-
-test6()

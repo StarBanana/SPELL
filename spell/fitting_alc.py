@@ -206,11 +206,13 @@ class FittingALC:
 
             if NEG in self.op_b:
                 self.solver.add_clause([-(self.vars[X,NEG]+i)] + [self.vars[V,1,i]+j for j in range(i+1,self.k)])
-                for j in range(self.k):
+                for j in range(i + 1, self.k):
                     self.solver.add_clause([-(self.vars[X,NEG]+i), -(self.vars[V,2,i]+j)])
+
+
             for op in self.op_b - {NEG}:
                 self.solver.add_clause([-(self.vars[X,op]+i)] + [self.vars[V,2,i]+j for j in range(i+1,self.k-1)])
-                for j in range(self.k):
+                for j in range(i + 1, self.k):
                     self.solver.add_clause([-(self.vars[X,op]+i), -(self.vars[V,1,i]+j)])
 
             for cn in self.sigma[0]:
@@ -432,7 +434,6 @@ class FittingALC:
     def solve_incr_approx(self, max_k : int , start_k : int =1, min_n: int = 1, timeout : float = -1):
         time_start = time.process_time()
         self.k = start_k
-        self.k = 5
         n = max(len(self.P), len(self.N), min_n)
         best_sol = None
         best_acc = 0

@@ -55,7 +55,6 @@ ALL = 6
 ALC_OP = {NEG,AND,OR,EX,ALL}
 ALC_OP_B = {NEG,AND,OR}
 X = 0
-Y = 1
 Z = 2
 V = 4
 L = 5
@@ -151,9 +150,6 @@ class FittingALC:
                 d[X,ALL,c] = i * self.k+1
                 self.tree_node_symbols[i * self.k+1] = f"all.{c}"
                 i+=1
-        for l in range(self.k):
-            d[Y,l] = i * self.k+1
-            i +=1
         for a in range(self.A.max_ind):
             d[Z,a] = i * self.k+1
             i += 1
@@ -175,10 +171,6 @@ class FittingALC:
 
         self.max_var = i * self.k + 1000
         return d
-
-    def _root(self):
-        for j in range(1,self.k):
-            self.solver.add_clause([-self.vars[Y,j]])
 
     def _syn_tree_encoding(self):
         for i in range(self.k):            

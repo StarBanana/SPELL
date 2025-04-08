@@ -450,7 +450,6 @@ class FittingALC:
         n = max(len(self.P), len(self.N), min_n)
         best_sol = None
         best_acc = 0
-        max_k = 5
         dt = time.process_time() - time_start
 
         while self.k <= max_k and (dt < timeout or timeout == -1):

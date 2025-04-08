@@ -424,6 +424,7 @@ class FittingALC:
             print(f"Satisfiable for k={self.k}, n={model_n}, acc={best_accuracy}")
             print(best_sol.to_asciitree())
             n = model_n + 1
+            dt = time.process_time() - time_start
         
         return best_accuracy, best_n, self.k, best_sol
 

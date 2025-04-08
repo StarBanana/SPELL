@@ -1,3 +1,4 @@
+import math
 import time, os
 from asciitree import LeftAligned
 from asciitree.drawing import BoxStyle
@@ -5,7 +6,7 @@ from collections import OrderedDict as OD
 
 
 from pysat.card import CardEnc, EncType
-from pysat.solvers import Glucose4 
+from pysat.solvers import Cadical195, Glucose4, Glucose42 
 
 
 from .structures import (
@@ -43,7 +44,8 @@ d_var_names = {
     1:"Y",
     2:"Z",
     4:"V",
-    5:"L"
+    5:"L",
+    6:"T"
 }
 TOP = 0
 BOT = 1
@@ -58,10 +60,12 @@ X = 0
 Z = 2
 V = 4
 L = 5
+T = 6
 
 
 TYPE_ENCODING: bool = True
 NNF: bool = False
+TREE_TEMPLATES: bool = True
 
 class STreeNode():
     def __init__(self, node, children):
@@ -168,8 +172,15 @@ class FittingALC:
             # For leaves
             d[L] = i* self.k + 1
             i += 1
-
+        
         self.max_var = i * self.k + 1000
+        
+        if TREE_TEMPLATES:
+            for idx, t in enumerate(all_trees(self.k, 0)):
+                d[T, idx] = self.max_var
+                self.max_var += 1
+
+
         return d
 
     def _syn_tree_encoding(self):
@@ -280,6 +291,16 @@ class FittingALC:
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 1, j] + j2)))
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
 
+        if TREE_TEMPLATES:
+            # Problem: these trees do not necessarily match the V-var encoding
+            tree_vars = []
+            for idx, t in enumerate(all_trees(self.k, 0)):
+                tree_vars.append(self.vars[T, idx])
+
+            self.solver.add_clause(tree_vars)
+            for t1 in range(0, len(tree_vars)):
+                for t2 in range(1, len(tree_vars)):
+                    self.solver.add_clause( (- tree_vars[t1], - tree_vars[t2]))
 
 
     def _evaluation_constraints(self):
@@ -398,7 +419,7 @@ class FittingALC:
         best_n = 0
 
         while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
-            self.solver = Glucose4()
+            self.solver = Glucose42()
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()
@@ -429,6 +450,7 @@ class FittingALC:
         n = max(len(self.P), len(self.N), min_n)
         best_sol = None
         best_acc = 0
+        max_k = 5
         dt = time.process_time() - time_start
 
         while self.k <= max_k and (dt < timeout or timeout == -1):
@@ -507,3 +529,25 @@ class FittingALC:
             edges_labeled = { (k,x_symbols[k]) : list(map(lambda x : (x,x_symbols[x]), v)) for k,v in edges.items() }        
             t = STreeNode.FromDict(edges_labeled,(0,x_symbols[0]))        
             return t
+
+
+
+
+# Generate (almost) non-isomorphic trees of size n
+# Why almost? The case there the left and right subtree are of the same size is
+# currently not handled correctly and from size 7 on, some isomorphic trees are generated
+def all_trees(n: int, start: int) -> list[list[tuple[int] | tuple[int, int] | tuple[()]]]:
+    if n == 1:
+        return [ [()] ]
+
+    res = []
+    for i in range(1, (n - 1) // 2 + 1):
+        for a in all_trees(i, start + 1):
+            for b in all_trees((n - 1) - i, start + i + 1):
+                res.append([ (start + 1, start + i + 1)] + a + b)
+
+
+    for a in all_trees(n - 1, start + 1):
+        res.append( [ ( start + 1)] + a)
+    
+    return res

@@ -97,7 +97,7 @@ def test6():
                    )
     P6 = [0]
     N6 = [1]
-    i = (A6,3,P6,N6)
+    i = (A6,2,P6,N6)
     f = FittingALC(*i, op = {EX,ALL,OR,AND,NEG})
     assert f.solve()
 

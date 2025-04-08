@@ -251,36 +251,38 @@ class FittingALC:
 
 
     def _symmetry_breaking(self):
+        #TODO: reformulate these to work with non-isomorphic syntax trees
+
         # Symmetry breaking: crossing free syntax tree
-        for i in range(self.k):
-            for j in range(i + 1, self.k):
-                for i2 in range(i + 1, j):
-                    for j2 in range(j + 1, self.k):
-                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
-                        self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
+        # for i in range(self.k):
+        #     for j in range(i + 1, self.k):
+        #         for i2 in range(i + 1, j):
+        #             for j2 in range(j + 1, self.k):
+        #                 self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,1,i2]+j2)))
+        #                 self.solver.add_clause((-(self.vars[V,1,i]+j),-(self.vars[V,2,i2]+j2)))
+        #                 self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,1,i2]+j2)))
+        #                 self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
 
         # Symmetry breaking: associativity of sqcap and sqcup
-        for i in range(self.k):
-            for j in range(i + 1, self.k):
-                if AND in self.op_b:
-                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j)))
-                if OR in self.op_b:
-                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j)))
+        # for i in range(self.k):
+        #     for j in range(i + 1, self.k):
+        #         if AND in self.op_b:
+        #             self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j)))
+        #         if OR in self.op_b:
+        #             self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j)))
 
-        # Symmetry breaking: limited commutativity
-        for i in range(self.k):
-            for j in range(i + 1, self.k):
-                # This orders the node types. Binary operators are smallest, the unary operators, then conceptnames, then top and bot
-                x_varsj = [self.vars[X,o]+j for o in self.op_b] + [self.vars[X,o,r]+j for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j for cn in self.sigma[0]] + [self.vars[X,TOP]+j,self.vars[X,BOT]+j]
-                x_varsj1 = [self.vars[X,o]+j + 1 for o in self.op_b] + [self.vars[X,o,r]+j + 1 for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j + 1 for cn in self.sigma[0]] + [self.vars[X,TOP]+j + 1,self.vars[X,BOT]+j + 1]
-                assert(len(x_varsj) == len(x_varsj1))
-                for k1 in range(len(x_varsj)):
-                    for k2 in range(k1 + 1, len(x_varsj1)):
-                        # left must be "bigger" than right
-                        self.solver.add_clause( ( - (self.vars[V, 2, i] + j), - x_varsj[k1], -x_varsj1[k2]))
-                        # Note: This should not conflict with the associativity breaking above: binary operators should be always allowed to the right! child
+        # # Symmetry breaking: limited commutativity
+        # for i in range(self.k):
+        #     for j in range(i + 1, self.k):
+        #         # This orders the node types. Binary operators are smallest, the unary operators, then conceptnames, then top and bot
+        #         x_varsj = [self.vars[X,o]+j for o in self.op_b] + [self.vars[X,o,r]+j for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j for cn in self.sigma[0]] + [self.vars[X,TOP]+j,self.vars[X,BOT]+j]
+        #         x_varsj1 = [self.vars[X,o]+j + 1 for o in self.op_b] + [self.vars[X,o,r]+j + 1 for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j + 1 for cn in self.sigma[0]] + [self.vars[X,TOP]+j + 1,self.vars[X,BOT]+j + 1]
+        #         assert(len(x_varsj) == len(x_varsj1))
+        #         for k1 in range(len(x_varsj)):
+        #             for k2 in range(k1 + 1, len(x_varsj1)):
+        #                 # left must be "bigger" than right
+        #                 self.solver.add_clause( ( - (self.vars[V, 2, i] + j), - x_varsj[k1], -x_varsj1[k2]))
+        #                 # Note: This should not conflict with the associativity breaking above: binary operators should be always allowed to the right! child
 
 
         # NNF    
@@ -292,15 +294,25 @@ class FittingALC:
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
 
         if TREE_TEMPLATES:
-            # Problem: these trees do not necessarily match the V-var encoding
             tree_vars = []
-            for idx, t in enumerate(all_trees(self.k, 0)):
+            for idx, t in enumerate(all_trees(self.k)):
                 tree_vars.append(self.vars[T, idx])
 
             self.solver.add_clause(tree_vars)
             for t1 in range(0, len(tree_vars)):
-                for t2 in range(1, len(tree_vars)):
+                for t2 in range(t1 + 1, len(tree_vars)):
                     self.solver.add_clause( (- tree_vars[t1], - tree_vars[t2]))
+
+            for idx, t in enumerate(all_trees(self.k)):
+                for i in range(self.k):
+                    if len(t[i]) == 0:
+                        for j in range(i + 1, self.k):
+                            self.solver.add_clause( ( - tree_vars[idx], - ( self.vars[V, 1, i] + j)))
+                            self.solver.add_clause( ( - tree_vars[idx], - ( self.vars[V, 2, i] + j)))
+                    if len(t[i]) == 1:
+                        self.solver.add_clause( ( - tree_vars[idx], ( self.vars[V, 1, i] + t[i][0])))
+                    if len(t[i]) == 2:
+                        self.solver.add_clause( ( - tree_vars[idx],  ( self.vars[V, 2, i] + t[i][0])))
 
 
     def _evaluation_constraints(self):
@@ -535,18 +547,20 @@ class FittingALC:
 # Generate (almost) non-isomorphic trees of size n
 # Why almost? The case there the left and right subtree are of the same size is
 # currently not handled correctly and from size 7 on, some isomorphic trees are generated
-def all_trees(n: int, start: int) -> list[list[tuple[int] | tuple[int, int] | tuple[()]]]:
-    if n == 1:
+def all_trees(k: int, start: int = 0) -> list[list[tuple[int] | tuple[int, int] | tuple[()]]]:
+    if k == 1:
         return [ [()] ]
 
     res = []
-    for i in range(1, (n - 1) // 2 + 1):
-        for a in all_trees(i, start + 1):
-            for b in all_trees((n - 1) - i, start + i + 1):
-                res.append([ (start + 1, start + i + 1)] + a + b)
+    for i in range(1, (k - 1) // 2 + 1):
+        for a in all_trees(i, start + 2):
+            for b in all_trees((k - 1) - i, start + i + 1):
+                # Whacky tree composition to ensure that children of binary nodes are always adjacent
+                # (the start + 2 for the a trees is for the same purpose)
+                res.append([ (start + 1, start + 2)] + [ a[0] ] + [b[0]] + a[1:] + b[1:])
 
 
-    for a in all_trees(n - 1, start + 1):
-        res.append( [ ( start + 1)] + a)
+    for a in all_trees(k - 1, start + 1):
+        res.append( [ ( start + 1, )] + a)
     
     return res

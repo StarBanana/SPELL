@@ -15,7 +15,7 @@ from .structures import (
 )
 
 from .fitting import (
-    determine_relevant_symbols
+    determine_relevant_symbols,
 )
 
 class bcolors:
@@ -61,8 +61,8 @@ V = 4
 L = 5
 
 
-TYPE_ENCODING: bool = False
-
+TYPE_ENCODING: bool = True
+NNF: bool = False
 
 class STreeNode():
     def __init__(self, node, children):
@@ -108,8 +108,8 @@ class FittingALC:
     def __init__(self, A: Structure, k : int, P: list[int],
         N: list[int], op = ALC_OP, cov_p = - 1, cov_n = -1):
         B,m = restrict_to_neighborhood(k-1,A,P + N)
-        self.P = [m[a] for a in P]
-        self.N = [m[b] for b in N]
+        self.P : list[int] = [m[a] for a in P]
+        self.N : list[int] = [m[b] for b in N]
         self.A : Structure = B
         self.sigma : Signature = determine_relevant_symbols(A, P, 1, k - 1, N)
         self.k = k
@@ -264,9 +264,32 @@ class FittingALC:
                 if OR in self.op_b:
                     self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j)))
 
-    
+        # Symmetry breaking: limited commutativity
+        for i in range(self.k):
+            for j in range(i + 1, self.k):
+                # This orders the node types. Binary operators are smallest, the unary operators, then conceptnames, then top and bot
+                x_varsj = [self.vars[X,o]+j for o in self.op_b] + [self.vars[X,o,r]+j for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j for cn in self.sigma[0]] + [self.vars[X,TOP]+j,self.vars[X,BOT]+j]
+                x_varsj1 = [self.vars[X,o]+j + 1 for o in self.op_b] + [self.vars[X,o,r]+j + 1 for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j + 1 for cn in self.sigma[0]] + [self.vars[X,TOP]+j + 1,self.vars[X,BOT]+j + 1]
+                assert(len(x_varsj) == len(x_varsj1))
+                for k1 in range(len(x_varsj)):
+                    for k2 in range(k1 + 1, len(x_varsj1)):
+                        # left must be "bigger" than right
+                        self.solver.add_clause( ( - (self.vars[V, 2, i] + j), - x_varsj[k1], -x_varsj1[k2]))
+                        # Note: This should not conflict with the associativity breaking above: binary operators should be always allowed to the right! child
+
+
+        # NNF    
+        if NNF:
+            for i in range(self.k):
+                for j in range(i + 1, self.k):
+                    for j2 in range(j + 1, self.k):
+                        self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 1, j] + j2)))
+                        self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
+
+
 
     def _evaluation_constraints(self):
+
         for a in range(self.A.max_ind):
             for i in range(self.k):                
                 if NEG in self.op_b:
@@ -339,7 +362,7 @@ class FittingALC:
         for a in self.N:
             self.solver.add_clause([-(self.vars[Z,a])])       
 
-    def _fitting_constraints_approximate(self, k):
+    def _fitting_constraints_approximate(self, k: int):
         lits = [self.vars[Z, a] for a in self.P] + [-self.vars[Z, b] for b in self.N]
         
         # TODO maybe switch to incremental totalizer encoding or another incremental encoding
@@ -350,41 +373,14 @@ class FittingALC:
             self.solver.add_clause(clause)
 
     def solve(self):
-        #self._root()
-        self._syn_tree_encoding()
-        self._evaluation_constraints()
-        self._fitting_constraints()
-        self._symmetry_breaking()
-        if self.solver.solve():
-           print("Satisfiable:")
-           print(self._modelToTree())
-           return True
+        acc, n, sol = self.solve_incr(self.k, self.k)
+        if sol:
+            return True
         else:
-            print("Not satisfiable")
             return False
     
-    def solve_incr(self,max_k,start_k=1, return_string = False):
-        sat = False
-        self.k = start_k
-        while not sat and self.k <= max_k:            
-            self.solver = Glucose4()
-            self.vars = self._vars()
-            self._syn_tree_encoding()
-            self._evaluation_constraints()
-            self._fitting_constraints()                  
-            self._symmetry_breaking()
-            if self.solver.solve():
-                print(f"Satisfiable for k={self.k}")
-                t = self._modelToTree()
-                sat = True
-                if return_string:
-                    return self.k, t.to_string()
-                else:
-                    return self.k, t.to_asciitree()
-            else:
-                print(f"Not satisfiable for k={self.k}")
-                self.k += 1 
-        return -1,""
+    def solve_incr(self,max_k :int, start_k : int =1, return_string = False):
+        return self.solve_incr_approx(max_k, start_k, len(self.P) + len(self.N), -1)
 
     def cn_types(self) -> set[frozenset[str]]:
         res: set[frozenset[str]] = set()
@@ -396,42 +392,68 @@ class FittingALC:
             res.add(frozenset(tp))
         return res
                 
-
-
-
-    def solve_incr_approx(self, max_k, start_k=1, return_string = False, timeout = -1):
+    def solve_approx(self, k: int, min_n: int, timeout : float = -1):
         time_start = time.process_time()
-        sat = False
-        self.k = start_k
-        # self.k = 8
-        n = max(len(self.P), len(self.N))
-        best_sol = None
-        accuracy = 0
+        self.k = k
+        n = max(len(self.P), len(self.N), min_n)
+        
         dt = time.process_time() - time_start
 
-        while n <= len(self.P) + len(self.N) and self.k <= max_k and (dt < timeout or timeout == -1):
+        best_sol = None
+        best_accuracy = 0
+        best_n = 0
+
+        while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
             self.solver = Glucose4()
             self.vars = self._vars()
             self._syn_tree_encoding()
             self._evaluation_constraints()
             self._symmetry_breaking()
-            self._fitting_constraints_approximate(n)                  
-            if self.solver.solve():
-                best_sol = self._modelToTree()
-                accuracy = n / (len(self.P) + len(self.N))
-                print(f"Satisfiable for k={self.k}, n={n}, acc={accuracy}")
-                print(best_sol.to_asciitree())
+            self._fitting_constraints_approximate(n)
 
-                n +=1                
-            else:                
+            if not self.solver.solve():
                 print(f"Not satisfiable for k={self.k}, n={n}")
-                self.k += 1 
+                return best_accuracy, best_n, self.k, best_sol
+
+            best_sol = self._modelToTree()
+
+            model_n = self._model_n()
+
+            best_accuracy = model_n / (len(self.P) + len(self.N))
+            best_n = model_n
+            print(f"Satisfiable for k={self.k}, n={model_n}, acc={best_accuracy}")
+            print(best_sol.to_asciitree())
+            n = model_n + 1
+        
+        return best_accuracy, best_n, self.k, best_sol
+
+
+    def solve_incr_approx(self, max_k : int , start_k : int =1, min_n: int = 1, timeout : float = -1):
+        time_start = time.process_time()
+        self.k = start_k
+        self.k = 5
+        n = max(len(self.P), len(self.N), min_n)
+        best_sol = None
+        best_acc = 0
+        dt = time.process_time() - time_start
+
+        while self.k <= max_k and (dt < timeout or timeout == -1):
+            remaining_time = -1
+            if timeout != -1:
+                remaining_time = timeout - dt
+            k_acc, k_n, _, k_sol = self.solve_approx(self.k, n, remaining_time)
+
+            if k_acc > best_acc:
+                assert k_sol
+                best_sol = k_sol
+                best_acc = k_acc
+                n = k_n + 1
+
+            self.k += 1 
             dt = time.process_time() - time_start
+
         if best_sol:
-            if return_string:
-                return accuracy, self.k, best_sol.to_string()
-            else:
-                return accuracy, self.k, best_sol.to_asciitree()
+            return best_acc, self.k, best_sol
         else:
             return 0,-1,""
 
@@ -454,8 +476,23 @@ class FittingALC:
                         print((d_var_names[k[0]],k[1:],v+i),s)
                     if k[0] == Y:
                         print((d_var_names[k[0]],k[1:],v+i),s)
+
+    def _model_n(self)-> int:
+        # Return the number of positive/negative examples that is claimed to be covered by a model
+        m = self.solver.get_model()
+
+        res: int = 0
+        for p in self.P:
+            if self.vars[Z, p] + 0 in m:
+                res += 1
         
-    def _modelToTree(self):
+        for n in self.N:
+            if self.vars[Z, n] + 0 not in m:
+                res += 1
+        return res
+
+
+    def _modelToTree(self) -> STreeNode:
             m = self.solver.get_model()
             edges = {i : [] for i in range(self.k)}
             x_symbols = [None] * self.k

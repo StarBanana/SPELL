@@ -6,7 +6,7 @@ from collections import OrderedDict as OD
 
 
 from pysat.card import CardEnc, EncType
-from pysat.solvers import Cadical195, Glucose4, Glucose42 
+from pysat.solvers import Glucose4, Glucose42 
 
 
 from .structures import (
@@ -191,25 +191,21 @@ class FittingALC:
     def _syn_tree_encoding(self):
         for i in range(self.k):            
             x_vars = [self.vars[X,o]+i for o in self.op_b] + [self.vars[X,o,r]+i for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +i for cn in self.sigma[0]] + [self.vars[X,TOP]+i,self.vars[X,BOT]+i]
-            self.solver.add_clause(x_vars)
-            for v1 in x_vars:
-                for v2 in x_vars:
-                    if v1 != v2:
-                        self.solver.add_clause((-v1,-v2))
+
+            for clause in CardEnc.equals(lits = x_vars, encoding = EncType.pairwise):
+                self.solver.add_clause(clause)
 
         for i in range(self.k):
-            v_vars = [self.vars[V, 1, i] + j for j in range(i + 1, self.k)] + [self.vars[V, 2, i] + j for j in range(i + 1, self.k)]
+            v_vars = [self.vars[V, 1, i] + j for j in range(i + 1, self.k)] + [self.vars[V, 2, i] + j for j in range(i + 1, self.k - 1)]
 
             # At most one of the y-vars
-            for v1 in v_vars:
-                for v2 in v_vars:
-                    if v1 != v2:
-                        self.solver.add_clause((-v1,-v2))
+            for clause in CardEnc.atmost(lits = v_vars, encoding = EncType.pairwise):
+                self.solver.add_clause(clause)
 
             for r in self.sigma[1]:
                 for op in self.op_r:
                     self.solver.add_clause([-(self.vars[X,op,r]+i)] + [self.vars[V,1,i]+j for j in range(i+1,self.k)])
-                    for j in range(self.k):
+                    for j in range(i + 1, self.k - 1):
                         self.solver.add_clause([-(self.vars[X,op,r]+i), -(self.vars[V,2,i]+j)])
 
             if NEG in self.op_b:
@@ -229,7 +225,7 @@ class FittingALC:
                     # Is a leaf
                     self.solver.add_clause((-(self.vars[X,cn]+i),(self.vars[L] + i)))
 
-            for j in range(self.k):
+            for j in range(i + 1, self.k):
                 for cn in self.sigma[0]:
                     self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,1, i]+j)))
                     self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[V,2, i]+j)))
@@ -239,21 +235,12 @@ class FittingALC:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
-            for j1 in range(i):
-                for j2 in range(j1):
-                    # Just one predecessor
-                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,1,j2]+i)))
 
-                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i)))
-                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,1,j2]+i)))
-                    
-                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i)))
-
-                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i - 1)))
-                    self.solver.add_clause((-(self.vars[V,1,j2]+i),-(self.vars[V,2,j1]+i - 1)))
-
-                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i - 1)))
-                    self.solver.add_clause((-(self.vars[V,2,j2]+i),-(self.vars[V,2,j1]+i - 1)))
+            # Exactly one predecessor
+            possible_preds = [ self.vars[V, 1, j] + i for j in range(0, i)] + [self.vars[V, 2, j] + i for j in range(0, i)] + [self.vars[V, 2, j] + i - 1 for j in range(0, i - 1)]
+            if len(possible_preds) > 0:
+                for clause in CardEnc.equals( lits = possible_preds, encoding= EncType.pairwise):
+                    self.solver.add_clause(clause)
 
 
     def _symmetry_breaking(self):
@@ -272,19 +259,31 @@ class FittingALC:
         # Symmetry breaking: associativity of sqcap and sqcup
         # There is always a syntax tree where one of the successors of AND is not an AND
         for i in range(self.k):
-            for j in range(i + 1, self.k):
+            for j in range(i + 1, self.k - 1):
                 if AND in self.op_b:
                     self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j), - (self.vars[X, AND] + j + 1)))
                 if OR in self.op_b:
                     self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j), - (self.vars[X, OR] + j + 1)))
 
         # Symmetry breaking: there is always a syntax tree where NEG is not nested directly under ALL or EX or NEG
-        if EX in self.op_r and ALL in self.op_r and NEG in self.op_b:
+        if not NNF and EX in self.op_r and ALL in self.op_r and NEG in self.op_b:
             for i in range(self.k):
                 for j in range(i + 1, self.k):
                         self.solver.add_clause( (- (self.vars[V, 1, i] + j), - (self.vars[X, NEG] + j)))
 
-        # TODO: rewrites involving TOP and BOT?
+        # Symmetry breaking: rewrites involving TOP and BOT?
+        for i in range(self.k):
+            for j in range(i + 1, self.k - 1):
+                if AND in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, TOP] + j)))
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, TOP] + j + 1)))
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, BOT] + j)))
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, BOT] + j + 1)))
+                if OR in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, TOP] + j)))
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, TOP] + j + 1)))
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, BOT] + j)))
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, BOT] + j + 1)))
 
         # Symmetry breaking: limited commutativity
         # Not advantageous right now
@@ -316,10 +315,8 @@ class FittingALC:
             for idx, t in enumerate(all_trees(tree_k)):
                 tree_vars.append(self.vars[T, idx])
 
-            self.solver.add_clause(tree_vars)
-            for t1 in range(0, len(tree_vars)):
-                for t2 in range(t1 + 1, len(tree_vars)):
-                    self.solver.add_clause( (- tree_vars[t1], - tree_vars[t2]))
+            for clause in CardEnc.equals(lits = tree_vars, encoding=EncType.bitwise):
+                self.solver.add_clause(clause)
 
             for idx, t in enumerate(all_trees(tree_k)):
                 for i in range(tree_k):
@@ -334,7 +331,6 @@ class FittingALC:
                         self.solver.add_clause( ( - tree_vars[idx], ( self.vars[V, 1, i] + t[i][0])))
                     if len(t[i]) == 2:
                         self.solver.add_clause( ( - tree_vars[idx],  ( self.vars[V, 2, i] + t[i][0])))
-
 
     def _evaluation_constraints(self):
 

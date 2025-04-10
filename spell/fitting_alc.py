@@ -234,9 +234,6 @@ class FittingALC:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
-
-
-
             for j1 in range(self.k):
                 for j2 in range(self.k):
                     # Just one predecessor
@@ -251,8 +248,8 @@ class FittingALC:
 
 
     def _symmetry_breaking(self):
-        #TODO: reformulate these to work with non-isomorphic syntax trees
 
+        #TODO: reformulate this to work with the tree templates
         # Symmetry breaking: crossing free syntax tree
         # for i in range(self.k):
         #     for j in range(i + 1, self.k):
@@ -264,25 +261,32 @@ class FittingALC:
         #                 self.solver.add_clause((-(self.vars[V,2,i]+j),-(self.vars[V,2,i2]+j2)))
 
         # Symmetry breaking: associativity of sqcap and sqcup
-        # for i in range(self.k):
-        #     for j in range(i + 1, self.k):
-        #         if AND in self.op_b:
-        #             self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j)))
-        #         if OR in self.op_b:
-        #             self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j)))
+        # There is always a syntax tree where one of the successors of AND is not an AND
+        for i in range(self.k):
+            for j in range(i + 1, self.k):
+                if AND in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, AND] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, AND] + j), - (self.vars[X, AND] + j + 1)))
+                if OR in self.op_b:
+                    self.solver.add_clause( (- (self.vars[X, OR] + i), - (self.vars[V, 2, i] + j), - (self.vars[X, OR] + j), - (self.vars[X, OR] + j + 1)))
 
-        # # Symmetry breaking: limited commutativity
+        # Symmetry breaking: there is always a syntax tree where NEG is not nested directly under ALL or EX or NEG
+        if EX in self.op_r and ALL in self.op_r and NEG in self.op_b:
+            for i in range(self.k):
+                for j in range(i + 1, self.k):
+                        self.solver.add_clause( (- (self.vars[V, 1, i] + j), - (self.vars[X, NEG] + j)))
+
+        # Symmetry breaking: limited commutativity
+        # Not advantageous right now
         # for i in range(self.k):
         #     for j in range(i + 1, self.k):
         #         # This orders the node types. Binary operators are smallest, the unary operators, then conceptnames, then top and bot
-        #         x_varsj = [self.vars[X,o]+j for o in self.op_b] + [self.vars[X,o,r]+j for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j for cn in self.sigma[0]] + [self.vars[X,TOP]+j,self.vars[X,BOT]+j]
-        #         x_varsj1 = [self.vars[X,o]+j + 1 for o in self.op_b] + [self.vars[X,o,r]+j + 1 for o in self.op_r for r in self.sigma[1]] + [self.vars[X,cn] +j + 1 for cn in self.sigma[0]] + [self.vars[X,TOP]+j + 1,self.vars[X,BOT]+j + 1]
+        #         x_varsj = [self.vars[X,cn] +j for cn in self.sigma[0]] + [self.vars[X,TOP]+j,self.vars[X,BOT]+j]
+        #         x_varsj1 = [self.vars[X,cn] +j + 1 for cn in self.sigma[0]] + [self.vars[X,TOP]+j + 1,self.vars[X,BOT]+j + 1]
         #         assert(len(x_varsj) == len(x_varsj1))
         #         for k1 in range(len(x_varsj)):
         #             for k2 in range(k1 + 1, len(x_varsj1)):
         #                 # left must be "bigger" than right
         #                 self.solver.add_clause( ( - (self.vars[V, 2, i] + j), - x_varsj[k1], -x_varsj1[k2]))
-        #                 # Note: This should not conflict with the associativity breaking above: binary operators should be always allowed to the right! child
 
 
         # NNF    
@@ -294,8 +298,13 @@ class FittingALC:
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
 
         if TREE_TEMPLATES:
+            # There should be 2079 trees with 13 nodes. Seems like a sensible limit
+            TREE_TEMPLATE_LIMIT = 13
+
+            tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
+
             tree_vars = []
-            for idx, t in enumerate(all_trees(self.k)):
+            for idx, t in enumerate(all_trees(tree_k)):
                 tree_vars.append(self.vars[T, idx])
 
             self.solver.add_clause(tree_vars)
@@ -303,12 +312,15 @@ class FittingALC:
                 for t2 in range(t1 + 1, len(tree_vars)):
                     self.solver.add_clause( (- tree_vars[t1], - tree_vars[t2]))
 
-            for idx, t in enumerate(all_trees(self.k)):
-                for i in range(self.k):
-                    if len(t[i]) == 0:
-                        for j in range(i + 1, self.k):
+            for idx, t in enumerate(all_trees(tree_k)):
+                for i in range(tree_k):
+                    
+                    # Only restrict leaves if the tree template is not a prefix
+                    if len(t[i]) == 0 and tree_k == self.k:
+                        for j in range(i + 1, tree_k):
                             self.solver.add_clause( ( - tree_vars[idx], - ( self.vars[V, 1, i] + j)))
                             self.solver.add_clause( ( - tree_vars[idx], - ( self.vars[V, 2, i] + j)))
+
                     if len(t[i]) == 1:
                         self.solver.add_clause( ( - tree_vars[idx], ( self.vars[V, 1, i] + t[i][0])))
                     if len(t[i]) == 2:

@@ -66,6 +66,10 @@ T = 6
 TYPE_ENCODING: bool = True
 NNF: bool = False
 TREE_TEMPLATES: bool = True
+# There should be 2079 trees with 13 nodes. Seems like a sensible limit
+# BUT: experiments suggest that when finding a single path of size k, there is a slowdown for 11 and above
+# Indeed, 10 seems to be a local minimum
+TREE_TEMPLATE_LIMIT = 10
 
 class STreeNode():
     def __init__(self, node, children):
@@ -176,7 +180,8 @@ class FittingALC:
         self.max_var = i * self.k + 1000
         
         if TREE_TEMPLATES:
-            for idx, t in enumerate(all_trees(self.k, 0)):
+            tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
+            for idx, t in enumerate(all_trees(tree_k, 0)):
                 d[T, idx] = self.max_var
                 self.max_var += 1
 
@@ -234,17 +239,21 @@ class FittingALC:
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,1,i]+j)))
                     self.solver.add_clause((-(self.vars[X,b]+i),-(self.vars[V,2,i]+j)))
 
-            for j1 in range(self.k):
-                for j2 in range(self.k):
+            for j1 in range(i):
+                for j2 in range(j1):
                     # Just one predecessor
-                    if j1 != j2:
-                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,1,j2]+i)))
-                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i)))
-                        self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i - 1)))
+                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,1,j2]+i)))
 
-                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,1,j2]+i)))
-                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i - 1)))
-                        self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i)))
+                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i)))
+                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,1,j2]+i)))
+                    
+                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i)))
+
+                    self.solver.add_clause((-(self.vars[V,1,j1]+i),-(self.vars[V,2,j2]+i - 1)))
+                    self.solver.add_clause((-(self.vars[V,1,j2]+i),-(self.vars[V,2,j1]+i - 1)))
+
+                    self.solver.add_clause((-(self.vars[V,2,j1]+i),-(self.vars[V,2,j2]+i - 1)))
+                    self.solver.add_clause((-(self.vars[V,2,j2]+i),-(self.vars[V,2,j1]+i - 1)))
 
 
     def _symmetry_breaking(self):
@@ -275,6 +284,8 @@ class FittingALC:
                 for j in range(i + 1, self.k):
                         self.solver.add_clause( (- (self.vars[V, 1, i] + j), - (self.vars[X, NEG] + j)))
 
+        # TODO: rewrites involving TOP and BOT?
+
         # Symmetry breaking: limited commutativity
         # Not advantageous right now
         # for i in range(self.k):
@@ -298,8 +309,6 @@ class FittingALC:
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
 
         if TREE_TEMPLATES:
-            # There should be 2079 trees with 13 nodes. Seems like a sensible limit
-            TREE_TEMPLATE_LIMIT = 13
 
             tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
 
@@ -430,7 +439,7 @@ class FittingALC:
                     tp.append(cn)
             res.add(frozenset(tp))
         return res
-                
+
     def solve_approx(self, k: int, min_n: int, timeout : float = -1):
         time_start = time.process_time()
         self.k = k

@@ -152,3 +152,23 @@ def testAll():
     i2 = (A, 2, [1], [0])
     f2 = FittingALC(*i2, op = {ALL})
     assert f2.solve()
+
+
+def testSize():
+    k = 15
+    # TODO: the SAT formula for this takes a surprising amount of time to solve
+    # i.e. it is not instant
+    # I believe if we modify our encoding such that this becomes instant, we can gain
+    # a lot of speed on realistic benchmarks
+    A = Structure(
+        max_ind=k,
+        cn_ext={},
+        rn_ext= { i : {(i + 1, "r")} for i in range(k - 1)},
+        indmap={},
+        nsmap={}
+    )
+    A.rn_ext[k - 1] = set()
+
+    i = (A, k, [0], [1])
+    f = FittingALC(*i, op= {EX, AND})
+    assert f.solve()

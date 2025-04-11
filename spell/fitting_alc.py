@@ -177,7 +177,7 @@ class FittingALC:
             d[L] = i* self.k + 1
             i += 1
         
-        self.max_var = i * self.k + 1000
+        self.max_var = i * self.k + 1
         
         if TREE_TEMPLATES:
             tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
@@ -355,17 +355,27 @@ class FittingALC:
                 
                 if ALL in self.op_r:
                     for r in self.sigma[1]:
-                        for j in range(i + 1, self.k):
-                            self.solver.add_clause([-(self.vars[X,ALL,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ -(self.vars[Z, b]+j) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a])) ])                            
-                            for b in map(lambda t : t[0],filter(lambda t : t[1] == r , self.A.rn_ext[a])):
-                                self.solver.add_clause((-(self.vars[X,ALL,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), self.vars[Z, b] + j))
+                        successors = [ b for (b, p) in self.A.rn_ext[a] if p == r]
+                        if len(successors) == 0:
+                            # Optimization: most individuals don't have successors
+                            self.solver.add_clause( ( - ( self.vars[X, ALL, r] + i), (self.vars[Z, a] + i)))
+                        else:
+                            for j in range(i + 1, self.k):
+                                self.solver.add_clause([-(self.vars[X,ALL,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ -(self.vars[Z, b]+j) for b in successors ])                            
+                                for b in successors:
+                                    self.solver.add_clause((-(self.vars[X,ALL,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), self.vars[Z, b] + j))
 
                 if EX in self.op_r:
                     for r in self.sigma[1]:
-                        for j in range(i + 1, self.k):
-                            self.solver.add_clause([-(self.vars[X,EX,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ (self.vars[Z, b]+j) for b in map(lambda x : x[0], filter(lambda t : t[1] == r , self.A.rn_ext[a])) ])                            
-                            for b in map(lambda t : t[0],filter(lambda t : t[1] == r , self.A.rn_ext[a])):
-                                self.solver.add_clause((-(self.vars[X,EX,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), -(self.vars[Z, b] + j)))
+                        successors = [ b for (b, p) in self.A.rn_ext[a] if p == r]
+                        if len(successors) == 0:
+                            # Optimization: most individuals don't have successors
+                            self.solver.add_clause( ( - (self.vars[X, EX, r] + i), -(self.vars[Z, a] + i)))
+                        else:
+                            for j in range(i + 1, self.k):
+                                self.solver.add_clause([-(self.vars[X,EX,r]+i), -(self.vars[Z,a]+i), -(self.vars[V, 1, i] + j)] + [ (self.vars[Z, b]+j) for b in successors ])                            
+                                for b in successors:
+                                    self.solver.add_clause((-(self.vars[X,EX,r]+i), (self.vars[Z,a]+i), -(self.vars[V, 1, i] + j), -(self.vars[Z, b] + j)))
 
                 self.solver.add_clause((-(self.vars[X,TOP]+i),(self.vars[Z,a]+i)))
                 self.solver.add_clause((-(self.vars[X,BOT]+i),-(self.vars[Z,a]+i)))
@@ -493,7 +503,7 @@ class FittingALC:
                 best_acc = k_acc
                 n = k_n + 1
 
-            self.k += 1 
+            self.k += 1
             dt = time.process_time() - time_start
 
         if best_sol:
@@ -550,7 +560,7 @@ class FittingALC:
                 for j in range(i + 1, self.k):
                     if (self.vars[V, 1, i] + j) in m:
                         edges[i].append(j)
-                    elif (self.vars[V, 2, i] + j) in m:
+                    elif j < self.k - 1 and (self.vars[V, 2, i] + j) in m:
                         edges[i].append(j)
                         edges[i].append(j + 1)
 

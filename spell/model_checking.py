@@ -1,7 +1,5 @@
 from spell.fitting_alc import *
-from spell.structures import Structure, Signature, map_ind_name
-import sys
-import numpy as np
+from spell.structures import Structure
 CN = 7
 
 class ALC_Concept():

@@ -315,7 +315,7 @@ class FittingALC:
             for idx, t in enumerate(all_trees(tree_k)):
                 tree_vars.append(self.vars[T, idx])
 
-            for clause in CardEnc.equals(lits = tree_vars, encoding=EncType.bitwise):
+            for clause in CardEnc.equals(lits = tree_vars, encoding=EncType.pairwise):
                 self.solver.add_clause(clause)
 
             for idx, t in enumerate(all_trees(tree_k)):

@@ -2,6 +2,7 @@
 
 import sys
 import os
+import time
 
 from spell import fitting
 from spell import fitting_alc
@@ -15,6 +16,8 @@ def read_config(path):
 
     return settings
 
+time_start = time.perf_counter()
+
 config = read_config(sys.argv[1])
 
 
@@ -24,6 +27,7 @@ target_dir = config['filename.workdir']
 output_file = config['filename.output']
 learning_task_id = config['learningtask']
 learning_problem_id = config['learningproblem']
+timeout = float(config['maxExecutionTime'])
 learning_task_dir_name = 'learningtasks'
 owl_dir_name = 'owl'
 data_dir_name = 'data'
@@ -45,10 +49,15 @@ with open(pos_ex, encoding="UTF-8") as file:
 with open(neg_ex, encoding="UTF-8") as file:
     N = [A.indmap[line.rstrip()] for line in file.readlines()]
 
+print(timeout)
 
 f = fitting_alc.FittingALC(A, 12, P, N)
 
-_, k, q = f.solve_incr_approx(12)
+remaining_time = -1
+if timeout != -1:
+    remaining_time = timeout - (time.perf_counter() - time_start)
+
+_, k, q = f.solve_incr_approx(12, timeout=remaining_time)
 
 with open(output_file, "w") as file:
     file.write(q.to_string())

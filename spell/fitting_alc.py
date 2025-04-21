@@ -1,4 +1,6 @@
+from concurrent.futures import ProcessPoolExecutor, ThreadPoolExecutor
 import math
+from threading import Timer
 import time, os
 from asciitree import LeftAligned
 from asciitree.drawing import BoxStyle
@@ -70,6 +72,33 @@ TREE_TEMPLATES: bool = True
 # BUT: experiments suggest that when finding a single path of size k, there is a slowdown for 11 and above
 # Indeed, 10 seems to be a local minimum
 TREE_TEMPLATE_LIMIT = 10
+
+
+def interrupt(s):
+    s.interrupt()
+
+
+def solver_solve(solver : Glucose4, timeout : float):
+    print(timeout)
+    if timeout != -1 and timeout < 0:
+        return False
+
+    t = time.perf_counter()
+
+    timer = Timer(timeout, interrupt, [solver])
+    timer.start()
+    
+    res = solver.solve_limited(expect_interrupt=True)
+
+    print(time.perf_counter() - t)
+
+    timer.cancel()
+
+    return res
+
+
+
+
 
 class STreeNode():
     def __init__(self, node, children):
@@ -451,11 +480,11 @@ class FittingALC:
         return res
 
     def solve_approx(self, k: int, min_n: int, timeout : float = -1):
-        time_start = time.process_time()
+        time_start = time.perf_counter()
         self.k = k
         n = max(len(self.P), len(self.N), min_n)
         
-        dt = time.process_time() - time_start
+        dt = time.perf_counter() - time_start
 
         best_sol = None
         best_accuracy = 0
@@ -468,8 +497,13 @@ class FittingALC:
             self._evaluation_constraints()
             self._symmetry_breaking()
             self._fitting_constraints_approximate(n)
+            
+            dt = time.perf_counter() - time_start
+            remaining_time = -1
+            if timeout != -1:
+                remaining_time = timeout - dt
 
-            if not self.solver.solve():
+            if not solver_solve(self.solver, remaining_time):
                 print(f"Not satisfiable for k={self.k}, n={n}")
                 return best_accuracy, best_n, self.k, best_sol
 
@@ -482,23 +516,24 @@ class FittingALC:
             print(f"Satisfiable for k={self.k}, n={model_n}, acc={best_accuracy}")
             print(best_sol.to_asciitree())
             n = model_n + 1
-            dt = time.process_time() - time_start
+            dt = time.perf_counter() - time_start
         
         return best_accuracy, best_n, self.k, best_sol
 
 
     def solve_incr_approx(self, max_k : int , start_k : int =1, min_n: int = 1, timeout : float = -1):
-        time_start = time.process_time()
+        time_start = time.perf_counter()
         self.k = start_k
         n = max(len(self.P), len(self.N), min_n)
         best_sol = None
         best_acc = 0
-        dt = time.process_time() - time_start
+        dt = time.perf_counter() - time_start
 
         while self.k <= max_k and (dt < timeout or timeout == -1):
             remaining_time = -1
             if timeout != -1:
                 remaining_time = timeout - dt
+
             k_acc, k_n, _, k_sol = self.solve_approx(self.k, n, remaining_time)
 
             if k_acc > best_acc:
@@ -508,7 +543,7 @@ class FittingALC:
                 n = k_n + 1
 
             self.k += 1
-            dt = time.process_time() - time_start
+            dt = time.perf_counter() - time_start
 
         if best_sol:
             return best_acc, self.k, best_sol

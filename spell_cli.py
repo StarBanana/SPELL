@@ -42,7 +42,7 @@ def main():
 
     md = args.mode
 
-    time_start = time.process_time()
+    time_start = time.perf_counter()
 
     print("== Loading {}".format(owlfile))
     A = structure_from_owl(owlfile)
@@ -73,18 +73,24 @@ def main():
                 sys.exit(1)
             N.append(A.indmap[ind])
 
-    time_parsed = time.process_time()
+    time_parsed = time.perf_counter()
 
     print("== Starting incremental search search for fitting query")
-    time_start_solve = time.process_time()
+    time_start_solve = time.perf_counter()
 
     if md == "alc":
         f = FittingALC(A, args.max_size, P, N, op = {AND, OR, EX, NEG, ALL})
-        f.solve_incr_approx(args.max_size, timeout=args.timeout)
+
+            
+        remaining_time = -1
+        if args.timeout != -1:
+            remaining_time = args.timeout - (time.perf_counter() - time_start)
+
+        f.solve_incr_approx(args.max_size, timeout=remaining_time)
     else:
         _, res = solve_incr(A, P, N, md, timeout=args.timeout, max_size=args.max_size)
 
-    time_solved = time.process_time()
+    time_solved = time.perf_counter()
 
     print(
         "== Took {:.2f}s for reading input and {:.3f}s for solving".format(

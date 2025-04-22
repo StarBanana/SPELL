@@ -15,7 +15,6 @@ class ALC_Concept():
         if self.sym == BOT:
             return False
         if self.sym == CN:            
-            print(A.cn_ext)
             return a in A.cn_ext[self.c1]        
         if self.sym == AND:
             return self.c1.mc(A,a) and self.c2.mc(A,a)
@@ -76,7 +75,13 @@ def parse_string(inp: str) -> tuple[ALC_Concept, str]:
     if inp.startswith("NEG "):
         c, inp = parse_string(inp[4:])
         return ALC_Concept(NEG, c), inp
+
+    if inp.startswith("TOP"):
+        return ALC_Concept(TOP), inp[3:]
     
+    if inp.startswith("BOT"):
+        return ALC_Concept(BOT), inp[3:]
+
     if inp.startswith("∀."):
         idx = inp.find(" ")
         rn = inp[2:idx]
@@ -90,16 +95,29 @@ def parse_string(inp: str) -> tuple[ALC_Concept, str]:
         return ALC_Concept(EX, c, rn=rn), inp
 
     idx = inp.find(" ")
-    if idx == -1:
-        idx = inp.find(")")
-    if idx == -1:
-        idx = len(inp)
+    idx2 = inp.find(")")
+    idx3 = len(inp)
+    if idx2 != -1:
+        idx3 = min(idx3, idx2)
+    if idx != -1:
+        idx3 = min(idx3, idx)
 
-    return ALC_Concept(CN, inp[:idx]), inp[idx:]
+    return ALC_Concept(CN, inp[:idx3]), inp[idx3:]
+
+
 
 
 def parse_concept(inp : str) -> ALC_Concept:
     c, s = parse_string(inp)
+    print(str(c))
+    print(s)
     assert len(s) == 0
     assert str(c) == inp
     return c
+
+
+# print(str(parse_concept("∀.http://dl-learner.org/ont/hasScreening BOT")))
+
+# cstr = "(http://www.example.org/lymphography#NON19_n0-9 OR ((http://www.example.org/lymphography#Bl_of_lymph_c4 OR http://www.example.org/lymphography#NON19_n10-19) AND (http://www.example.org/lymphography#CIN14_Lac_Margin OR http://www.example.org/lymphography#CIS15_Coarse)))"
+
+# print(str(parse_concept(cstr)))

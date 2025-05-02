@@ -3,7 +3,7 @@ import pandas as pd, owlapy as ow
 from pathlib import Path
 from rdflib import Graph
 from spell.benchmark_tools import construct_owl_from_structure
-from spell.fitting_alc import ALL, AND, EX, OR, FittingALC
+from spell.fitting_alc import ALL, AND, EX, OR, NEG, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
 from ontolearn_benchmark import run_celoe, run_evo
@@ -12,6 +12,13 @@ import subprocess
 
 
 RANDOM_SEED = 42
+
+QALL = """
+SELECT DISTINCT ?0 WHERE {
+    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
+    }
+    """
+
 
 random.seed(RANDOM_SEED)
 #only female children
@@ -147,14 +154,12 @@ def query_and_print(path, query):
     for res in list(qres):
         print(res[0].toPython())
 
-def query_for_examples(path, q_pos, q_neg, n_pos, n_neg):
-    g = Graph()
-    with open(path, 'r') as f:        
-        g.parse(f, format='application/rdf+xml')
-    q_pos_res = g.query(q_pos)
-    P = list(map(lambda x : x[0].toPython(), random.sample(list(q_pos_res),min(n_pos,len(q_pos_res)))))
-    q_neg_res = g.query(q_neg)
-    N = list(map(lambda x : x[0].toPython(), random.sample(list(q_neg_res),min(n_neg,len(q_neg_res)))))
+def query_for_examples(kb_path, q_pos, q_neg, n_pos, n_neg):
+    g = get_ontology(kb_path).load()    
+    p_res = list( map(lambda x : x[0].get_iri(), default_world.sparql(q_pos)))    
+    P = random.sample(p_res,n_pos)    
+    n_res = list(map(lambda x : x[0].get_iri(), default_world.sparql(q_neg)))
+    N = random.sample(n_res,n_neg)      
     return P,N
 
 def read_examples_from_json(path):
@@ -179,14 +184,14 @@ def query_and_solve(path, q_pos, q_neg, n_pos, n_neg, k):
     A = structure_from_owl(path)
     P = list(map(lambda n: map_ind_name(A, n), P))
     N = list(map(lambda n: map_ind_name(A, n), N))
-    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
-    f.solve()
+    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND,NEG})
+    return f.solve()
 
 def instance_to_sparcel(kb_path, p, n, dest, file_name = "dl_instance"):
     file = os.path.join(dest,f"{file_name}.conf")
     with open(file, "w+", encoding="utf-8") as f:
         f.write('ks.type = "OWL File"\n')
-        f.write(f'ks.fileName = "{kb_path}"\n')
+        f.write(f'ks.fileName = "{os.path.relpath(kb_path)}"\n')
         f.write('reasoner.type = "fast instance checker"\n')
         f.write('reasoner.sources = { ks }\n')
         f.write('lp.type = "org.dllearner.algorithms.ParCEL.ParCELPosNegLP"\n')
@@ -205,7 +210,7 @@ def instance_to_sparcel(kb_path, p, n, dest, file_name = "dl_instance"):
 def run_sparcel(kb_pth, ex_path):
     P,N = read_examples_from_json(ex_path)
     instance_to_sparcel(kb_pth, P, N, ".", "sparcel_instance")
-    outpt = subprocess.check_output(["java", "-jar", "/Users/mfunk/src/SParCEL/parcel-alc2-cli.jar", "./sparcel_instance.conf"])
+    outpt = subprocess.check_output(["java", "-jar", "/Users/tomvoellmer/Downloads/SParCEL/parcel-alc2-cli.jar", "./sparcel_instance.conf"])
     output = str(outpt)
     lines = output.split("\\n")
 
@@ -221,7 +226,13 @@ def run_sparcel(kb_pth, ex_path):
 
     return (tp + tn) / (tp + fp + tn + fn), query
 
-
+def solve_fixed_k(path, ex_path, k):
+    A = structure_from_owl(path)
+    P,N = read_examples_from_json(ex_path)
+    P = list(map(lambda n: map_ind_name(A, n), P))
+    N = list(map(lambda n: map_ind_name(A, n), N))
+    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND,NEG})
+    return f.solve()
 
 
 def solve(path, ex_path, k):
@@ -229,7 +240,7 @@ def solve(path, ex_path, k):
     P,N = read_examples_from_json(ex_path)
     P = list(map(lambda n: map_ind_name(A, n), P))
     N = list(map(lambda n: map_ind_name(A, n), N))
-    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
+    f = FittingALC(A,k,P,N, op = {EX,ALL,OR,AND,NEG})
     return f.solve_incr(k, return_string= True)
 
 def solve_old(path, ex_path, k):
@@ -237,8 +248,8 @@ def solve_old(path, ex_path, k):
     P,N = read_examples_from_json(ex_path)
     P = list(map(lambda n: map_ind_name(A, n), P))
     N = list(map(lambda n: map_ind_name(A, n), N))
-    f = fitting_alc1.FittingALC(A,k,P,N, op = {EX,ALL,OR,AND})
-    return f.solve_incr(k, return_string= True)
+    f = fitting_alc1.FittingALC(A,k,P,N, op = {EX,ALL,OR,AND, NEG})
+    return f.solve()
     
 def test(path,P,N):
     A = structure_from_owl(path)
@@ -378,22 +389,30 @@ def benchmark(kb_path,queries_path, dest_dir):
 
 def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , ensure_no_contradiction = True, random_pos = True, random_neg = True):
     g = get_ontology(kb_path).load()
+    
     d = dict()
     d["q_pos"] = q_pos
     d["q_neg"] = q_neg
     d["n_pos"] = n_pos
-    d["n_neg"] = q_neg    
+    d["n_neg"] = q_neg
     with open(queries_path, 'r') as f:
-        d = json.load(f)
+        d = json.load(f)    
     p_res = list( map(lambda x : x[0].get_iri(), default_world.sparql(d[q_pos]["SPARQL"])))
-    if not p_res:
+    print(f"Positive:{len(p_res)}")
+    if not p_res or n_neg>len(p_res):
         return False
     if random_pos:
         P = random.sample(p_res,n_pos)
     else:
-        P = p_res[:n_pos]
-    n_res = list(map(lambda x : x[0].get_iri(), default_world.sparql(d[q_neg]["SPARQL"])))
-    if not n_res:
+        P = p_res[:n_pos]            
+           
+    n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(d[q_neg]["SPARQL"])))
+    n_res = []
+    for e in n_res_r:
+        if e not in p_res:
+            n_res.append(e)
+    print(f"Negative:{len(n_res)}")
+    if not n_res or n_neg>len(n_res):
         return False
     if random_neg:
         N = random.sample(n_res,n_neg)
@@ -408,6 +427,57 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
         json.dump(d,f)
     return True
 
+def benchmark_depth(kb_path, queries_path, dest_dir):
+    n_pos = 100
+    n_neg = 100
+    if not os.path.exists(dest_dir):            
+        os.mkdir(dest_dir)
+    data = []
+    for k in range(4,7):      
+        red_kb_path_filename = f"reduced_kb_{k}_({n_pos},{n_neg})"
+        red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
+        js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")    
+        #q_pos = d[f"Q_enum_test_p{k}"]["SPARQL"]
+        #q_neg = d[f"Q_enum_test_n{k}"]["SPARQL"]
+        q_pos = f"Q_p{k}"
+        q_neg = f"Q_n{k}"
+        if not os.path.exists(js_path):
+            if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, js_path ):
+                break
+        reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k+2)
+        P,N = read_examples_from_json(js_path)
+        #P,N = query_for_examples(kb_path, q_pos, q_neg, 100,100)
+        A = structure_from_owl(kb_path)
+        
+        # start = time.time()
+        # a_evo, c_evo = run_evo(red_kb_path,P,N)
+        # end = time.time()
+        # t_evo = end-start
+        # start = time.time()
+        # a_sparcel, c_sparcel = run_sparcel(red_kb_path, js_path)
+        # end = time.time()
+        # t_sparcel = end-start
+        
+        P = list(map(lambda n: map_ind_name(A, n), P))
+        N = list(map(lambda n: map_ind_name(A, n), N))       
+        start = time.time()
+        max_k = 3*k
+        f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
+        a_alcsat, n_alcsat,c_alcsat = f.solve_incr_approx(max_k)
+        end = time.time()
+        t_alcsat = end-start
+        
+        data.append([a_alcsat])
+
+        #data.append([a_alcsat, a_evo, a_sparcel])
+
+        #data.append([c_evo,a_evo,t_evo, c_alcsat, a_alcsat,t_alcsat, a_sparcel, c_sparcel,t_sparcel])        
+        #data.append([a_alcsat,t_alcsat,b,t_alcsat_old])        
+    if not os.path.exists(os.path.join(dest_dir,'data.csv')):
+        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data.csv'))    
+    else:
+        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))    
+
 def main():
     start = time.time()
     #test(sys.argv[1], P1,N1)
@@ -419,7 +489,8 @@ def main():
     #jsons_to_dllearner(sys.argv[1],sys.argv[2],sys.argv[3])
     #reduce_size_by_examples(sys.argv[1], sys.argv[2], 20)
     #examples_by_queries(sys.argv[1],sys.argv[2],"Q1", "Q2", 10,5,"", "")
-    benchmark(sys.argv[1],sys.argv[2], sys.argv[3])
+    #benchmark(sys.argv[1],sys.argv[2], sys.argv[3])
+    benchmark_depth(sys.argv[1],sys.argv[2],sys.argv[3])
 
 if __name__ == "__main__":
     main()

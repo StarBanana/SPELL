@@ -79,20 +79,17 @@ def interrupt(s):
 
 
 def solver_solve(solver : Glucose4, timeout : float):
-    print(timeout)
     if timeout != -1 and timeout < 0:
         return False
 
-    t = time.perf_counter()
-
-    timer = Timer(timeout, interrupt, [solver])
-    timer.start()
+    if timeout != -1:
+        timer = Timer(timeout, interrupt, [solver])
+        timer.start()
     
     res = solver.solve_limited(expect_interrupt=True)
 
-    print(time.perf_counter() - t)
-
-    timer.cancel()
+    if timeout != -1:
+        timer.cancel()
 
     return res
 

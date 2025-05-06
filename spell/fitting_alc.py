@@ -586,7 +586,7 @@ class FittingALC:
         best_acc = 0
         dt = time.perf_counter() - time_start
 
-        while self.k <= max_k and (dt < timeout or timeout == -1):
+        while self.k <= max_k and (dt < timeout or timeout == -1) and best_acc < 1.0:
             remaining_time = -1
             if timeout != -1:
                 remaining_time = timeout - dt

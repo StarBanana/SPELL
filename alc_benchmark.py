@@ -463,20 +463,23 @@ def benchmark_depth(kb_path, queries_path, dest_dir):
         start = time.time()
         max_k = 3*k
         f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
+        #a_alcsat, n_alcsat,c_alcsat = f.solve_incr(max_k)
         a_alcsat, n_alcsat,c_alcsat = f.solve_incr_approx(max_k)
         end = time.time()
         t_alcsat = end-start
         
-        data.append([a_alcsat])
-
-        #data.append([a_alcsat, a_evo, a_sparcel])
-
-        #data.append([c_evo,a_evo,t_evo, c_alcsat, a_alcsat,t_alcsat, a_sparcel, c_sparcel,t_sparcel])        
-        #data.append([a_alcsat,t_alcsat,b,t_alcsat_old])        
+        data.append([a_alcsat, t_alcsat])
+        
+        #data.append([a_evo,a_sparcel, a_alcsat, t_evo,t_sparcel, t_alcsat, c_evo, c_sparcel, c_evo])        
     if not os.path.exists(os.path.join(dest_dir,'data.csv')):
         pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data.csv'))    
     else:
         pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))    
+
+def to_tex(path):
+    df = pd.read_csv(path)
+    df.style.format(decimal=',', thousands='.', precision=2).to_latex(os.path.join(os.path.dirname(path),"tex.txt"))
+    #df.to_latex(os.path.join(os.path.dirname(path),"tex.txt"))
 
 def main():
     start = time.time()
@@ -490,7 +493,13 @@ def main():
     #reduce_size_by_examples(sys.argv[1], sys.argv[2], 20)
     #examples_by_queries(sys.argv[1],sys.argv[2],"Q1", "Q2", 10,5,"", "")
     #benchmark(sys.argv[1],sys.argv[2], sys.argv[3])
+
+
     benchmark_depth(sys.argv[1],sys.argv[2],sys.argv[3])
+    #to_tex(sys.argv[1])
 
 if __name__ == "__main__":
     main()
+
+
+

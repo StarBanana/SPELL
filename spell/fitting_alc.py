@@ -7,7 +7,7 @@ from asciitree.drawing import BoxStyle
 from collections import OrderedDict as OD
 
 
-from pysat.card import CardEnc, EncType
+from pysat.card import CardEnc, EncType, ITotalizer
 from pysat.solvers import Glucose4
 
 
@@ -92,8 +92,6 @@ def solver_solve(solver : Glucose4, timeout : float):
         timer.cancel()
 
     return res
-
-
 
 
 
@@ -456,6 +454,15 @@ class FittingALC:
         for clause in enc.clauses:
             self.solver.add_clause(clause)
 
+    def _fitting_constraints_approximate_incr_initial(self, k: int):
+        lits = [-self.vars[Z, a] for a in self.P] + [self.vars[Z, b] for b in self.N]                
+        self.totalizer = ITotalizer(lits, ubound = k,top_id=self.max_var)
+        for clause in self.totalizer.cnf.clauses:
+            self.solver.add_clause(clause)
+
+    def _fitting_constraints_approximate_incr_increase(self, k: int): 
+        self.solver.add_clause([-self.totalizer.rhs[k]])
+
     def solve(self):
         acc, n, sol = self.solve_incr(self.k, self.k)
         if sol:
@@ -486,13 +493,20 @@ class FittingALC:
         best_sol = None
         best_accuracy = 0
         best_n = 0
+        
+        self.solver = Glucose4(incr=True)
+        self.vars = self._vars()
+        self._syn_tree_encoding()
+        self._evaluation_constraints()
+        self._symmetry_breaking()        
 
         while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
-            self.solver = Glucose4()
-            self.vars = self._vars()
-            self._syn_tree_encoding()
-            self._evaluation_constraints()
-            self._symmetry_breaking()
+            # self.solver = Glucose4()
+            # self.vars = self._vars()
+            # self._syn_tree_encoding()
+            # self._evaluation_constraints()
+            # self._symmetry_breaking()
+            
             self._fitting_constraints_approximate(n)
             
             dt = time.perf_counter() - time_start
@@ -516,6 +530,52 @@ class FittingALC:
             dt = time.perf_counter() - time_start
         
         return best_accuracy, best_n, self.k, best_sol
+
+    def solve_approx2(self, k: int, min_n: int, timeout : float = -1):
+            time_start = time.perf_counter()
+            self.k = k
+            n = max(len(self.P), len(self.N), min_n)
+            
+            dt = time.perf_counter() - time_start
+
+            best_sol = None
+            best_accuracy = 0
+            best_n = 0
+            
+            self.solver = Glucose4(incr=True)
+            self.vars = self._vars()
+            self._syn_tree_encoding()
+            self._evaluation_constraints()
+            self._symmetry_breaking()
+
+            self._fitting_constraints_approximate_incr_initial(len(self.P) + len(self.N))
+
+            while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):                
+                self._fitting_constraints_approximate_incr_increase(len(self.P) + len(self.N) - n)
+                
+                dt = time.perf_counter() - time_start
+                remaining_time = -1
+                if timeout != -1:
+                    remaining_time = timeout - dt
+
+                if not solver_solve(self.solver, remaining_time):
+                    print(f"Not satisfiable for k={self.k}, n={n}")
+                    self.totalizer.delete()
+                    return best_accuracy, best_n, self.k, best_sol
+
+                best_sol = self._modelToTree()
+
+                model_n = self._model_n()
+
+                best_accuracy = model_n / (len(self.P) + len(self.N))
+                best_n = model_n
+                print(f"Satisfiable for k={self.k}, n={model_n}, acc={best_accuracy}")
+                print(best_sol.to_asciitree())                
+                n = model_n+1
+                dt = time.perf_counter() - time_start
+            self.totalizer.delete()
+            return best_accuracy, best_n, self.k, best_sol
+    
 
 
     def solve_incr_approx(self, max_k : int , start_k : int =1, min_n: int = 1, timeout : float = -1):

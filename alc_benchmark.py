@@ -6,11 +6,11 @@ from spell.benchmark_tools import construct_owl_from_structure
 from spell.fitting_alc import ALL, AND, EX, OR, NEG, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
-from ontolearn_benchmark import run_evo
+#from ontolearn_benchmark import run_evo
 import spell.fitting_alc1 as fitting_alc1
 import subprocess
 
-from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
+#from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
 
 
 RANDOM_SEED = 1
@@ -170,6 +170,7 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
     with open(file, "w+") as f:
         f.write('ks.type = "OWL File"\n')
         f.write(f'ks.fileName = "{kb_path}"\n')
+        #f.write('measure.type = "gen_fmeasure"')
         f.write('reasoner.type = "closed world reasoner"\n')
         f.write('reasoner.sources = { ks }\n')
         f.write('lp.type = "posNegStandard"\n')
@@ -179,7 +180,13 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
         f.write(f'lp.negativeExamples = {k}\n')
         f.write('alg.type = "celoe"\n')
         f.write('alg.maxExecutionTimeInSeconds = 0\n')
-        f.write('alg.writeSearchTree = true\n')
+        f.write('alg.writeSearchTree = false\n')        
+        f.write('h.type ="celoe_heuristic"\n')
+        f.write('h.expansionPenaltyFactor = 0.02\n')
+        f.write('stopOnFirstDefinition = true\n')
+        #f.write('useMinimizer = false\n')
+        #alg.noisePercentage = 32                
+        #//alg.maxClassDescriptionTests = 10000000
 
 def json_to_dllearner(kb_path, json_path, dest_dir):
     with open(json_path) as f:
@@ -378,7 +385,8 @@ def benchmark_depth(kb_path, queries_path, dest_dir):
         pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))  
 
 def benchmark_run(dir):
-    cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
+    #cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
+    cols = ["data set","t_alcsat","a_alcsat"]
     data = []
     js_path = None
     kb_path = None
@@ -387,7 +395,7 @@ def benchmark_run(dir):
         dataset_dir = os.path.join(dir,d)
         if os.path.isdir(dataset_dir):
             for f in filter(lambda x: not x.startswith('.'),os.listdir(dataset_dir)):
-                path = os.path.join(dataset_dir,f)            
+                path = os.path.join(dataset_dir,f)
                 base,ext = os.path.splitext(path)
                 if ext == ".json":
                     js_path = path
@@ -398,20 +406,20 @@ def benchmark_run(dir):
             P,N = read_examples_from_json(js_path)
             A = structure_from_owl(kb_path)
             
-            start = time.time()
-            a_celoe = run_celoe(kb_path,js_path)
-            end = time.time()
-            t_celoe = end-start
+            # start = time.time()
+            # a_celoe = run_celoe(kb_path,js_path)
+            # end = time.time()
+            # t_celoe = end-start
 
-            start = time.time()
-            a_evo, c_evo = run_evo(kb_path,P,N)
-            end = time.time()
-            t_evo = end-start
+            # start = time.time()
+            # a_evo, c_evo = run_evo(kb_path,P,N)
+            # end = time.time()
+            # t_evo = end-start
 
-            start = time.time()
-            a_sparcel, c_sparcel = run_sparcel(kb_path, js_path)
-            end = time.time()
-            t_sparcel = end-start
+            # start = time.time()
+            # a_sparcel, c_sparcel = run_sparcel(kb_path, js_path)
+            # end = time.time()
+            # t_sparcel = end-start
 
             P = list(map(lambda n: map_ind_name(A, n), P))
             N = list(map(lambda n: map_ind_name(A, n), N))       
@@ -422,9 +430,9 @@ def benchmark_run(dir):
             end = time.time()
             t_alcsat = end-start
 
-            data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
-            #data.append([dsname,t_alcsat,a_alcsat,0,0,0,0])
-            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results.csv'))
+            #data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
+            data.append([dsname,t_alcsat,a_alcsat])
+            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results_alcsat13.csv'))
 
 def benchmark_gen(kb_path, queries_path, dest_dir, q_ind, n_pos, n_neg, complement_for_neg = False):    
     if not os.path.exists(dest_dir):
@@ -469,9 +477,9 @@ def benchmark_gen_t():
     if not os.path.exists(sys.argv[3]):
         os.mkdir(sys.argv[3])
     i = 50
-    for k in range(4,5):
-        dest_dir = os.path.join(sys.argv[3], f"yago_family_m_and_f_{k}-descendant_p{i}-n{i}")
-        benchmark_gen(sys.argv[1], sys.argv[2], dest_dir, k, i, k+1)
+    for k in range(1,4):
+        dest_dir = os.path.join(sys.argv[3], f"yago_family_onyl_f_descendant_depth{k}_p{i}-n{i}")
+        benchmark_gen(sys.argv[1], sys.argv[2], dest_dir, k,i,i, k+2)
 
 def convertToTikzCsv(files):
     compare_col = 't_celoe'#'t_evo' 't_sparcel'
@@ -487,6 +495,24 @@ def convertToTikzCsv(files):
             nd = pd.concat([nd,d[[compare_col, 't_alcsat']]])
     nd.to_csv(result_csv, index=False )
 
+def convertToTikzCsvTwoFiles(files):
+    compare_col = 't_alcsat'#'t_evo' 't_sparcel'
+    result_csv = "family_alcsat_alcsat+_time.csv" #"family_celoe_alcsat_time.csv" #"family_evo_alcsat_time.csv" "family_sparcel_alcsat_time.csv"
+    
+    if len(files) % 2==0:
+        nd = None
+        i = 0
+        while i < len(files):
+            d1 = pd.read_csv(files[i])
+            d2 = pd.read_csv(files[i+1]).rename(columns = {'t_alcsat' : 't_alcsat+'})            
+            d = d1[['t_alcsat']]
+            d = pd.concat([d,d2[['t_alcsat+']]], axis = 1)
+            if nd is None:
+                nd = d
+            else:                
+                nd = pd.concat([nd,d])
+            i += 2
+        nd.to_csv(result_csv, index=False)
 
 def main():
     start = time.time()
@@ -505,9 +531,10 @@ def main():
 
     #benchmark_gen_t()
 
-    #benchmark_run(sys.argv[3])
+    benchmark_run(sys.argv[3])
 
-    convertToTikzCsv(sys.argv[1:])
+    #convertToTikzCsv(sys.argv[1:])
+    #convertToTikzCsvTwoFiles(sys.argv[1:])
 
     #to_tex(sys.argv[1])
 

@@ -6,12 +6,14 @@ from spell.benchmark_tools import construct_owl_from_structure
 from spell.fitting_alc import ALL, AND, EX, OR, NEG, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
-from ontolearn_benchmark import run_celoe, run_evo
+from ontolearn_benchmark import run_evo
 import spell.fitting_alc1 as fitting_alc1
 import subprocess
 
+from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
 
-RANDOM_SEED = 42
+
+RANDOM_SEED = 1
 
 QALL = """
 SELECT DISTINCT ?0 WHERE {
@@ -21,130 +23,6 @@ SELECT DISTINCT ?0 WHERE {
 
 
 random.seed(RANDOM_SEED)
-#only female children
-Q1 = """
-SELECT DISTINCT ?0 WHERE {
-    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-        FILTER NOT EXISTS {
-            ?0 <http://schema.org/children> ?3.
-                FILTER NOT EXISTS {
-                    ?3 <http://schema.org/gender> ?4.
-                    ?4 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.
-                }
-        }
-    }
-"""
-
-# at least one male child
-Q2 = """
-SELECT DISTINCT ?0 WHERE {
-    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-    ?0 <http://schema.org/children> ?1.
-    ?1 <http://schema.org/gender> ?2.
-    ?2 a <http://yago-knowledge.org/resource/Male_gender_class>.
-    }
-"""
-
-# only female children or only male children 
-Q3 = """
-SELECT DISTINCT ?0 WHERE {    
-    {?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-        FILTER NOT EXISTS {
-            ?0 <http://schema.org/children> ?3.
-                FILTER NOT EXISTS {
-                    ?3 <http://schema.org/gender> ?4.
-                    ?4 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.
-                }
-        }
-    }
-    UNION
-        {?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-            FILTER NOT EXISTS {
-                ?0 <http://schema.org/children> ?3.
-                    FILTER NOT EXISTS {
-                        ?3 <http://schema.org/gender> ?4.
-                        ?4 a <http://yago-knowledge.org/resource/Male_gender_class>.
-                    }
-            }
-        }
-    }
-    LIMIT 25
-"""
-
-#at least one male child and at least one female child
-Q4 = """
-SELECT DISTINCT ?0 WHERE {
-    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-    ?0 <http://schema.org/children> ?1.
-    ?1 <http://schema.org/gender> ?2.
-    ?2 a <http://yago-knowledge.org/resource/Male_gender_class>.
-    ?0 <http://schema.org/children> ?3.
-    ?3 <http://schema.org/gender> ?4.
-    ?4 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.    
-}
-LIMIT 10
-"""
-
-# at least one child and only female children
-Q5 = """
-SELECT DISTINCT ?0 WHERE {
-    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-    ?0 <http://schema.org/children> ?2.
-        FILTER NOT EXISTS {
-            ?0 <http://schema.org/children> ?3.
-                FILTER NOT EXISTS {
-                    ?3 <http://schema.org/gender> ?4.
-                    ?4 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.                    
-                }
-        }
-    }
-"""
-
-#at least one female child and only female children or at least one male child and only male children
-Q6 = """
-SELECT DISTINCT ?0 WHERE {
-    {?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-    ?0 <http://schema.org/children> ?5.
-    ?5 <http://schema.org/gender> ?6.
-    ?6 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.
-        FILTER NOT EXISTS {
-            ?0 <http://schema.org/children> ?3.
-                FILTER NOT EXISTS {
-                    ?3 <http://schema.org/gender> ?4.
-                    ?4 a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.                    
-                }
-        }
-    }
-    UNION
-        {?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-        ?2 a <http://yago-knowledge.org/resource/Male_gender_class>.
-        ?0 <http://schema.org/children> ?7.
-        ?7 <http://schema.org/gender> ?8.
-        ?8 a <http://yago-knowledge.org/resource/Male_gender_class>.
-            FILTER NOT EXISTS {
-                ?0 <http://schema.org/children> ?3.
-                    FILTER NOT EXISTS {
-                        ?3 <http://schema.org/gender> ?4.
-                        ?4 a <http://yago-knowledge.org/resource/Male_gender_class>.                    
-                    }
-            }
-        }
-    }
-"""
-
-#no children
-Q9 = """
-SELECT DISTINCT ?0 WHERE {
-    ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.
-    FILTER NOT EXISTS {
-        ?0 <http://schema.org/children> ?3.
-    }
-}
-"""
-
-Q10 = """
-SELECT DISTINCT ?0 WHERE {?0 <http://schema.org/children> ?1.?0 male a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?1.?0 male a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?1.?0 female a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?1.?0 female a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.}
-"""
 
 def query_and_print(path, query):
     g = Graph()
@@ -215,6 +93,8 @@ def run_sparcel(kb_pth, ex_path):
     lines = output.split("\\n")
 
     query = lines[-7]
+
+#    query_red = query[8:]        
     print(query)
 
     print(lines[-5:-1])
@@ -225,6 +105,22 @@ def run_sparcel(kb_pth, ex_path):
     fn = int(lines[-2].split(":")[1])
 
     return (tp + tn) / (tp + fp + tn + fn), query
+
+def run_celoe(kb_path, ex_path):
+    P,N = read_examples_from_json(ex_path)
+    confpath = os.path.join(os.path.dirname(ex_path),"dllearner_instance.conf")    
+    instance_to_dllearner(kb_path, P, N, os.path.dirname(ex_path), "dllearner_instance")    
+    outpt = subprocess.check_output([f"/Users/tomvoellmer/Documents/Tools/dllearner-1.5.0/bin/cli", confpath])
+    output = str(outpt)
+    lines = output.split("\\n")
+    i = 0
+    for l in lines:
+        if l == "solutions:":
+            break
+        i += 1
+    return float(lines[i+1][lines[i+1].find("pred. acc.:")+12:lines[i+1].find("%, F")])
+    
+
 
 def solve_fixed_k(path, ex_path, k):
     A = structure_from_owl(path)
@@ -277,12 +173,12 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
         f.write('reasoner.type = "closed world reasoner"\n')
         f.write('reasoner.sources = { ks }\n')
         f.write('lp.type = "posNegStandard"\n')
-        k = ",".join(map(lambda x : f'"{x}"',p))
+        k = "{" + ",".join(map(lambda x : f'"{x}"',p)) + "}"
         f.write(f'lp.positiveExamples = {k}\n')
-        k = ",".join(map(lambda x : f'"{x}"',n))
+        k = "{" +  ",".join(map(lambda x : f'"{x}"',n)) + "}"
         f.write(f'lp.negativeExamples = {k}\n')
         f.write('alg.type = "celoe"\n')
-        f.write('alg.maxExecutionTimeInSeconds = 1\n')
+        f.write('alg.maxExecutionTimeInSeconds = 0\n')
         f.write('alg.writeSearchTree = true\n')
 
 def json_to_dllearner(kb_path, json_path, dest_dir):
@@ -387,17 +283,17 @@ def benchmark(kb_path,queries_path, dest_dir):
     p.to_csv(os.path.join(dest_dir, "results.csv"))
     pa.to_csv(os.path.join(dest_dir, "results_avg.csv"))
 
-def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , ensure_no_contradiction = True, random_pos = True, random_neg = True):
-    g = get_ontology(kb_path).load()
-    
-    d = dict()
-    d["q_pos"] = q_pos
-    d["q_neg"] = q_neg
-    d["n_pos"] = n_pos
-    d["n_neg"] = q_neg
+def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , random_pos = True, random_neg = True):
+    g = get_ontology(kb_path).load()    
+    d = dict()    
     with open(queries_path, 'r') as f:
-        d = json.load(f)    
-    p_res = list( map(lambda x : x[0].get_iri(), default_world.sparql(d[q_pos]["SPARQL"])))
+        dq = json.load(f)
+    d["q_pos"] = dq[q_pos]
+    if q_neg is not None:
+        d["q_neg"] = dq[q_neg]
+    else:
+        d["q_neg"] = "complement"    
+    p_res = list( map(lambda x : x[0].get_iri(), default_world.sparql(dq[q_pos]["SPARQL"])))
     print(f"Positive:{len(p_res)}")
     if not p_res or n_neg>len(p_res):
         return False
@@ -405,11 +301,14 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
         P = random.sample(p_res,n_pos)
     else:
         P = p_res[:n_pos]            
-           
-    n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(d[q_neg]["SPARQL"])))
+
+    if q_neg is not None:           
+        n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(dq[q_neg]["SPARQL"])))
+    else:
+        n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(QALL)))
     n_res = []
     for e in n_res_r:
-        if e not in p_res:
+        if not e in p_res:
             n_res.append(e)
     print(f"Negative:{len(n_res)}")
     if not n_res or n_neg>len(n_res):
@@ -418,10 +317,12 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
         N = random.sample(n_res,n_neg)
     else:
         N = n_res[:n_pos]
+    d["n_pos"] = len(P)
+    d["n_neg"] = len(N)
     d["P"] = P
     d["N"] = N
-    d["rnd_pos"] = True
-    d ["end_neg"] = False
+    d["rnd_pos"] = random_pos
+    d["rnd_neg"] = random_neg
     d["random_seed"] = RANDOM_SEED
     with open(os.path.join(dest_dir,file_name), "w+") as f:
         json.dump(d,f)
@@ -430,13 +331,13 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
 def benchmark_depth(kb_path, queries_path, dest_dir):
     n_pos = 100
     n_neg = 100
-    if not os.path.exists(dest_dir):            
+    if not os.path.exists(dest_dir):
         os.mkdir(dest_dir)
     data = []
-    for k in range(4,7):      
+    for k in range(2,4):      
         red_kb_path_filename = f"reduced_kb_{k}_({n_pos},{n_neg})"
         red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
-        js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")    
+        js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
         #q_pos = d[f"Q_enum_test_p{k}"]["SPARQL"]
         #q_neg = d[f"Q_enum_test_n{k}"]["SPARQL"]
         q_pos = f"Q_p{k}"
@@ -449,37 +350,143 @@ def benchmark_depth(kb_path, queries_path, dest_dir):
         #P,N = query_for_examples(kb_path, q_pos, q_neg, 100,100)
         A = structure_from_owl(kb_path)
         
-        # start = time.time()
-        # a_evo, c_evo = run_evo(red_kb_path,P,N)
-        # end = time.time()
-        # t_evo = end-start
-        # start = time.time()
-        # a_sparcel, c_sparcel = run_sparcel(red_kb_path, js_path)
-        # end = time.time()
-        # t_sparcel = end-start
+        start = time.time()
+        a_evo, c_evo = run_evo(red_kb_path,P,N)
+        end = time.time()
+        t_evo = end-start
+        start = time.time()
+        a_sparcel, c_sparcel = run_sparcel(red_kb_path, js_path)
+        end = time.time()
+        t_sparcel = end-start
         
         P = list(map(lambda n: map_ind_name(A, n), P))
         N = list(map(lambda n: map_ind_name(A, n), N))       
         start = time.time()
-        max_k = 3*k
+        max_k = 2**(2*k)
         f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
         #a_alcsat, n_alcsat,c_alcsat = f.solve_incr(max_k)
         a_alcsat, n_alcsat,c_alcsat = f.solve_incr_approx(max_k)
         end = time.time()
         t_alcsat = end-start
+                
+        #data.append([a_alcsat, t_alcsat])
         
-        data.append([a_alcsat, t_alcsat])
-        
-        #data.append([a_evo,a_sparcel, a_alcsat, t_evo,t_sparcel, t_alcsat, c_evo, c_sparcel, c_evo])        
+        data.append([a_evo,a_sparcel, a_alcsat, t_evo,t_sparcel, t_alcsat, c_evo, c_sparcel, c_evo])        
     if not os.path.exists(os.path.join(dest_dir,'data.csv')):
         pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data.csv'))    
     else:
-        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))    
+        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))  
+
+def benchmark_run(dir):
+    cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
+    data = []
+    js_path = None
+    kb_path = None
+    dsname = None
+    for d in filter(lambda x: not x.startswith('.'),os.listdir(dir)):        
+        dataset_dir = os.path.join(dir,d)
+        if os.path.isdir(dataset_dir):
+            for f in filter(lambda x: not x.startswith('.'),os.listdir(dataset_dir)):
+                path = os.path.join(dataset_dir,f)            
+                base,ext = os.path.splitext(path)
+                if ext == ".json":
+                    js_path = path
+                if ext == ".owl":
+                    kb_path = path
+                dsname = os.path.basename(dataset_dir)
+            print(f"Running on {dsname}")
+            P,N = read_examples_from_json(js_path)
+            A = structure_from_owl(kb_path)
+            
+            start = time.time()
+            a_celoe = run_celoe(kb_path,js_path)
+            end = time.time()
+            t_celoe = end-start
+
+            start = time.time()
+            a_evo, c_evo = run_evo(kb_path,P,N)
+            end = time.time()
+            t_evo = end-start
+
+            start = time.time()
+            a_sparcel, c_sparcel = run_sparcel(kb_path, js_path)
+            end = time.time()
+            t_sparcel = end-start
+
+            P = list(map(lambda n: map_ind_name(A, n), P))
+            N = list(map(lambda n: map_ind_name(A, n), N))       
+            start = time.time()
+            max_k = 42
+            f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
+            a_alcsat, n_alcsat,c_alcsat = f.solve_incr(max_k)
+            end = time.time()
+            t_alcsat = end-start
+
+            data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
+            #data.append([dsname,t_alcsat,a_alcsat,0,0,0,0])
+            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results.csv'))
+
+def benchmark_gen(kb_path, queries_path, dest_dir, q_ind, n_pos, n_neg, complement_for_neg = False):    
+    if not os.path.exists(dest_dir):
+        os.mkdir(dest_dir)        
+    red_kb_path_filename = f"yago_family_reduced_kb_{q_ind}_({n_pos},{n_neg})"
+    js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")    
+    q_pos = f"Q_p{q_ind}"
+    if not complement_for_neg:
+        q_neg = f"Q_n{q_ind}"
+    else:
+        q_neg = None
+    if not os.path.exists(js_path):
+        if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, js_path ):
+            return
+    reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,5)    
+
+def kCrossVal(P,N,k):
+    def toPN(Sp):
+        Pp = list(filter(lambda x : x[1] == 1, Sp))
+        Nn = list(filter(lambda x : x[1] == 0, Sp))
+        return Pp,Nn
+    n = len(P) + len(N)
+    S = [(x,0) for x in N] + [(x,1) for x in P]
+    random.shuffle(S)
+    subsamples = []
+    i = 0
+    for i in range(k-1):
+        subsamples.append(S[i:i+(n//k)])
+        i += n//k
+    subsamples.append(S[i:])
+    for i in range(k):
+        yield (toPN(sum(subsamples[0:i]) + sum(subsamples[i+1:k+1])),toPN(subsamples[i]))
 
 def to_tex(path):
     df = pd.read_csv(path)
     df.style.format(decimal=',', thousands='.', precision=2).to_latex(os.path.join(os.path.dirname(path),"tex.txt"))
-    #df.to_latex(os.path.join(os.path.dirname(path),"tex.txt"))
+
+# 1: f"yago_family_m_and_f_{k}-descendant_p{i}-n{i}"
+# 2: f"yago_family_and_paths_d3_8-{k}"
+
+def benchmark_gen_t():    
+    if not os.path.exists(sys.argv[3]):
+        os.mkdir(sys.argv[3])
+    i = 50
+    for k in range(4,5):
+        dest_dir = os.path.join(sys.argv[3], f"yago_family_m_and_f_{k}-descendant_p{i}-n{i}")
+        benchmark_gen(sys.argv[1], sys.argv[2], dest_dir, k, i, k+1)
+
+def convertToTikzCsv(files):
+    compare_col = 't_celoe'#'t_evo' 't_sparcel'
+    result_csv = "family_celoe_alcsat_time.csv" #"family_evo_alcsat_time.csv" "family_sparcel_alcsat_time.csv"
+    
+    nd = None
+    for f in files:
+        d = pd.read_csv(f)
+        print(d[[compare_col, 't_alcsat']])
+        if nd is None:
+            nd = d[[compare_col, 't_alcsat']]
+        else:
+            nd = pd.concat([nd,d[[compare_col, 't_alcsat']]])
+    nd.to_csv(result_csv, index=False )
+
 
 def main():
     start = time.time()
@@ -494,12 +501,15 @@ def main():
     #examples_by_queries(sys.argv[1],sys.argv[2],"Q1", "Q2", 10,5,"", "")
     #benchmark(sys.argv[1],sys.argv[2], sys.argv[3])
 
+    #benchmark_depth(sys.argv[1],sys.argv[2],sys.argv[3])
 
-    benchmark_depth(sys.argv[1],sys.argv[2],sys.argv[3])
+    #benchmark_gen_t()
+
+    #benchmark_run(sys.argv[3])
+
+    convertToTikzCsv(sys.argv[1:])
+
     #to_tex(sys.argv[1])
 
 if __name__ == "__main__":
     main()
-
-
-

@@ -132,7 +132,7 @@ class STreeNode():
             return ""
     
     @classmethod
-    def FromDict(cls,dict,root):
+    def FromDict(cls,dict,root) -> "STreeNode" :
         return cls(root, list(map(lambda x : cls.FromDict(dict, x), dict[root])))
 
 
@@ -447,7 +447,6 @@ class FittingALC:
     def _fitting_constraints_approximate(self, k: int):
         lits = [self.vars[Z, a] for a in self.P] + [-self.vars[Z, b] for b in self.N]
         
-        # TODO maybe switch to incremental totalizer encoding or another incremental encoding
         enc = CardEnc.atleast(
             lits, bound=k, top_id=self.max_var, encoding=EncType.totalizer
         )
@@ -465,7 +464,7 @@ class FittingALC:
 
     def solve(self):
         acc, n, sol = self.solve_incr(self.k, self.k)
-        if sol:
+        if acc == 1.0:
             return True
         else:
             return False
@@ -501,12 +500,6 @@ class FittingALC:
         self._symmetry_breaking()        
 
         while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
-            # self.solver = Glucose4()
-            # self.vars = self._vars()
-            # self._syn_tree_encoding()
-            # self._evaluation_constraints()
-            # self._symmetry_breaking()
-            
             self._fitting_constraints_approximate(n)
             
             dt = time.perf_counter() - time_start
@@ -582,7 +575,7 @@ class FittingALC:
         time_start = time.perf_counter()
         self.k = start_k
         n = max(len(self.P), len(self.N), min_n)
-        best_sol = None
+        best_sol: STreeNode = STreeNode.FromDict({ (0, d_op[TOP]) : []}, (0, d_op[TOP]))
         best_acc = 0
         dt = time.perf_counter() - time_start
 
@@ -602,10 +595,7 @@ class FittingALC:
             self.k += 1
             dt = time.perf_counter() - time_start
 
-        if best_sol:
-            return best_acc, self.k, best_sol
-        else:
-            return 0,-1,""
+        return best_acc, self.k, best_sol
 
     def printVariables(self):
         if self.solver.get_model():

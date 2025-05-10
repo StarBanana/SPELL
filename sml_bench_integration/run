@@ -49,8 +49,6 @@ with open(pos_ex, encoding="UTF-8") as file:
 with open(neg_ex, encoding="UTF-8") as file:
     N = [A.indmap[line.rstrip()] for line in file.readlines()]
 
-print(timeout)
-
 f = fitting_alc.FittingALC(A, 12, P, N)
 
 remaining_time = -1

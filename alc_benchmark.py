@@ -431,7 +431,7 @@ def benchmark_run(dir):
 
             data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
             #data.append([dsname,t_alcsat,a_alcsat])
-            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results.csv'))
+            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results_reproduced.csv'))
 
 def benchmark_gen(kb_path, queries_path, dest_dir, q_ind, n_pos, n_neg, complement_for_neg = False):    
     if not os.path.exists(dest_dir):
@@ -567,13 +567,13 @@ def main():
 
     #benchmark_gen_t()
 
-    #benchmark_run(sys.argv[1])
+    benchmark_run(sys.argv[1])
 
     #manchester_to_sparql(teststring)
 
     #convertToTikzCsv(sys.argv[1:])
 
-    convertCsv(sys.argv[1:])
+    #convertCsv(sys.argv[1:])
 
     #convertToTikzCsvTwoFiles(sys.argv[1:])
 

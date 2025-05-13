@@ -14,6 +14,6 @@ The data sets generated from the YAGO fragments that were used to obtain the gra
 ## Reproduce Data
 To reproduce the data reported in the paper for exact learning on the family benchmark, run 
 `python alc_benchmark.py <path_to_data set folder>`
- CELOE, SparCEL, EvoLearner and ALC-SAT will then be run on this data and a file `result_reproduced.csv` will be created within the folder. The file contains values for time and accuracy for each tool and data set contained in the folder.  To reproduce our results on the language fragment, only ALCSAT+ has to be run. This can be achieved with 
+ CELOE, SparCEL, EvoLearner and ALC-SAT will then be run on this data and a file `result_reproduced.csv` will be created within the folder. The file contains values for time and accuracy for each tool and data set contained in the folder.  To reproduce our results on the language fragment, only ALC-SAT+ has to be run. This can be achieved with 
  `python alc_benchmark_language.py <path_to_data set folder>`. Switching between the optimized and the unoptimized version can be done by changing the flags 
  `TYPE_ENCODING`and `TREE_TEMPLATES` in the file `fitting_alc.py`.

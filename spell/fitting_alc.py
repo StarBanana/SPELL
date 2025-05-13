@@ -21,6 +21,13 @@ from .fitting import (
     determine_relevant_symbols,
 )
 
+TYPE_ENCODING: bool = True
+TREE_TEMPLATES: bool = True
+# There should be 2079 trees with 13 nodes. Seems like a sensible limit
+# BUT: experiments suggest that when finding a single path of size k, there is a slowdown for 11 and above
+# Indeed, 10 seems to be a local minimum
+TREE_TEMPLATE_LIMIT = 10
+
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -65,13 +72,7 @@ L = 5
 T = 6
 
 
-TYPE_ENCODING: bool = True
 NNF: bool = False
-TREE_TEMPLATES: bool = True
-# There should be 2079 trees with 13 nodes. Seems like a sensible limit
-# BUT: experiments suggest that when finding a single path of size k, there is a slowdown for 11 and above
-# Indeed, 10 seems to be a local minimum
-TREE_TEMPLATE_LIMIT = 10
 
 
 def interrupt(s):

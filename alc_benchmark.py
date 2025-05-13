@@ -9,10 +9,6 @@ from owlready2 import default_world, get_ontology, owl
 from ontolearn_benchmark import run_evo
 import spell.fitting_alc1 as fitting_alc1
 import subprocess
-import re
-
-
-from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
 
 
 CELOE_PATH = ""
@@ -425,34 +421,8 @@ def convertCsv(files):
         data.at[t,'n_evo'] = n_evo
     data.to_csv("data_graph.csv")
 
-def main():
-    start = time.time()
-    #test(sys.argv[1], P1,N1)
-    #query(sys.argv[1],Q9)
-    #query_and_solve(sys.argv[1], Q3, Q4, 10,5,9)
-    #query_and_save(sys.argv[1], Q1, Q2, 25,10, sys.argv[2],"Q1Q2-25-10_nl")
-    #solve(sys.argv[1],sys.argv[2], 30)
-    #run_on_ontolearn_examples(sys.argv[1], sys.argv[2], "Cousin",12)
-    #jsons_to_dllearner(sys.argv[1],sys.argv[2],sys.argv[3])
-    #reduce_size_by_examples(sys.argv[1], sys.argv[2], 20)
-    #examples_by_queries(sys.argv[1],sys.argv[2],"Q1", "Q2", 10,5,"", "")
-    #benchmark(sys.argv[1],sys.argv[2], sys.argv[3])
-
-    #benchmark_depth(sys.argv[1],sys.argv[2],sys.argv[3])
-
-    #benchmark_gen_t()
-
+def main():    
     benchmark_run(sys.argv[1])
-
-    #manchester_to_sparql(teststring)
-
-    #convertToTikzCsv(sys.argv[1:])
-
-    #convertCsv(sys.argv[1:])
-
-    #convertToTikzCsvTwoFiles(sys.argv[1:])
-
-    #to_tex(sys.argv[1])
 
 if __name__ == "__main__":
     main()

@@ -1,0 +1,1832 @@
+<?xml version="1.0"?> 
+ <rdf:RDF     xmlns="http://www.w3.org/2002/07/owl#"
+    xmlns:owl="http://www.w3.org/2002/07/owl#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:shacl="http://www.w3.org/ns/shacl#"
+    xmlns:schema="http://schema.org/"
+    xmlns:schema1="http://yago-knowledge.org/schema#"
+>
+<owl:Ontology rdf:about="http://www.w3.org/2002/07/owl"/>
+<owl:Class rdf:about="http://schema.org/Intangible"/>
+<owl:Class rdf:about="http://schema.org/Language"/>
+<owl:Class rdf:about="http://schema.org/Thing"/>
+<owl:Class rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Afroasiatic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Altaic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Anglic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Anglo-Frisian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Arabic"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Aramaic"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Bashkir_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Bengali_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Bengali_u2013_Assamese_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Bulgarian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Castilian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Catalan_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Central_Indo-Aryan_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Central_Semitic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Common_Turkic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Creole_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Croatian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Czech_u2013_Slovak_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Danish_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Dravidian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Dutch_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/East_Scandinavian_Q3090263"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/East_Slavic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Eastern_Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Eastern_Sumatran_Q117087594"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/English-based_creole_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/English_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Franconian__u0028_linguistics_u0029_"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/French_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Galician-Portuguese_Languages_Q9080204"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Gallo-Iberian_Q954321"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Gallo-Rhaetian_Q97646466"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Gallo-Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/German_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Germanic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Graeco-Phrygian"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Greek_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Hellenic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Hindi"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Hindustani_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Iberian_Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Indo-Aryan_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Indo-European_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Indo-Iranian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Indonesian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Italian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Italic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Italo-Dalmatian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Italo-Romance_Q3356483"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Japanese_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Japonic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Javanic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Javo_U2013_Sumatra_Q116181160"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Kalmyk_Oirat"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Kipchak_U2013_Bolgar_Q3512539"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Kipchak_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Korean_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Koreanic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Language_isolate"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Languages_of_South_Asia"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Langues_d_u0027_oïl"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Latin"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Latino-Faliscan_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Lechitic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Low_Franconian"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Malay_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Malayalam"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Malayalam_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Malayan_Q3450837"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Malayic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Modern_Greek"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Mongolic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Natural_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Nigerian_Pidgin"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/North_Germanic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/North_Sea_Germanic"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Northwest_Semitic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Norwegian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Nostratic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Occitano-Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Oghuz_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Oirat_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Pidgin_Or_Creole_Q19682167"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Polish_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Portuguese_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Romanian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Russian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Semitic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Serbian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Serbo-Croatian"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Slavic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Slovak_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Slovene_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/South_Dravidian_Q16112843"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/South_Germanic_Q106937689"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/South_Slavic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Spanish_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Sumatran_Q116181839"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Swedish_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Tamil-Malayalam_Q10690507"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Tamil_u2013_Kannada_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Turkic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Turkish_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Ukrainian_language"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/West_Germanic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/West_Iberian_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/West_Scandinavian_Q1792570"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/West_Semitic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/West_Slavic_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Western_Hindi_Q12600937"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Western_Oghuz_Q97725298"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Western_Romance_languages"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Western_South_Slavic"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Wikipedia_u003A_WikiProject_Languages_u002F_Language_names_in_Ruhlen__u0028_1987_u0029_"/>
+<owl:Class rdf:about="http://yago-knowledge.org/resource/Wikipedia_u003A_WikiProject_Languages_u002F_Retired_language_articles_u002F_Sunda_u2013_Sulawesi_languages"/>
+<owl:ObjectProperty rdf:about="http://schema.org/knowsLanguage"/>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/English_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Anglo-Frisian_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/North_Sea_Germanic"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Germanic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/English_language"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Anglic_languages"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Spanish_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Iberian_Q954321"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Iberian_Romance_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Spanish_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Castilian_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Iberian_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dario_Graffi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nigerian_Pidgin_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Pidgin_Or_Creole_Q19682167"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Creole_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/English-based_creole_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Nigerian_Pidgin"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/J_u002E__Todd_Anderson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Henri_Marret">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Édouard_de_Rothschild">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Romain_Hervé">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Wendy_Woodhead">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ghani_Animofoshe">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mamadou_Kané__u0028_footballer_u002C__born_1997_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jürg_Conzett">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alfredo_Morales">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Guido_Basile">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Evelyne_Clopet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Theodosius_of_Arles">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Raphael_Herburger">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/George_Müller">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bengali_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Bengali_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-Aryan_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-Iranian_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Bengali_u2013_Assamese_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Languages_of_South_Asia"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lin_Homer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Karin_Åström">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Italian_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Romance_Q3356483"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italian_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Dalmatian_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Russian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/East_Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Russian_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Denise_Riley">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Friedrich_Jeckeln">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/German_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Germanic_Q106937689"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/German_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Germanic_languages"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Greek_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Graeco-Phrygian"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Hellenic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Greek_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Diane_Hamelin">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Maryana_Spivak">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hindi_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Hindi"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Hindi_Q12600937"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Hindustani_language"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-Iranian_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Central_Indo-Aryan_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-Aryan_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Languages_of_South_Asia"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Peter_Brookesmith">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Franz_Marek">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Roberto_Hilbert">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Isidro_de_Espinosa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hendrik_Weydandt">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Japanese_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Japanese_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Natural_language"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Japonic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Language_isolate"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bakr_Sidqi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Arabic_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Swedish_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/North_Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/East_Scandinavian_Q3090263"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Swedish_language"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Otto_Gebühr">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christian_Friedrich_Ludwig_Buschmann">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/French_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/French_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Iberian_Q954321"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Rhaetian_Q97646466"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Langues_d_u0027_oïl"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Romance_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Seung_Hee_Yang">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Juan_Francisco_Muñoz">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Romanian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Eastern_Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romanian_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hisaya_Morishige">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Neil_Saker">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Eduard_Nikolaev">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alfonso_Marotta">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Philippe_Besson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Norbert_Burgmüller">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Gottlieb_Buhle">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Samuel_Klein__u0028_businessman_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Emil_Rotong">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alexandre_Guyodo">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Aleksandr_Zakharikov">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Charles-Emmanuel_Dufourcq">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Olga_Rapay-Markish">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Ukrainian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Graham_Kinniburgh">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/John_Conington">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alan_Do_Marcolino">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dane_Dorahy">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hans_Daniels">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Amel_Brahim-Djelloul">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Brandy_Burre">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Odile_Jacob">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Cezary_Grabarczyk">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Arabic_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Semitic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Arabic"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Afroasiatic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Carl_Künzel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jagdish_Jandu">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Hindi_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Antonio_Macrì">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Raymond_Mériguet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Marcel_Edme">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Keith_C_u002E__Hardie">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hans_Sachs">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Peter_Gertner">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Natalia_Verbeke">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hugo_Broch">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Khaled_al-Asaad">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Aramaic_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Arabic_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Martin_François">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ferdinand_Philippe_u002C__Duke_of_Orléans">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Misato_Watanabe">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Karol_Dobiaš">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Slovak_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Serbian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Serbo-Croatian"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Serbian_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_South_Slavic"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Franz_Reindl">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Severino_Poletto">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Tomaž_Ertl">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Slovene_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Indonesian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Malayan_Q3450837"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Sumatran_Q116181839"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Javo_U2013_Sumatra_Q116181160"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Eastern_Sumatran_Q117087594"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Javanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Wikipedia_u003A_WikiProject_Languages_u002F_Retired_language_articles_u002F_Sunda_u2013_Sulawesi_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Wikipedia_u003A_WikiProject_Languages_u002F_Language_names_in_Ruhlen__u0028_1987_u0029_"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Malay_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indonesian_language"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Malayic_languages"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kim_Man-su">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lassina_Diabaté">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jerry_Turner__u0028_theater_director_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Erna_Sellmer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dutch_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Low_Franconian"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Franconian__u0028_linguistics_u0029_"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Dutch_language"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Germanic_languages"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Aleksander_Gieysztor">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gerd_Nagel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Andrzej_Wroński">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Malayalam_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Dravidian_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Dravidian_Q16112843"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Tamil-Malayalam_Q10690507"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Malayalam"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Malayalam_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Tamil_u2013_Kannada_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ben_Dolnick">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Pierre_Jamet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Teresa_Incháustegui">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Enrico_Gasparotto">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Uwe_Gensheimer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Grigorios_Konstantas">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Greek_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Carl_Macek">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Franca_Schamber">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gerrit_Lamberts">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Dutch_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hermann_Geibel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bob_Ostertag">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Karol_Pazurek">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lee_Young-ae">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Marc_Bekoff">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Tomimoto_Kenkichi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Turkish_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Oghuz_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Turkic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Oghuz_Q97725298"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Turkish_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Nostratic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Altaic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Common_Turkic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ksenia_Klimenko">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Joseph_Perotaux">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mort_Shuman">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Thomas_Joseph">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Malayalam_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dinara_Wagner">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Kalmyk_Oirat_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bodo_Uhse">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Pamela_Samuelson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Buyelwa_Sonjica">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Allegra_Versace">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mariette_Protin">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Wally_Masur">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Vivien_Oakland">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Stefano_Minelli">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Thomas_K_u002E__Beecher">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Riccardo_Bellotti">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Albert_Salomon__u0028_sociologist_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Patrick_Schikowski">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Veljko_Nikitović">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Serbian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Pierre_Kohumoetini">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Karl-Hermann_Lüer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Salomon_Moos">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Aleksandro_Petrović">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Tomás_Francisco_Prieto">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Carlo_Grippo">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paolo_Tringali">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Fernando_González_Molina">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/William_Bracewell">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dan_Clarke">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Max_Friz">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Michela_Torrenti">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Yasuko_Onuki">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Scott_Brison">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alexander_Wassilko_von_Serecki">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Latin_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Latin"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Latino-Faliscan_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Matthias_Schmidt">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nick_Eppehimer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Étienne_Souriau">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Otto_Kässbohrer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bulgarian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Bulgarian_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Apringius">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Latin_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Emma_Handy">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Rui_Miguel__u0028_footballer_u002C__born_1983_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Portuguese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Andrea_Maccoppi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Antonio_Nóbrega">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Portuguese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Marcel_Martinet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bashkir_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Turkic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Kipchak_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Nostratic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Bashkir_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Altaic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Common_Turkic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Kipchak_U2013_Bolgar_Q3512539"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ahsan_Habib__u0028_cartoonist_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Bengali_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hedda_Wardemann">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mimosa_Martini">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alphonse_Juin">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Margaret_West_Kinney">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paul_Joseph_Nardini">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Albert_Fennell">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christian_Jacq">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/William_III_of_Forcalquier">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Luigi_Ferri">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Rachel_Unitt">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Werner_Kuhn__u0028_chemist_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Émile_Bastien-Lepage">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Michael_Ghiselin">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Klaus-Jürgen_Grünke">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Anirudh_Agarwal">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Hindi_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hermann_Knüfken">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Charles_Gandy">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jordan_Wall__u0028_actor_u002C__born_1981_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Piotr_Czerniawski">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Federico_Bergara">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christophe_Dumaux">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Martin_Hess__u0028_politician_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bernard_Cecil_Cohen">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Catalan_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Iberian_Q954321"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Occitano-Romance_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Romance_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Catalan_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Stijn_Celis">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Dutch_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Riccardo_Nowak">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Babette_van_Veen">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Dutch_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ricky_Gianco">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kai_Nielsen__u0028_philosopher_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jean-Baptiste_André_Ruault_de_La_Bonnerie">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Martin_Suchý">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Slovak_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Billy_Leeds">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lilia_Silvi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nello_Beccari">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Emre_Gürbüz">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Turkish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jean_Dreux">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Peter_Lorenz_Sellergren">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Todd_Rock">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Horst_Faas">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Portuguese_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Galician-Portuguese_Languages_Q9080204"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Gallo-Iberian_Q954321"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Iberian_Romance_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Italo-Western_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Iberian_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Portuguese_language"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Romance_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Claude_Guillon">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Seiji_Hagiwara">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Maria_Björnson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alistair_Lord">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Agnese_Possamai">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ignacio_Burgoa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jenny_Gilbertson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Suzanne_Birnbaum">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Grzegorz_Fitelberg">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Michael_Carrington__u0028_voice_actor_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Abraham_Bloemaert">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Dutch_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Sabrina_Viguier">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Walburga_Fricke">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paul_Boujenah">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Vigilius_of_Trent">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Latin_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Yurii_Andrukhovych">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Ukrainian_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/George_Lomer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Isabella_of_Aragon_u002C__Queen_of_France">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Han_Mi-seul">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Maurice_Dufrêne">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Emanuel_di_Pasquale">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Thomas_Wyatt__u0028_poet_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Harsono_Tjokroaminoto">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Indonesian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gershom_Bassey">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Nigerian_Pidgin_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Martin_Vetterli">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Leif_Lampater">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bruno_Heckel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Tidiane_Aw">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Polish_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Lechitic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Slavic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Polish_language"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Slovene_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slovene_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_South_Slavic"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ukrainian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/East_Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Ukrainian_language"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mohamed_Chalali">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Preshanthan_Moodley">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Sir_Henry_Colt_u002C__1st_Baronet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gaby_Appel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Martin_Abele">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Yechiel_Yaakov_Weinberg">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Erik_Shuranov">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Garapaty_Satyanarayana">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Hindi_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/David_Penhaligon">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Sofiane__u0028_singer_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Liliana_Mele">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nicolas_de_Nicolay">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Norwegian_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/North_Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Scandinavian_Q1792570"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Norwegian_language"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christian_Magnus_Falsen">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Norwegian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Cuthbert_Burnup">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Han_Ye-seul">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hale_K_u002E__Darling">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nigel_Greaves">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Modern_Greek_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Graeco-Phrygian"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Hellenic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Southern_European_Languages_Q85380120"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Modern_Greek"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Greek_language"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Louis_Étienne_Watelet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lesley-Ann_Brandt">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Sergio_Santimaria">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Henry_Stallings_II">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Robert_Nuck">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ronnie_Wearmouth">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Boemus">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Latin_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Giles_Fox-Strangways_u002C__6th_Earl_of_Ilchester">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ernest_Henri_Demanne">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Pelagio_Palagi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Adolf_Strauss__u0028_general_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mahendra_Mehta">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alex_Rădulescu">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jacques_Barbel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gerhard_Ritterband">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Luigi_Sacchi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Clarence_Crafoord">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/William_Martínez__u0028_footballer_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jöns_Jacob_Berzelius">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jack_Balmer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Angelo_Frattini">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/William_Jackson__u0028_secretary_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dominique_Gaigne">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Palisa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dambou_Traoré">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kazuo_Aichi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lytta_Bassett">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Giovanni_Frattini">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Guillaume_Joli">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Luigi_Sgarbozza">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jacques_Suzanne">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Juan_Manuel_de_León_Merchante">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Nozomi_Satō">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Peter_Shalson">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Croatian_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Croatian_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Serbo-Croatian"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Western_South_Slavic"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/South_Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Thomas_Chrön">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Slovene_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/James_C_u002E__Reynolds">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Korean_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Korean_language"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Koreanic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Albrecht_Hornbach">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Andrés_Bustamante">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Guillaume_Moreau">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dan_Motreanu">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Romanian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Walter_F_u002E__George">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Keith_Smith__u0028_Australian_footballer_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jean-Hilaire_Aubame">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Pascal_of_Bollywood">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Juan_Carlos_Latorre">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Louise_Boursier">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Szczepan_Grajczyk">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Daniel_Börtz">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gary_McCauley">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kim_Tae-gun">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Emerich_Coreth">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/John_Davies__u0028_bishop_of_Shrewsbury_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ibrahim_Sekagya">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Stephen_Donnelly__u0028_Australian_politician_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Guillaume_Radot">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Benjamin_Donolow">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jens_Fredrik_Schroeter">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Danish_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Manfred_Rieger">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Richard_Werner">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Stefan_Raab">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/James_McClure__u0028_Unionist_politician_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Manfred_Roeder">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Georges_Guelzec">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Margaux_Farrell">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Rainer_Schubert">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Karl_Theodor_Bleek">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Helmut_Wimmer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Joseph-Alfred_Dion">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Anna_Genover-Mas">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Catalan_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paul_Gondard">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Giuseppe_Spinelli">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Émilie_Deleuze">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Renée_Stobrawa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ulrich_Lichtenthaler">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Peter_Skinner">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Collins_Pennie">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Frederick_Sandys">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Florence_Gravellier">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Violeta_Isfel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Philippe_de_Baleine">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jonathan_Williams__u0028_engineer_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Charlie_Sykes">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jonathan_Williams__u0028_racing_driver_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Rob_Halford">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Charles_Barnett__u0028_cricketer_u002C__born_1884_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/James_FitzMaurice_FitzGerald">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christian_Beauvalet">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Claus_Dethloff">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Damian_Waniczek">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lee_Da-hee">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Clarinda__u0028_poet_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Vincent_Dunn">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lotar_Olias">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Yūya_Uchida__u0028_voice_actor_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Félix_Vallotton">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Luke_Jerram">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paul_Rodde">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Irina_Avvakumova">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Joseph_E_u002E__Dillon">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ceara_O_u0027_Neill">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Elias_Schlegel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Max_Reinhardt">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Marie_Kunert">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ömer_Halisdemir">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Turkish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Bun_u0027_yō_Ishikawa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lee_Don-ku">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ranulf_Flambard">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/David_Melrose">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Geneviève_Lantelme">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Friedrich_Christian_Flick">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Aramaic_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Semitic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Central_Semitic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Semitic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Northwest_Semitic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Aramaic"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Afroasiatic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lily_Fayol">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Otylia_Jędrzejczak">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Polish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ali_Rabo">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Klausbernd_Vollmar">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Chris_Beckett">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Arwed_Imiela">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/François_de_Bonne_u002C__Duke_of_Lesdiguières">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Christos_Negas">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Modern_Greek_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/José_Lasplazas">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Catalan_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Toni_Dalli">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alim_Öztürk">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Dutch_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alan_Bond">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Takae_Itō__u0028_Aichi_Prefecture_politician_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Fernand_de_La_Tombelle">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Michelle_Perry">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paolo_Benvenuti">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Massimo_Vergassola">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Julio_C_u002E__Tello">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Spanish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Paul-Albert_Besnard">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Martina_Ćorković">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Croatian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Anghelache_Donescu">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Romanian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Erkan_Kolçak_Köstendil">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Turkish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Takahito_Nomura">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Japanese_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Amon_Simutowe">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kurt_Huldschinsky">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Eyüp_Aşık">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Turkish_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Brahim_Zafour">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Arabic_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ernst_Grawitz__u0028_hematologist_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Robert_Eitner">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Barbara_Dittus">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Len_Armitage">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Harold_Mosby">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Evelyn_Gitau">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Ann_Bressington">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Wilhelm_Heinrich_u002C__Duke_of_Saxe-Eisenach">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Latin_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Hans_Müller-Kray">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Thomas_Stuttaford">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Kalmyk_Oirat_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Oirat_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Nostratic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Altaic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Kalmyk_Oirat"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Asian_Languages_Q98791755"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Mongolic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Rodney_Ontong">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Justin_Clinchant">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mikhail_Illarionovich_Vorontsov">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Russian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Erwin_Weber">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Johann_Friedrich_von_Pfeiffer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Georgy_Adams">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Afroditi_Frida">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Greek_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Vittorio_Rieti">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jean_Kérisel">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Otto_Brusatti">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Yellow__u0028_gamer_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Korean_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Gil_Fates">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jonny__u0022_Itch_u0022__Fox">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Slovak_language_generic_instance">
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Balto-Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slovak_language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Slavic_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/West_Slavic_languages"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Czech_u2013_Slovak_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Alexander_John__u0028_athlete_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Michael_B_u002E__Shepherd">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Guy_Chambefort">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/French_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Chris_Rock">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Reginald_Foort">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Angel_Lyaskov">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Bulgarian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Josef_Karl">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jon_Dunbar">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lady_Eliza_Manners">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Fanny_Blatny">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Tobias_Barnerssoi">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Mary_Collyer">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Henry_Murphy__u0028_politician_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/John_Surman">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Jan_Rydberg">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Swedish_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Danish_language_generic_instance">
+    <rdf:type rdf:resource="http://schema.org/Intangible"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/North_Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Germanic_languages"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Human_Language_Q20162172"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Indo-European_languages"/>
+    <rdf:type rdf:resource="http://schema.org/Thing"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/East_Scandinavian_Q3090263"/>
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Thing"/>
+    <rdf:type rdf:resource="http://schema.org/Language"/>
+    <rdf:type rdf:resource="http://yago-knowledge.org/resource/Danish_language"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Andrea_Cipressa">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Italian_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Max_Vogrich">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/German_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Lee_Harrison__u0028_rugby_union_u0029_">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+</owl:NamedIndividual>
+<owl:NamedIndividual rdf:about="http://yago-knowledge.org/resource/Dimitris_Fotakis">
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/English_language_generic_instance"/>
+    <schema:knowsLanguage rdf:resource="http://yago-knowledge.org/resource/Greek_language_generic_instance"/>
+</owl:NamedIndividual>
+</rdf:RDF>

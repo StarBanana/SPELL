@@ -8,5 +8,4 @@ robot
 .coverage
 .out.csv
 tmp.owl
-/alc_benchmarks
 .DS_Store

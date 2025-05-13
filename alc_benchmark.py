@@ -15,6 +15,9 @@ import re
 from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
 
 
+CELOE_PATH = ""
+SPARCEL_PATH = ""
+
 RANDOM_SEED = 1
 
 QALL = """
@@ -23,46 +26,6 @@ SELECT DISTINCT ?0 WHERE {
     }
     """
 
-teststring = "((http://schema.org/children only http://schema.org/children only http://schema.org/children only Thing and (not http://schema.org/children only http://schema.org/children only http://schema.org/gender only http://yago-knowledge.org/resource/Male_gender_class) and (not http://schema.org/children only http://schema.org/children only http://schema.org/gender only http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class)))"
-
-def manchester_to_sparql(s : str):      
-          
-    def _manchester_to_sparql(s,i):        
-        #match = re.fullmatch(fr'\(\((.+)\) (and) \((.+)\)\)', s)
-        ss = re.sub(r'\(.*\)','', s[2:-2])
-        match = re.fullmatch(fr'\((.+\w) (and) \((.+)\)\)', s)
-        if match:
-            if match[2] == "and":
-                print(match[1],'\n')
-                print(match[2],'\n')
-                print(match[3],'\n')
-                
-        return
-
-        match = re.fullmatch(fr'\((.+) (and) (.+)\)', s)
-        if match:
-            l,r = match[1], match[3]
-            ls, li = _manchester_to_sparql(l,i)
-            rs, ri = _manchester_to_sparql(r,li)
-            return ls + rs ,ri
-        match = re.fullmatch(fr'\((.+) (or) (.+)\)', s)
-        if match:
-            l,r = match[1], match[3]
-            ls, li = _manchester_to_sparql(l,i)
-            rs, ri = _manchester_to_sparql(r,li)
-            return f"{ls} UNION {rs}" ,ri
-        match = re.fullmatch(fr'\((.+) (some) (.+)\)', s)
-        if match:
-            l,r = match[1], match[3]            
-            rs, ri = _manchester_to_sparql(r,i+1)
-            return f"?{i} {l} {i}. {rs}" , ri
-        match = re.fullmatch(fr'\((.+) (only) (.+)\)', s)
-        if match:
-            l,r = match[1], match[3]            
-            rs, ri = _manchester_to_sparql(r,i+1)
-            return f"FILTER NOT EXISTS " , ri
-    return f"SELECT DISTINCT ?0 WHERE {{?0 a <http://www.w3.org/2002/07/owl#NamedIndividual> . {_manchester_to_sparql(s,0)}}}"
-                    
 random.seed(RANDOM_SEED)
 
 def query_and_print(path, query):
@@ -126,10 +89,10 @@ def instance_to_sparcel(kb_path, p, n, dest, file_name = "dl_instance"):
         f.write('splitter.type = "org.dllearner.algorithms.ParCEL.split.ParCELDoubleSplitterV1"\n')        
         # f.write('alg.writeSearchTree = true\n')
 
-def run_sparcel(kb_pth, ex_path):
+def run_sparcel(kb_pth, ex_path, celoe_path):
     P,N = read_examples_from_json(ex_path)
     instance_to_sparcel(kb_pth, P, N, ".", "sparcel_instance")
-    outpt = subprocess.check_output(["java", "-jar", "/Users/tomvoellmer/Downloads/SParCEL/parcel-alc2-cli.jar", "./sparcel_instance.conf"])
+    outpt = subprocess.check_output(["java", "-jar", SPARCEL_PATH, "./sparcel_instance.conf"])
     output = str(outpt)
     lines = output.split("\\n")
 
@@ -151,7 +114,7 @@ def run_celoe(kb_path, ex_path):
     P,N = read_examples_from_json(ex_path)
     confpath = os.path.join(os.path.dirname(ex_path),"dllearner_instance.conf")    
     instance_to_dllearner(kb_path, P, N, os.path.dirname(ex_path), "dllearner_instance")    
-    outpt = subprocess.check_output([f"/Users/tomvoellmer/Documents/Tools/dllearner-1.5.0/bin/cli", confpath])
+    outpt = subprocess.check_output([CELOE_PATH, confpath])
     output = str(outpt)
     lines = output.split("\\n")
     i = 0
@@ -161,8 +124,6 @@ def run_celoe(kb_path, ex_path):
         i += 1
     return float(lines[i+1][lines[i+1].find("pred. acc.:")+12:lines[i+1].find("%, F")])
     
-
-
 def solve_fixed_k(path, ex_path, k):
     A = structure_from_owl(path)
     P,N = read_examples_from_json(ex_path)
@@ -248,90 +209,6 @@ def reduce_size_by_examples(kb_path, json_path, newpath, filename, k):
     B,m = restrict_to_neighborhood(k-1, A, P + N)
     construct_owl_from_structure(os.path.join(newpath,f"{filename}.owl"),B)
 
-def qdepth(q_string):
-    return 0
-
-def benchmark(kb_path,queries_path, dest_dir):
-    cols = ["kb", "kb_file_reduced", "n_pos", "n_neg" , "run", "alc sat time", "alc sat k", "alc sat concept","alc sat old time", "alc sat old k", "alc sat old concept", "ontolearn celoe time", "ontolearn celoe accuracy", "ontolearn celoe concept", "evolearn time", "evolearn accuracy", "evolearn concept", "sparcel time", "sparcel accuracy", "sparcel concept"]    
-    p_avg = pd.DataFrame(columns=cols)
-    data = []
-    data_avg = []
-    os.mkdir(dest_dir)
-    for q_pos,q_neg in [
-       ("Q1","Q4"),
-        ("Q3","Q5"),
-        ("Q6", "Q5")
-       # ("Q12","Q13")
-    ]:
-        with open(queries_path) as f:
-            d = json.load(f)
-        k = max(d[q_pos]["depth"],d[q_neg]["depth"])
-        for n_pos in range(100,401,100):
-            n_neg = n_pos
-            #for n_neg in [100]:
-            avg_time_spell_alc_sum = 0
-            avg_time_spell_alc_sum_old = 0
-            avg_time_celoe_sum = 0        
-            avg_time_evo_sum = 0    
-            celoe_avg_accuracy_sum = 0
-            evo_avg_accuracy_sum = 0
-            red_kb_path_filename = f"reduced_kb-pos_({q_pos},{n_pos})-neg_({q_neg},{n_neg})-k_{k}"
-            red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
-            js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
-            if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, f"{red_kb_path_filename}.json" ):
-                break
-            reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k)
-            alc_k = 0
-            alc_k_old = 0
-            sparcel_accuracy_sum = 0
-            sparcel_time_sum = 0
-            for i in range(1,11):
-                start = time.time()
-                (l,c_alcsat) = solve(red_kb_path, js_path, 2**k)
-                alc_k += l
-                end = time.time()
-                alc_time = end-start
-                avg_time_spell_alc_sum += alc_time
-
-                start = time.time()
-                acc, sparcel_query = run_sparcel(red_kb_path, js_path)
-                sparcel_accuracy_sum += acc
-                end = time.time()
-                print(acc)
-                sparcel_time = end - start
-                print(sparcel_time)
-                sparcel_time_sum += end - start
-                
-                # start = time.time()
-                # (l_old,c_alcsat_old) = solve_old(red_kb_path, js_path, 2**k)
-                # alc_k_old += l
-                # end = time.time()
-                # alc_time_old = end-start
-                # avg_time_spell_alc_sum_old += alc_time_old
-
-                # P,N = read_examples_from_json(js_path)
-                # start = time.time()
-                # a,c_celoe = run_celoe(red_kb_path,P,N)
-                # end = time.time()
-                # celoe_avg_accuracy_sum += a
-                # celoe_time = end-start
-                # avg_time_celoe_sum += celoe_time
-                # start = time.time()
-                # a_evo, c_evo = run_evo(red_kb_path,P,N)
-                # end=time.time()
-                # evo_time = end-start
-                # avg_time_evo_sum += evo_time
-                # evo_avg_accuracy_sum += a_evo
-                # data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, alc_time_old, l_old, c_alcsat_old, celoe_time, a, c_celoe, evo_time, a_evo,c_evo])
-                data.append([kb_path,red_kb_path_filename, n_pos, n_neg, i,alc_time, l, c_alcsat, 0, 0, 0, 0, 0, 0, 0, 0,0, sparcel_time, acc, sparcel_query])
-            data.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  "", sparcel_time_sum / 10, sparcel_accuracy_sum / 10, ""])
-            data_avg.append([kb_path,red_kb_path_filename, n_pos, n_neg, "avg" ,avg_time_spell_alc_sum / 10, alc_k/10, "",avg_time_spell_alc_sum_old / 10, alc_k_old/10, "", avg_time_celoe_sum/10, celoe_avg_accuracy_sum/10, "", avg_time_evo_sum/10,evo_avg_accuracy_sum/10,  "", sparcel_time_sum / 10, sparcel_accuracy_sum / 10, ""])
-                
-    p = pd.DataFrame(data,columns=cols)
-    pa = pd.DataFrame(data_avg,columns=cols)
-    p.to_csv(os.path.join(dest_dir, "results.csv"))
-    pa.to_csv(os.path.join(dest_dir, "results_avg.csv"))
-
 def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , random_pos = True, random_neg = True, exclude_pos_from_neg = False):
     g = get_ontology(kb_path).load()   
     graph = default_world.as_rdflib_graph() 
@@ -384,8 +261,7 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
     return True
 
 def benchmark_run(dir):
-    cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
-    #cols = ["data set","t_alcsat","a_alcsat"]
+    cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]    
     data = []
     js_path = None
     kb_path = None
@@ -429,8 +305,7 @@ def benchmark_run(dir):
             end = time.time()
             t_alcsat = end-start
 
-            data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
-            #data.append([dsname,t_alcsat,a_alcsat])
+            data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])            
             pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results_reproduced.csv'))
 
 def benchmark_gen(kb_path, queries_path, dest_dir, q_ind, n_pos, n_neg, complement_for_neg = False):    

@@ -1,0 +1,102 @@
+{
+    "Q_n1": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/Spanish_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Catalan_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/Dutch_language>.}}}",
+        "description": "Negation of Q_p1.",
+        "depth": "1"
+    },
+    "Q_p1": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/Spanish_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Catalan_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/Dutch_language>.}}",
+        "description": "Language concept  1.",
+        "depth": "1"
+    },
+    "Q_n2": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {{?1  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Chinese_language>.}}}}}",
+        "description": "Negation of Q_p2.",
+        "depth": "1"
+    },
+    "Q_p2": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {{?1  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Chinese_language>.}}}}",
+        "description": "Language concept  2.",
+        "depth": "1"
+    },
+    "Q_n3": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/English_language>.?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/French_language>.}}",
+        "description": "Negation of Q_p3.",
+        "depth": "1"
+    },
+    "Q_p3": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/English_language>.?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/French_language>.}",
+        "description": "Language concept  3.",
+        "depth": "1"
+    },
+    "Q_n4": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.{?1  a <http://yago-knowledge.org/resource/Catalan_language>.} UNION {{?1  a <http://yago-knowledge.org/resource/Portuguese_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Spanish_language>.}}?0 <http://schema.org/knowsLanguage> ?2.{?2  a <http://yago-knowledge.org/resource/German_language>.} UNION {?2  a <http://yago-knowledge.org/resource/French_language>.}}}",
+        "description": "Negation of Q_p4.",
+        "depth": "1"
+    },
+    "Q_p4": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/knowsLanguage> ?1.{?1  a <http://yago-knowledge.org/resource/Catalan_language>.} UNION {{?1  a <http://yago-knowledge.org/resource/Portuguese_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Spanish_language>.}}?0 <http://schema.org/knowsLanguage> ?2.{?2  a <http://yago-knowledge.org/resource/German_language>.} UNION {?2  a <http://yago-knowledge.org/resource/French_language>.}}",
+        "description": "Language concept  4.",
+        "depth": "1"
+    },
+    "Q_n5": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.{{{{?1  a <http://yago-knowledge.org/resource/Portuguese_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Spanish_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/English_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/Polish_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/Russian_language>.}}}",
+        "description": "Negation of Q_p5.",
+        "depth": "1"
+    },
+    "Q_p5": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/knowsLanguage> ?1.{{{{?1  a <http://yago-knowledge.org/resource/Portuguese_language>.} UNION {?1  a <http://yago-knowledge.org/resource/Spanish_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/English_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/Polish_language>.}} UNION {?1  a <http://yago-knowledge.org/resource/Russian_language>.}}",
+        "description": "Language concept  5.",
+        "depth": "1"
+    },
+    "Q_n6": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Dutch_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/French_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/Italian_language>.}} UNION {?0 <http://schema.org/knowsLanguage> ?5.?5  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?6.?6  a <http://yago-knowledge.org/resource/Russian_language>.}}}",
+        "description": "Negation of Q_p6.",
+        "depth": "1"
+    },
+    "Q_p6": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/German_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Dutch_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/French_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/Italian_language>.}} UNION {?0 <http://schema.org/knowsLanguage> ?5.?5  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?6.?6  a <http://yago-knowledge.org/resource/Russian_language>.}}",
+        "description": "Language concept  6.",
+        "depth": "1"
+    },
+    "Q_n7": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/French_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/French_language>.}?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/English_language>.}}",
+        "description": "Negation of Q_p7.",
+        "depth": "1"
+    },
+    "Q_p7": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/French_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/French_language>.}?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/English_language>.}",
+        "description": "Language concept  7.",
+        "depth": "1"
+    },
+    "Q_n8": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/English_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Dutch_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/Italian_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/French_language>.}} UNION {?0 <http://schema.org/knowsLanguage> ?5.?5  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?6.?6  a <http://yago-knowledge.org/resource/Russian_language>.}}}",
+        "description": "Negation of Q_p8.",
+        "depth": "1"
+    },
+    "Q_p8": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{{?0 <http://schema.org/knowsLanguage> ?1.?1  a <http://yago-knowledge.org/resource/English_language>.?0 <http://schema.org/knowsLanguage> ?2.?2  a <http://yago-knowledge.org/resource/Dutch_language>.} UNION {?0 <http://schema.org/knowsLanguage> ?3.?3  a <http://yago-knowledge.org/resource/Italian_language>.?0 <http://schema.org/knowsLanguage> ?4.?4  a <http://yago-knowledge.org/resource/French_language>.}} UNION {?0 <http://schema.org/knowsLanguage> ?5.?5  a <http://yago-knowledge.org/resource/Polish_language>.?0 <http://schema.org/knowsLanguage> ?6.?6  a <http://yago-knowledge.org/resource/Russian_language>.}}",
+        "description": "Language concept  8.",
+        "depth": "1"
+    },
+    "Q_n9": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {?1  a <http://yago-knowledge.org/resource/Chinese_language>.}}} UNION {FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?2.FILTER NOT EXISTS {{?2  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?2  a <http://yago-knowledge.org/resource/Chinese_language>.}}}}}}",
+        "description": "Negation of Q_p9.",
+        "depth": "1"
+    },
+    "Q_p9": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {?1  a <http://yago-knowledge.org/resource/Chinese_language>.}}} UNION {FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?2.FILTER NOT EXISTS {{?2  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?2  a <http://yago-knowledge.org/resource/Chinese_language>.}}}}}",
+        "description": "Language concept  9.",
+        "depth": "1"
+    },
+    "Q_n10": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {{FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {{?1  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?1  a <http://yago-knowledge.org/resource/French_language>.}}}} UNION {FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?2.FILTER NOT EXISTS {{?2  a <http://yago-knowledge.org/resource/German_language>.} UNION {?2  a <http://yago-knowledge.org/resource/Dutch_language>.}}}}}}",
+        "description": "Negation of Q_p10.",
+        "depth": "1"
+    },
+    "Q_p10": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.{FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?1.FILTER NOT EXISTS {{?1  a <http://yago-knowledge.org/resource/Italian_language>.} UNION {?1  a <http://yago-knowledge.org/resource/French_language>.}}}} UNION {FILTER NOT EXISTS {?0 <http://schema.org/knowsLanguage> ?2.FILTER NOT EXISTS {{?2  a <http://yago-knowledge.org/resource/German_language>.} UNION {?2  a <http://yago-knowledge.org/resource/Dutch_language>.}}}}}",
+        "description": "Language concept  10.",
+        "depth": "1"
+    }
+}

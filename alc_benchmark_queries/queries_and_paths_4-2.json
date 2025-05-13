@@ -1,0 +1,52 @@
+{
+    "Q_n1": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Male_gender_class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.}}",
+        "description": "Negation of Q_p1.",
+        "depth": "4"
+    },
+    "Q_p1": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Male_gender_class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.}",
+        "description": "Variation 1 of and paths depth 3 with 6 paths removed.",
+        "depth": "4"
+    },
+    "Q_n2": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Male_gender_class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Male_gender_class>.}}",
+        "description": "Negation of Q_p2.",
+        "depth": "4"
+    },
+    "Q_p2": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Male_gender_class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Male_gender_class>.}",
+        "description": "Variation 2 of and paths depth 3 with 6 paths removed.",
+        "depth": "4"
+    },
+    "Q_n3": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.}}",
+        "description": "Negation of Q_p3.",
+        "depth": "4"
+    },
+    "Q_p3": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.}",
+        "description": "Variation 3 of and paths depth 3 with 6 paths removed.",
+        "depth": "4"
+    },
+    "Q_n4": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Male_gender_class>.}}",
+        "description": "Negation of Q_p4.",
+        "depth": "4"
+    },
+    "Q_p4": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Male_gender_class>.}",
+        "description": "Variation 4 of and paths depth 3 with 6 paths removed.",
+        "depth": "4"
+    },
+    "Q_n5": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.FILTER NOT EXISTS {?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.}}",
+        "description": "Negation of Q_p5.",
+        "depth": "4"
+    },
+    "Q_p5": {
+        "SPARQL": "SELECT DISTINCT ?0 WHERE { ?0 a <http://www.w3.org/2002/07/owl#NamedIndividual>.?0 <http://schema.org/children> ?1.?1 <http://schema.org/gender> ?2.?2  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?1 <http://schema.org/children> ?3.?3 <http://schema.org/gender> ?4.?4  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?0 <http://schema.org/children> ?5.?5 <http://schema.org/gender> ?6.?6  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.?5 <http://schema.org/children> ?7.?7 <http://schema.org/gender> ?8.?8  a <http://yago-knowledge.org/resource/Male_gender_class>.?0 <http://schema.org/children> ?9.?9 <http://schema.org/gender> ?10.?10  a <http://yago-knowledge.org/resource/Male_gender_class>.?9 <http://schema.org/children> ?11.?11 <http://schema.org/gender> ?12.?12  a <http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class>.}",
+        "description": "Variation 5 of and paths depth 3 with 6 paths removed.",
+        "depth": "4"
+    }
+}

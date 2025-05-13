@@ -6,11 +6,13 @@ from spell.benchmark_tools import construct_owl_from_structure
 from spell.fitting_alc import ALL, AND, EX, OR, NEG, FittingALC
 from spell.structures import map_ind_name, restrict_to_neighborhood, structure_from_owl
 from owlready2 import default_world, get_ontology, owl
-#from ontolearn_benchmark import run_evo
+from ontolearn_benchmark import run_evo
 import spell.fitting_alc1 as fitting_alc1
 import subprocess
+import re
 
-#from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
+
+from owlapy import manchester_to_owl_expression, owl_expression_to_sparql
 
 
 RANDOM_SEED = 1
@@ -21,7 +23,46 @@ SELECT DISTINCT ?0 WHERE {
     }
     """
 
+teststring = "((http://schema.org/children only http://schema.org/children only http://schema.org/children only Thing and (not http://schema.org/children only http://schema.org/children only http://schema.org/gender only http://yago-knowledge.org/resource/Male_gender_class) and (not http://schema.org/children only http://schema.org/children only http://schema.org/gender only http://yago-knowledge.org/resource/Female__u0028_gender_u0029__class)))"
 
+def manchester_to_sparql(s : str):      
+          
+    def _manchester_to_sparql(s,i):        
+        #match = re.fullmatch(fr'\(\((.+)\) (and) \((.+)\)\)', s)
+        ss = re.sub(r'\(.*\)','', s[2:-2])
+        match = re.fullmatch(fr'\((.+\w) (and) \((.+)\)\)', s)
+        if match:
+            if match[2] == "and":
+                print(match[1],'\n')
+                print(match[2],'\n')
+                print(match[3],'\n')
+                
+        return
+
+        match = re.fullmatch(fr'\((.+) (and) (.+)\)', s)
+        if match:
+            l,r = match[1], match[3]
+            ls, li = _manchester_to_sparql(l,i)
+            rs, ri = _manchester_to_sparql(r,li)
+            return ls + rs ,ri
+        match = re.fullmatch(fr'\((.+) (or) (.+)\)', s)
+        if match:
+            l,r = match[1], match[3]
+            ls, li = _manchester_to_sparql(l,i)
+            rs, ri = _manchester_to_sparql(r,li)
+            return f"{ls} UNION {rs}" ,ri
+        match = re.fullmatch(fr'\((.+) (some) (.+)\)', s)
+        if match:
+            l,r = match[1], match[3]            
+            rs, ri = _manchester_to_sparql(r,i+1)
+            return f"?{i} {l} {i}. {rs}" , ri
+        match = re.fullmatch(fr'\((.+) (only) (.+)\)', s)
+        if match:
+            l,r = match[1], match[3]            
+            rs, ri = _manchester_to_sparql(r,i+1)
+            return f"FILTER NOT EXISTS " , ri
+    return f"SELECT DISTINCT ?0 WHERE {{?0 a <http://www.w3.org/2002/07/owl#NamedIndividual> . {_manchester_to_sparql(s,0)}}}"
+                    
 random.seed(RANDOM_SEED)
 
 def query_and_print(path, query):
@@ -82,7 +123,7 @@ def instance_to_sparcel(kb_path, p, n, dest, file_name = "dl_instance"):
         f.write('algorithm.maxExecutionTimeInSeconds = 60\n')
         f.write("algorithm.numberOfWorkers = 1\n")
         f.write("algorithm.splitter = splitter\n")
-        f.write('splitter.type = "org.dllearner.algorithms.ParCEL.split.ParCELDoubleSplitterV1"\n')
+        f.write('splitter.type = "org.dllearner.algorithms.ParCEL.split.ParCELDoubleSplitterV1"\n')        
         # f.write('alg.writeSearchTree = true\n')
 
 def run_sparcel(kb_pth, ex_path):
@@ -170,7 +211,7 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
     with open(file, "w+") as f:
         f.write('ks.type = "OWL File"\n')
         f.write(f'ks.fileName = "{kb_path}"\n')
-        #f.write('measure.type = "gen_fmeasure"')
+        f.write('measure.type = "gen_fmeasure"')
         f.write('reasoner.type = "closed world reasoner"\n')
         f.write('reasoner.sources = { ks }\n')
         f.write('lp.type = "posNegStandard"\n')
@@ -179,11 +220,12 @@ def instance_to_dllearner(kb_path, p, n, dest, file_name = "dl_instance"):
         k = "{" +  ",".join(map(lambda x : f'"{x}"',n)) + "}"
         f.write(f'lp.negativeExamples = {k}\n')
         f.write('alg.type = "celoe"\n')
-        f.write('alg.maxExecutionTimeInSeconds = 0\n')
+        f.write('alg.maxExecutionTimeInSeconds = 300\n')
         f.write('alg.writeSearchTree = false\n')        
         f.write('h.type ="celoe_heuristic"\n')
         f.write('h.expansionPenaltyFactor = 0.02\n')
-        f.write('stopOnFirstDefinition = true\n')
+        f.write('alg.stopOnFirstDefinition = true\n')        
+#        f.write('alg.maxNrOfResults = 1\n')
         #f.write('useMinimizer = false\n')
         #alg.noisePercentage = 32                
         #//alg.maxClassDescriptionTests = 10000000
@@ -290,8 +332,9 @@ def benchmark(kb_path,queries_path, dest_dir):
     p.to_csv(os.path.join(dest_dir, "results.csv"))
     pa.to_csv(os.path.join(dest_dir, "results_avg.csv"))
 
-def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , random_pos = True, random_neg = True):
-    g = get_ontology(kb_path).load()    
+def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_dir, file_name , random_pos = True, random_neg = True, exclude_pos_from_neg = False):
+    g = get_ontology(kb_path).load()   
+    graph = default_world.as_rdflib_graph() 
     d = dict()    
     with open(queries_path, 'r') as f:
         dq = json.load(f)
@@ -301,6 +344,7 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
     else:
         d["q_neg"] = "complement"    
     p_res = list( map(lambda x : x[0].get_iri(), default_world.sparql(dq[q_pos]["SPARQL"])))
+    #p_res = list(map(lambda x : x[0].get_iri(),list(  graph.query_owlready(dq[q_pos]["SPARQL"]))))
     print(f"Positive:{len(p_res)}")
     if not p_res or n_neg>len(p_res):
         return False
@@ -309,14 +353,18 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
     else:
         P = p_res[:n_pos]            
 
-    if q_neg is not None:           
-        n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(dq[q_neg]["SPARQL"])))
+    if q_neg is not None:        
+        #n_res_r = list( map(lambda x : x[0].get_iri(),list(graph.query_owlready(dq[q_neg]["SPARQL"]))))
+        n_res_r = list( map(lambda x : x[0].get_iri(), default_world.sparql(dq[q_neg]["SPARQL"])))
     else:
         n_res_r = list(map(lambda x : x[0].get_iri(), default_world.sparql(QALL)))
     n_res = []
-    for e in n_res_r:
-        if not e in p_res:
-            n_res.append(e)
+    if q_neg is None or exclude_pos_from_neg:
+        for e in n_res_r:
+            if not e in p_res:
+                n_res.append(e)
+    else:
+        n_res = n_res_r
     print(f"Negative:{len(n_res)}")
     if not n_res or n_neg>len(n_res):
         return False
@@ -335,58 +383,9 @@ def examples_by_queries(kb_path, queries_path, q_pos, q_neg, n_pos, n_neg, dest_
         json.dump(d,f)
     return True
 
-def benchmark_depth(kb_path, queries_path, dest_dir):
-    n_pos = 100
-    n_neg = 100
-    if not os.path.exists(dest_dir):
-        os.mkdir(dest_dir)
-    data = []
-    for k in range(2,4):      
-        red_kb_path_filename = f"reduced_kb_{k}_({n_pos},{n_neg})"
-        red_kb_path = os.path.join(dest_dir,f"{red_kb_path_filename}.owl")
-        js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
-        #q_pos = d[f"Q_enum_test_p{k}"]["SPARQL"]
-        #q_neg = d[f"Q_enum_test_n{k}"]["SPARQL"]
-        q_pos = f"Q_p{k}"
-        q_neg = f"Q_n{k}"
-        if not os.path.exists(js_path):
-            if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, js_path ):
-                break
-        reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,k+2)
-        P,N = read_examples_from_json(js_path)
-        #P,N = query_for_examples(kb_path, q_pos, q_neg, 100,100)
-        A = structure_from_owl(kb_path)
-        
-        start = time.time()
-        a_evo, c_evo = run_evo(red_kb_path,P,N)
-        end = time.time()
-        t_evo = end-start
-        start = time.time()
-        a_sparcel, c_sparcel = run_sparcel(red_kb_path, js_path)
-        end = time.time()
-        t_sparcel = end-start
-        
-        P = list(map(lambda n: map_ind_name(A, n), P))
-        N = list(map(lambda n: map_ind_name(A, n), N))       
-        start = time.time()
-        max_k = 2**(2*k)
-        f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
-        #a_alcsat, n_alcsat,c_alcsat = f.solve_incr(max_k)
-        a_alcsat, n_alcsat,c_alcsat = f.solve_incr_approx(max_k)
-        end = time.time()
-        t_alcsat = end-start
-                
-        #data.append([a_alcsat, t_alcsat])
-        
-        data.append([a_evo,a_sparcel, a_alcsat, t_evo,t_sparcel, t_alcsat, c_evo, c_sparcel, c_evo])        
-    if not os.path.exists(os.path.join(dest_dir,'data.csv')):
-        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data.csv'))    
-    else:
-        pd.DataFrame(data).to_csv(os.path.join(dest_dir,'data_new.csv'))  
-
 def benchmark_run(dir):
-    #cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
-    cols = ["data set","t_alcsat","a_alcsat"]
+    cols = ["data set","t_celoe", "t_evo", "t_spacel", "t_alcsat", "a_celoe","a_evo", "a_spacel", "a_alcsat"]
+    #cols = ["data set","t_alcsat","a_alcsat"]
     data = []
     js_path = None
     kb_path = None
@@ -406,48 +405,48 @@ def benchmark_run(dir):
             P,N = read_examples_from_json(js_path)
             A = structure_from_owl(kb_path)
             
-            # start = time.time()
-            # a_celoe = run_celoe(kb_path,js_path)
-            # end = time.time()
-            # t_celoe = end-start
+            start = time.time()
+            a_celoe = run_celoe(kb_path,js_path)
+            end = time.time()
+            t_celoe = end-start
 
-            # start = time.time()
-            # a_evo, c_evo = run_evo(kb_path,P,N)
-            # end = time.time()
-            # t_evo = end-start
+            start = time.time()
+            a_evo, c_evo = run_evo(kb_path,P,N)
+            end = time.time()
+            t_evo = end-start
 
-            # start = time.time()
-            # a_sparcel, c_sparcel = run_sparcel(kb_path, js_path)
-            # end = time.time()
-            # t_sparcel = end-start
+            start = time.time()
+            a_sparcel, c_sparcel = run_sparcel(kb_path, js_path)
+            end = time.time()
+            t_sparcel = end-start
 
             P = list(map(lambda n: map_ind_name(A, n), P))
             N = list(map(lambda n: map_ind_name(A, n), N))       
             start = time.time()
-            max_k = 42
+            max_k = 32
             f = FittingALC(A,max_k,P,N, op = {EX,ALL,OR,AND,NEG})
             a_alcsat, n_alcsat,c_alcsat = f.solve_incr(max_k)
             end = time.time()
             t_alcsat = end-start
 
-            #data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
-            data.append([dsname,t_alcsat,a_alcsat])
-            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results_alcsat13.csv'))
+            data.append([dsname,t_celoe,t_evo,t_sparcel,t_alcsat,a_celoe, a_evo, a_sparcel, a_alcsat])
+            #data.append([dsname,t_alcsat,a_alcsat])
+            pd.DataFrame(data, columns=cols).to_csv(os.path.join(dir,'results.csv'))
 
 def benchmark_gen(kb_path, queries_path, dest_dir, q_ind, n_pos, n_neg, complement_for_neg = False):    
     if not os.path.exists(dest_dir):
         os.mkdir(dest_dir)        
     red_kb_path_filename = f"yago_family_reduced_kb_{q_ind}_({n_pos},{n_neg})"
-    js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")    
+    js_path = os.path.join(dest_dir,f"{red_kb_path_filename}.json")
     q_pos = f"Q_p{q_ind}"
     if not complement_for_neg:
         q_neg = f"Q_n{q_ind}"
     else:
         q_neg = None
-    if not os.path.exists(js_path):
+    if not os.path.exists(js_path):        
         if not examples_by_queries(kb_path, queries_path, q_pos,q_neg, n_pos, n_neg, dest_dir, js_path ):
             return
-    reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,5)    
+    reduce_size_by_examples(kb_path,js_path,dest_dir,red_kb_path_filename,5)
 
 def kCrossVal(P,N,k):
     def toPN(Sp):
@@ -476,24 +475,25 @@ def to_tex(path):
 def benchmark_gen_t():    
     if not os.path.exists(sys.argv[3]):
         os.mkdir(sys.argv[3])
-    i = 50
-    for k in range(1,4):
-        dest_dir = os.path.join(sys.argv[3], f"yago_family_onyl_f_descendant_depth{k}_p{i}-n{i}")
-        benchmark_gen(sys.argv[1], sys.argv[2], dest_dir, k,i,i, k+2)
+    i = 200
+    for k in [6]:#range(4,5):
+        dest_dir = os.path.join(sys.argv[3], f"yago_language_{k}_{i}")
+        benchmark_gen(sys.argv[1], sys.argv[2], dest_dir, k,i,i)
 
 def convertToTikzCsv(files):
-    compare_col = 't_celoe'#'t_evo' 't_sparcel'
-    result_csv = "family_celoe_alcsat_time.csv" #"family_evo_alcsat_time.csv" "family_sparcel_alcsat_time.csv"
+    compare_cols = ['t_celoe','t_evo','t_spacel']
+    result_csv = ["family_celoe_alcsat_time.csv", "family_evo_alcsat_time.csv", "family_sparcel_alcsat_time.csv"]
     
-    nd = None
+    nd = [None,None,None]
     for f in files:
         d = pd.read_csv(f)
-        print(d[[compare_col, 't_alcsat']])
-        if nd is None:
-            nd = d[[compare_col, 't_alcsat']]
-        else:
-            nd = pd.concat([nd,d[[compare_col, 't_alcsat']]])
-    nd.to_csv(result_csv, index=False )
+        for i,c in enumerate(compare_cols):
+            if nd[i] is None:
+                nd[i] = d[[c, 't_alcsat']]
+            else:
+                nd[i] = pd.concat([nd[i],d[[c, 't_alcsat']]])
+    for i in range(3):
+        nd[i].to_csv(result_csv[i], index=False )
 
 def convertToTikzCsvTwoFiles(files):
     compare_col = 't_alcsat'#'t_evo' 't_sparcel'
@@ -514,6 +514,42 @@ def convertToTikzCsvTwoFiles(files):
             i += 2
         nd.to_csv(result_csv, index=False)
 
+def convertCsv(files):
+
+    compare_cols = ['t_celoe','t_evo','t_spacel']
+    result_csv = ["family_celoe_alcsat_time.csv", "family_evo_alcsat_time.csv", "family_sparcel_alcsat_time.csv"]
+
+    time_intervals = range(0,241,20) 
+
+    data = pd.DataFrame(index=time_intervals,columns=['n_alcsat', 'n_evo', 'n_sparcel', 'n_celoe'])
+
+    nd = None
+    for f in files:
+        d = pd.read_csv(f)        
+        if nd is None:
+            nd = d
+        else:
+            nd = pd.concat([nd,d])    
+    for t in time_intervals:
+        n_alcsat = 0
+        n_celoe = 0
+        n_sparcel = 0
+        n_evo = 0
+        for i in range(nd.shape[0]):
+            if nd.iloc[i]['t_alcsat'] <= t and nd.iloc[i]['a_alcsat'] == 1.0:
+                n_alcsat +=1
+            if nd.iloc[i]['t_celoe'] <= t and nd.iloc[i]['a_celoe'] == 100.0:
+                n_celoe +=1
+            if nd.iloc[i]['t_spacel'] <= t and nd.iloc[i]['a_spacel'] == 1.0:
+                n_sparcel +=1
+            if nd.iloc[i]['t_evo'] <= t and nd.iloc[i]['a_evo'] == 1.0:
+                n_evo +=1
+        data.at[t,'n_alcsat'] = n_alcsat
+        data.at[t,'n_celoe'] = n_celoe
+        data.at[t,'n_sparcel'] = n_sparcel
+        data.at[t,'n_evo'] = n_evo
+    data.to_csv("data_graph.csv")
+
 def main():
     start = time.time()
     #test(sys.argv[1], P1,N1)
@@ -531,9 +567,14 @@ def main():
 
     #benchmark_gen_t()
 
-    benchmark_run(sys.argv[3])
+    #benchmark_run(sys.argv[1])
+
+    #manchester_to_sparql(teststring)
 
     #convertToTikzCsv(sys.argv[1:])
+
+    convertCsv(sys.argv[1:])
+
     #convertToTikzCsvTwoFiles(sys.argv[1:])
 
     #to_tex(sys.argv[1])

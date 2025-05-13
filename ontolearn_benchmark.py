@@ -73,7 +73,7 @@ def run_evo(kb_path, P, N):
     print(f"KB parsed after {kb_parse_time} seconds, starting EvoLearner next.")
     start = time.time()
 
-    model = EvoLearner(knowledge_base=kb, max_runtime=300, num_generations = 2000, use_card_restrictions = False, use_data_properties = False )
+    model = EvoLearner(knowledge_base=kb, max_runtime=None, num_generations = 2000, use_card_restrictions = False, use_data_properties = False )
     model.fit(lp, verbose=True)
     
     prediction = model.best_hypotheses(1, return_node=True)    

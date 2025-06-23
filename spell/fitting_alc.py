@@ -144,6 +144,8 @@ class FittingALC:
     def __init__(self, A: Structure, k : int, P: list[int],
         N: list[int], op = ALC_OP, cov_p = - 1, cov_n = -1, tree_templates = True, type_encoding = True):
         B,m = restrict_to_neighborhood(k-1,A,P + N)
+        self.tree_templates = tree_templates
+        self.type_encoding = type_encoding
         self.P : list[int] = [m[a] for a in P]
         self.N : list[int] = [m[b] for b in N]
         self.A : Structure = B
@@ -160,8 +162,7 @@ class FittingALC:
         self.cov_n = len(N) if cov_n == -1 else cov_n
         self.solver = Glucose4()
         self.max_var = 0
-        self.tree_templates = tree_templates
-        self.type_encoding = type_encoding
+        
         
     def _vars(self):
         d = dict()
@@ -473,7 +474,7 @@ class FittingALC:
             return False
     
     def solve_incr(self,max_k :int, start_k : int =1, return_string = False, timeout : float = -1):
-        return self.solve_incr_approx(max_k, start_k, len(self.P) + len(self.N), -1, timeout=timeout)
+        return self.solve_incr_approx(max_k, start_k, len(self.P) + len(self.N), timeout=timeout)
 
     def cn_types(self) -> set[frozenset[str]]:
         res: set[frozenset[str]] = set()

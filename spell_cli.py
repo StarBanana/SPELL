@@ -94,7 +94,7 @@ def main():
     print("== Starting incremental search search for fitting query")
     time_start_solve = time.perf_counter()
 
-    if args.language in LANGUAGES - ["el"]:
+    if args.language != "el":
         f = FittingALC(A, args.max_size, P, N, op = L_OP[args.language], type_encoding=not args.disable_type_encoding, tree_templates=not args.disable_tree_templates)
             
         remaining_time = -1

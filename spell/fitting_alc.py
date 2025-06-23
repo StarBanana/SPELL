@@ -142,7 +142,7 @@ class STreeNode():
 
 class FittingALC:
     def __init__(self, A: Structure, k : int, P: list[int],
-        N: list[int], op = ALC_OP, cov_p = - 1, cov_n = -1):
+        N: list[int], op = ALC_OP, cov_p = - 1, cov_n = -1, tree_templates = True, type_encoding = True):
         B,m = restrict_to_neighborhood(k-1,A,P + N)
         self.P : list[int] = [m[a] for a in P]
         self.N : list[int] = [m[b] for b in N]
@@ -160,6 +160,8 @@ class FittingALC:
         self.cov_n = len(N) if cov_n == -1 else cov_n
         self.solver = Glucose4()
         self.max_var = 0
+        self.tree_templates = tree_templates
+        self.type_encoding = type_encoding
         
     def _vars(self):
         d = dict()
@@ -197,7 +199,7 @@ class FittingALC:
             d[V,2,j] = i*self.k+1
             i+=1
 
-        if TYPE_ENCODING:
+        if self.type_encoding:
             for tp in self.types:
                 d[X, tp] = i * self.k + 1
                 i += 1
@@ -208,7 +210,7 @@ class FittingALC:
         
         self.max_var = i * self.k + 1
         
-        if TREE_TEMPLATES:
+        if self.tree_templates:
             tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
             for idx, t in enumerate(all_trees(tree_k, 0)):
                 d[T, idx] = self.max_var
@@ -250,7 +252,7 @@ class FittingALC:
 
             for cn in self.sigma[0]:
 
-                if TYPE_ENCODING:
+                if self.type_encoding:
                     # Is a leaf
                     self.solver.add_clause((-(self.vars[X,cn]+i),(self.vars[L] + i)))
 
@@ -336,7 +338,7 @@ class FittingALC:
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 1, j] + j2)))
                         self.solver.add_clause (( - (self.vars[X, NEG] + i),   - (self.vars[V, 1, i] + j), - (self.vars[V, 2, j] + j2)))
 
-        if TREE_TEMPLATES:
+        if self.tree_templates:
 
             tree_k = min(self.k, TREE_TEMPLATE_LIMIT)
 
@@ -410,7 +412,7 @@ class FittingALC:
                 self.solver.add_clause((-(self.vars[X,BOT]+i),-(self.vars[Z,a]+i)))
 
 
-        if not TYPE_ENCODING:
+        if not self.type_encoding:
             for cn in self.sigma[0]:
                 for i in range(self.k):
                     for a in range(self.A.max_ind):                    
@@ -419,7 +421,7 @@ class FittingALC:
                         else:
                             self.solver.add_clause((-(self.vars[X,cn]+i),-(self.vars[Z,a]+i)))
 
-        if TYPE_ENCODING:
+        if self.type_encoding:
             for i in range(self.k):
                 for tp in self.types:
                     for cn in self.sigma[0]:
@@ -449,7 +451,7 @@ class FittingALC:
         lits = [self.vars[Z, a] for a in self.P] + [-self.vars[Z, b] for b in self.N]
         
         enc = CardEnc.atleast(
-            lits, bound=k, top_id=self.max_var, encoding=EncType.totalizer
+            lits, bound=k, top_id=self.max_var, encoding=EncType.kmtotalizer
         )
         for clause in enc.clauses:
             self.solver.add_clause(clause)
@@ -470,8 +472,8 @@ class FittingALC:
         else:
             return False
     
-    def solve_incr(self,max_k :int, start_k : int =1, return_string = False):
-        return self.solve_incr_approx(max_k, start_k, len(self.P) + len(self.N), -1)
+    def solve_incr(self,max_k :int, start_k : int =1, return_string = False, timeout : float = -1):
+        return self.solve_incr_approx(max_k, start_k, len(self.P) + len(self.N), -1, timeout=timeout)
 
     def cn_types(self) -> set[frozenset[str]]:
         res: set[frozenset[str]] = set()
@@ -498,7 +500,7 @@ class FittingALC:
         self.vars = self._vars()
         self._syn_tree_encoding()
         self._evaluation_constraints()
-        self._symmetry_breaking()        
+        self._symmetry_breaking()
 
         while n <= len(self.P) + len(self.N) and (dt < timeout or timeout == -1):
             self._fitting_constraints_approximate(n)

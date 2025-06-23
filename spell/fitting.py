@@ -340,9 +340,8 @@ def create_coverage_formula(
         lits = [-simul[0][b] for b in N]
 
         bound = max(coverage - len(P), 1)
-        # TODO maybe switch to incremental totalizer encoding or another incremental encoding
         enc = CardEnc.atleast(
-            lits, bound=bound, top_id=var_counter, encoding=EncType.totalizer
+            lits, bound=bound, top_id=var_counter, encoding=EncType.kmtotalizer
         )
 
         var_counter = enc.nv + 1
@@ -351,9 +350,8 @@ def create_coverage_formula(
     else:
         lits = [simul[0][a] for a in P] + [-simul[0][b] for b in N]
 
-        # TODO maybe switch to incremental totalizer encoding or another incremental encoding
         enc = CardEnc.atleast(
-            lits, bound=coverage, top_id=var_counter, encoding=EncType.totalizer
+            lits, bound=coverage, top_id=var_counter, encoding=EncType.kmtotalizer
         )
 
         var_counter = enc.nv + 1
@@ -386,8 +384,24 @@ def determine_relevant_symbols(
     countr = {rn: 0 for rn in rns}
 
     for p in P:
-        (A2, _) = restrict_to_neighborhood(dist, A, [p])
-        (cns2, rns2) = non_empty_symbols(A2)
+        cns2: set[str] = set()
+        rns2: set[str] = set()
+        for cn in cns:
+            if p in A.cn_ext[cn]:
+                cns2.add(cn)
+
+        dinds = {p}
+        for r in range(dist):
+            step: set[int] = set()
+            for i1 in dinds:
+                for i2, rn in A.rn_ext[i1]:
+                    step.add(i2)
+                    rns2.add(rn)
+                    for cn in cns:
+                        if i2 in A.cn_ext[cn]:
+                            cns2.add(cn)
+            dinds = step
+
         for cn in cns2:
             count[cn] += 1
         for rn in rns2:
